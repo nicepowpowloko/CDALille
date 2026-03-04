@@ -1,0 +1,98 @@
+/* Styles par défaut pour tous les écrans */
+h1 {
+    color: black;
+    font-size: 2em;
+    text-align: center;
+}
+
+p {
+    font-size: 1.2em;
+    text-align: center;
+}
+
+footer {
+    background-color: lightgray;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Media query pour les écrans de moins de 900px de largeur */
+@media screen and (max-width: 900px) {
+    h1 {
+        color: blue;
+    }
+    p {
+        font-size: 1.1em;
+    }
+    footer {
+        background-color: lightblue;
+    }
+}
+
+/* Media query pour les écrans de moins de 600px de largeur */
+@media screen and (max-width: 600px) {
+    h1 {
+        color: green;
+        border: 2px solid green;
+    }
+    p {
+        font-size: 1em;
+    }
+    footer {
+        background-color: lightgreen;
+    }
+}
+
+/* Media query pour les écrans de plus de 1200px de largeur */
+@media screen and (min-width: 1200px) {
+    h1 {
+        color: darkred;
+        font-size: 2.5em;
+    }
+    p {
+        font-size: 1.3em;
+    }
+    footer {
+        background-color: darkred;
+        color: white;
+    }
+}
+
+/* Media query pour les écrans de moins de 800px de hauteur */
+@media screen and (max-height: 800px) {
+    body {
+        background-color: lightyellow;
+    }
+}
+
+/* Media query pour les appareils en mode portrait */
+@media screen and (orientation: portrait) {
+    body {
+        background-color: lightpink;
+    }
+}
+
+/* Media query pour les appareils en mode paysage */
+@media screen and (orientation: landscape) {
+    body {
+        background-color: lightblue;
+    }
+}
+
+/* Utilisation de l'opérateur "only" pour cibler les navigateurs modernes */
+@media only screen and (max-width: 700px) {
+    h1 {
+        font-style: italic;
+    }
+}
+
+/* Utilisation de l'opérateur "and" pour combiner plusieurs conditions */
+@media screen and (min-width: 400px) and (max-width: 600px) and (orientation: portrait) {
+    h1 {
+        color: orange;
+        font-size: 1.8em;
+    }
+    p {
+        font-size: 0.9em;
+    }
+}

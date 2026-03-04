@@ -1,0 +1,366 @@
+<!doctype html>
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Symfony - 12 - La sécurité</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/github-markdown.css" rel="stylesheet" />
+    <script src="assets/js/jquery-3.4.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <link href="assets/css/stackoverflow-dark.min.css" rel="stylesheet" />
+    <link href="assets/css/navbar.css" rel="stylesheet" />
+    <script src="assets/js/highlight.min.js"></script>
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0"
+      id="jsnav"
+    >
+      <div class="container">
+        <a
+          class="navbar-brand py-0 my-0"
+          href="SF_01_Presentation_Symfony.html"
+          style="font-size: 14px"
+          >Symfony Cours</a
+        >
+        <button
+          aria-controls="jsNavbar"
+          aria-expanded="false"
+          aria-label="Menu"
+          class="navbar-toggler"
+          data-target="#jsNavbar"
+          data-toggle="collapse"
+          type="button"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="jsNavbar">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="nav-link dropdown-toggle py-1"
+                data-toggle="dropdown"
+                href="#"
+                id="chaptersDropdown"
+                role="button"
+              >
+                Chapitres
+              </a>
+              <div
+                aria-labelledby="chaptersDropdown"
+                class="dropdown-menu dropdown-menu-right"
+              >
+                <a class="dropdown-item" href="SF_01_Presentation_Symfony.html"
+                  >01 - Présentation Symfony</a
+                ><a class="dropdown-item" href="SF_02_Demarrage.html"
+                  >02 - Démarrage</a
+                ><a class="dropdown-item" href="SF_03_Namespaces.html"
+                  >03 - Namespaces</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_04_le_contrôleur_symfony.html"
+                  >04 - Le contrôleur et AbstractController</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_05_les_services_en_symfony.html"
+                  >05 - Les services</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_06_le_routing_en_symfony.html"
+                  >06 - Les routes</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_07_la_request_et_la_response_en_symfony.html"
+                  >07 - Request - Response</a
+                ><a class="dropdown-item" href="SF_08_Twig.html">08 - Twig</a
+                ><a class="dropdown-item" href="SF_09_Doctrine.html"
+                  >09 - Doctrine</a
+                ><a class="dropdown-item" href="SF_10_Architecture_Globale.html"
+                  >10 - Architecture globale</a
+                ><a class="dropdown-item" href="SF_11_Les_Formulaires.html"
+                  >11 - Les formulaires</a
+                ><a class="dropdown-item" href="SF_12_La_Securite.html"
+                  >12 - La sécurité</a
+                ><a class="dropdown-item" href="SF_13_CRUD_Avance.html"
+                  >13 - CRUD avancé</a
+                >
+                <a
+                  class="dropdown-item"
+                  href="SF_14_Tests_Unitaires_et_Fonctionnels.html"
+                  >14 - Test Unitaires/Fonctionnels</a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="markdown-body">
+        <h1>LA SÉCURITÉ EN SYMFONY</h1>
+        <h2>Authentification, utilisateurs et gestion des rôles</h2>
+        <p><em>(dans le framework Symfony)</em></p>
+        <hr />
+        <h2>1. Pourquoi la sécurité est un sujet central</h2>
+        <p>
+          Toute application un minimum réaliste doit répondre à ces questions :
+        </p>
+        <ul>
+          <li>qui est l’utilisateur ?</li>
+          <li>est-il authentifié ?</li>
+          <li>a-t-il le droit d’accéder à cette page ou à cette action ?</li>
+        </ul>
+        <p>
+          Symfony fournit un <strong>système de sécurité structuré</strong>,
+          intégré au framework, qui évite :
+        </p>
+        <ul>
+          <li>les bricolages maison</li>
+          <li>les mots de passe stockés en clair</li>
+          <li>les contrôles dispersés dans le code</li>
+        </ul>
+        <p>
+          La sécurité n’est pas optionnelle, elle est
+          <strong>transversale</strong>.
+        </p>
+        <hr />
+        <h2>2. Les grands principes de la sécurité Symfony</h2>
+        <p>La sécurité Symfony repose sur quatre concepts fondamentaux :</p>
+        <ol>
+          <li><strong>User</strong> (l’utilisateur)</li>
+          <li><strong>Authentification</strong> (se connecter)</li>
+          <li><strong>Rôles / autorisations</strong></li>
+          <li><strong>Contrôle d’accès</strong></li>
+        </ol>
+        <p>Ces éléments sont pensés pour fonctionner ensemble.</p>
+        <hr />
+        <h2>3. L’utilisateur (<code>User</code>)</h2>
+        <h3>3.1 Le rôle de la classe User</h3>
+        <p>
+          Un utilisateur est représenté par une <strong>Entity</strong> qui
+          implémente une interface Symfony.
+        </p>
+        <pre><code class="language-php">use Symfony\Component\Security\Core\User\UserInterface;
+
+class User implements UserInterface
+{
+    // ...
+}
+</code></pre>
+        <p>Cette classe représente :</p>
+        <ul>
+          <li>l’identité de l’utilisateur</li>
+          <li>ses rôles</li>
+          <li>ses informations d’authentification</li>
+        </ul>
+        <p>
+          L’utilisateur est un <strong>objet métier</strong>, stocké en base de
+          données.
+        </p>
+        <hr />
+        <h3>3.2 Les éléments essentiels d’un User</h3>
+        <p>Un utilisateur doit au minimum fournir :</p>
+        <ul>
+          <li>un identifiant (email, username…)</li>
+          <li>un mot de passe hashé</li>
+          <li>une liste de rôles</li>
+        </ul>
+        <p>Exemple simplifié :</p>
+        <pre><code class="language-php">private string $email;
+private string $password;
+private array $roles = [];
+</code></pre>
+        <hr />
+        <h2>4. L’authentification</h2>
+        <h3>4.1 Qu’est-ce que l’authentification ?</h3>
+        <p>L’authentification consiste à répondre à la question :</p>
+        <blockquote>
+          <p>
+            “Est-ce bien cette personne qui tente d’accéder à l’application ?”
+          </p>
+        </blockquote>
+        <p>Symfony gère cela via :</p>
+        <ul>
+          <li>un formulaire de connexion</li>
+          <li>un système d’authenticator</li>
+          <li>une comparaison de mot de passe hashé</li>
+        </ul>
+        <p>
+          Vous <strong>ne comparez jamais</strong> les mots de passe vous-même.
+        </p>
+        <hr />
+        <h3>4.2 Le formulaire de connexion</h3>
+        <p>Symfony fournit des outils pour générer :</p>
+        <ul>
+          <li>un formulaire de login</li>
+          <li>un traitement automatique</li>
+          <li>une gestion des erreurs</li>
+        </ul>
+        <p>Le contrôleur de login :</p>
+        <ul>
+          <li>affiche le formulaire</li>
+          <li>ne traite pas manuellement les identifiants</li>
+        </ul>
+        <hr />
+        <h2>5. Le mot de passe : un point critique</h2>
+        <p>
+          Symfony ne stocke <strong>jamais</strong> un mot de passe en clair.
+        </p>
+        <ul>
+          <li>les mots de passe sont <strong>hashés</strong></li>
+          <li>Symfony utilise des algorithmes sécurisés</li>
+          <li>la vérification est automatique</li>
+        </ul>
+        <p>Exemple (au niveau conceptuel) :</p>
+        <pre><code class="language-php">password_hash()
+password_verify()
+</code></pre>
+        <p>Vous ne devez jamais implémenter votre propre système de hash.</p>
+        <hr />
+        <h2>6. Les rôles</h2>
+        <h3>6.1 Qu’est-ce qu’un rôle ?</h3>
+        <p>Un rôle est une <strong>autorisation abstraite</strong>.</p>
+        <p>Exemples courants :</p>
+        <ul>
+          <li><code>ROLE_USER</code></li>
+          <li><code>ROLE_ADMIN</code></li>
+        </ul>
+        <p>Les rôles sont :</p>
+        <ul>
+          <li>stockés dans l’utilisateur</li>
+          <li>utilisés pour contrôler l’accès</li>
+        </ul>
+        <hr />
+        <h3>6.2 Hiérarchie des rôles (principe)</h3>
+        <p>Un rôle peut en inclure un autre :</p>
+        <pre><code class="language-text">ROLE_ADMIN
+  └─ ROLE_USER
+</code></pre>
+        <p>Un administrateur est aussi un utilisateur.</p>
+        <hr />
+        <h2>7. Vérifier les droits dans un contrôleur</h2>
+        <p>Symfony fournit des méthodes simples.</p>
+        <h3>7.1 Vérification explicite</h3>
+        <pre><code class="language-php">$this-&gt;denyAccessUnlessGranted('ROLE_ADMIN');
+</code></pre>
+        <p>Si l’utilisateur n’a pas le rôle :</p>
+        <ul>
+          <li>Symfony renvoie une erreur 403</li>
+        </ul>
+        <hr />
+        <h3>7.2 Vérification conditionnelle</h3>
+        <pre><code class="language-php">if ($this-&gt;isGranted('ROLE_ADMIN')) {
+    // action autorisée
+}
+</code></pre>
+        <hr />
+        <h2>8. Protéger des routes</h2>
+        <p>
+          La sécurité peut être appliquée
+          <strong>avant même l’appel du contrôleur</strong>.
+        </p>
+        <p>Exemples de règles :</p>
+        <ul>
+          <li>
+            certaines pages accessibles uniquement aux utilisateurs connectés
+          </li>
+          <li>certaines pages réservées aux administrateurs</li>
+        </ul>
+        <p>Cela permet d’avoir des contrôleurs plus simples et plus sûrs.</p>
+        <hr />
+        <h2>9. L’utilisateur connecté dans l’application</h2>
+        <p>Dans un contrôleur, vous pouvez accéder à l’utilisateur courant :</p>
+        <pre><code class="language-php">$user = $this-&gt;getUser();
+</code></pre>
+        <p>Cela permet :</p>
+        <ul>
+          <li>d’adapter l’affichage</li>
+          <li>de filtrer des données</li>
+          <li>de personnaliser l’expérience</li>
+        </ul>
+        <p>Dans Twig :</p>
+        <pre><code class="language-twig">{% if app.user %}
+    Bonjour {{ app.user.email }}
+{% endif %}
+</code></pre>
+        <hr />
+        <h2>10. Sécurité et services</h2>
+        <p>La sécurité s’intègre naturellement avec les services.</p>
+        <p>Exemple :</p>
+        <ul>
+          <li>un service métier peut vérifier les droits</li>
+          <li>un contrôleur délègue les décisions complexes</li>
+        </ul>
+        <p>
+          La logique de sécurité complexe
+          <strong>ne doit pas être dispersée</strong>.
+        </p>
+        <hr />
+        <h2>11. Bonnes pratiques essentielles</h2>
+        <ul>
+          <li>ne jamais stocker de mot de passe en clair</li>
+          <li>ne jamais gérer l’authentification “à la main”</li>
+          <li>centraliser les règles de sécurité</li>
+          <li>utiliser les rôles, pas des booléens</li>
+          <li>séparer authentification et logique métier</li>
+        </ul>
+        <hr />
+        <h2>12. Ce que vous devez maîtriser à ce stade</h2>
+        <p>Vous devez être capable de :</p>
+        <ul>
+          <li>expliquer ce qu’est un utilisateur Symfony</li>
+          <li>comprendre le principe d’authentification</li>
+          <li>savoir à quoi servent les rôles</li>
+          <li>protéger un contrôleur ou une route</li>
+          <li>utiliser l’utilisateur connecté</li>
+        </ul>
+        <hr />
+        <h2>13. Ce que vous n’êtes pas encore censé maîtriser</h2>
+        <ul>
+          <li>voters personnalisés</li>
+          <li>firewall multiples complexes</li>
+          <li>OAuth, JWT, SSO</li>
+          <li>sécurité avancée des API</li>
+        </ul>
+        <p>Ces points feront l’objet d’un approfondissement ultérieur.</p>
+        <hr />
+        <h2>14. À retenir absolument</h2>
+        <blockquote>
+          <p>
+            La sécurité est intégrée à Symfony. L’authentification identifie
+            l’utilisateur. Les rôles définissent les droits. Le framework
+            applique les règles avant votre code.
+          </p>
+        </blockquote>
+        <hr />
+        <h2>Conclusion</h2>
+        <p>La sécurité Symfony permet de :</p>
+        <ul>
+          <li>protéger votre application</li>
+          <li>structurer les accès</li>
+          <li>éviter les erreurs critiques</li>
+          <li>écrire un code professionnel et maintenable</li>
+        </ul>
+        <p>Avec cette base, vous pouvez désormais :</p>
+        <ul>
+          <li>créer des zones protégées</li>
+          <li>gérer des utilisateurs</li>
+          <li>préparer des projets réalistes</li>
+        </ul>
+      </div>
+    </div>
+    <script>
+      hljs.highlightAll();
+    </script>
+    <script>
+      document.title = document.querySelector("h1").textContent;
+    </script>
+  </body>
+</html>

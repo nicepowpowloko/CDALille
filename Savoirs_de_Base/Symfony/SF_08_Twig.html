@@ -1,0 +1,317 @@
+<!doctype html>
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Symfony - 08 - Twig</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/github-markdown.css" rel="stylesheet" />
+    <script src="assets/js/jquery-3.4.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <link href="assets/css/stackoverflow-dark.min.css" rel="stylesheet" />
+    <link href="assets/css/navbar.css" rel="stylesheet" />
+    <script src="assets/js/highlight.min.js"></script>
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0"
+      id="jsnav"
+    >
+      <div class="container">
+        <a
+          class="navbar-brand py-0 my-0"
+          href="SF_01_Presentation_Symfony.html"
+          style="font-size: 14px"
+          >Symfony Cours</a
+        >
+        <button
+          aria-controls="jsNavbar"
+          aria-expanded="false"
+          aria-label="Menu"
+          class="navbar-toggler"
+          data-target="#jsNavbar"
+          data-toggle="collapse"
+          type="button"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="jsNavbar">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="nav-link dropdown-toggle py-1"
+                data-toggle="dropdown"
+                href="#"
+                id="chaptersDropdown"
+                role="button"
+              >
+                Chapitres
+              </a>
+              <div
+                aria-labelledby="chaptersDropdown"
+                class="dropdown-menu dropdown-menu-right"
+              >
+                <a class="dropdown-item" href="SF_01_Presentation_Symfony.html"
+                  >01 - Présentation Symfony</a
+                ><a class="dropdown-item" href="SF_02_Demarrage.html"
+                  >02 - Démarrage</a
+                ><a class="dropdown-item" href="SF_03_Namespaces.html"
+                  >03 - Namespaces</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_04_le_contrôleur_symfony.html"
+                  >04 - Le contrôleur et AbstractController</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_05_les_services_en_symfony.html"
+                  >05 - Les services</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_06_le_routing_en_symfony.html"
+                  >06 - Les routes</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_07_la_request_et_la_response_en_symfony.html"
+                  >07 - Request - Response</a
+                ><a class="dropdown-item" href="SF_08_Twig.html">08 - Twig</a
+                ><a class="dropdown-item" href="SF_09_Doctrine.html"
+                  >09 - Doctrine</a
+                ><a class="dropdown-item" href="SF_10_Architecture_Globale.html"
+                  >10 - Architecture globale</a
+                ><a class="dropdown-item" href="SF_11_Les_Formulaires.html"
+                  >11 - Les formulaires</a
+                ><a class="dropdown-item" href="SF_12_La_Securite.html"
+                  >12 - La sécurité</a
+                ><a class="dropdown-item" href="SF_13_CRUD_Avance.html"
+                  >13 - CRUD avancé</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_14_Tests_Unitaires_et_Fonctionnels.html"
+                  >14 - Test Unitaires/Fonctionnels</a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="markdown-body">
+        <h1>TWIG - LES VUES EN SYMFONY</h1>
+        <h2>Séparer l’affichage de la logique applicative</h2>
+        <p><em>(dans le framework Symfony)</em></p>
+        <hr />
+        <h2>1. Pourquoi utiliser Twig ?</h2>
+        <p>Dans une application Symfony, le contrôleur :</p>
+        <ul>
+          <li>reçoit la requête</li>
+          <li>prépare les données</li>
+          <li><strong>ne doit pas produire du HTML directement</strong></li>
+        </ul>
+        <p>
+          Le rôle de l’affichage est confié à <strong>Twig</strong>, le moteur
+          de templates de Symfony.
+        </p>
+        <p>Twig permet de :</p>
+        <ul>
+          <li>écrire du HTML lisible</li>
+          <li>insérer des données dynamiques</li>
+          <li>éviter le PHP dans les vues</li>
+          <li>respecter la séparation des responsabilités</li>
+        </ul>
+        <p>Le contrôleur orchestre, <strong>Twig affiche</strong>.</p>
+        <hr />
+        <h2>2. Le rôle d’une vue</h2>
+        <p>Une vue est un fichier :</p>
+        <ul>
+          <li>dont le rôle est <strong>uniquement l’affichage</strong></li>
+          <li>sans logique métier</li>
+          <li>sans accès à la base de données</li>
+          <li>sans traitement complexe</li>
+        </ul>
+        <p>Dans Symfony, les vues sont généralement placées dans :</p>
+        <pre><code class="language-text">templates/
+</code></pre>
+        <hr />
+        <h2>3. Rendre une vue avec <code>render()</code></h2>
+        <p>Dans un contrôleur, l’affichage se fait avec :</p>
+        <pre><code class="language-php">return $this-&gt;render('home/index.html.twig');
+</code></pre>
+        <p>Cette méthode :</p>
+        <ul>
+          <li>utilise Twig</li>
+          <li>génère du HTML</li>
+          <li>retourne une <code>Response</code></li>
+        </ul>
+        <hr />
+        <h2>4. Passer des variables à une vue</h2>
+        <p>Le contrôleur peut transmettre des données à Twig.</p>
+        <h3>4.1 Depuis le contrôleur</h3>
+        <pre><code class="language-php">return $this-&gt;render('home/index.html.twig', [
+    'title' =&gt; 'Accueil',
+    'username' =&gt; 'Manuel'
+]);
+</code></pre>
+        <hr />
+        <h3>4.2 Dans la vue Twig</h3>
+        <pre><code class="language-twig">&lt;h1&gt;{{ title }}&lt;/h1&gt;
+&lt;p&gt;Bienvenue {{ username }}&lt;/p&gt;
+</code></pre>
+        <p><code>{{ }}</code> permet d’afficher une variable.</p>
+        <p>Twig échappe automatiquement les données (sécurité XSS).</p>
+        <hr />
+        <h2>5. La syntaxe de base de Twig</h2>
+        <h3>5.1 Affichage</h3>
+        <pre><code class="language-twig">{{ variable }}
+</code></pre>
+        <hr />
+        <h3>5.2 Conditions</h3>
+        <pre><code class="language-twig">{% if user %}
+    &lt;p&gt;Bonjour {{ user.name }}&lt;/p&gt;
+{% else %}
+    &lt;p&gt;Bonjour invité&lt;/p&gt;
+{% endif %}
+</code></pre>
+        <hr />
+        <h3>5.3 Boucles</h3>
+        <pre><code class="language-twig">&lt;ul&gt;
+{% for article in articles %}
+    &lt;li&gt;{{ article.title }}&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;
+</code></pre>
+        <p>Twig reste volontairement simple.</p>
+        <hr />
+        <h2>6. Séparation HTML / PHP</h2>
+        <p>Avec Twig :</p>
+        <ul>
+          <li>pas de <code>&lt;?php ?&gt;</code> dans les vues</li>
+          <li>pas de logique métier</li>
+          <li>pas de SQL</li>
+          <li>pas de traitements complexes</li>
+        </ul>
+        <p>!!! À éviter absolument dans une vue :</p>
+        <ul>
+          <li>calculs</li>
+          <li>accès à la base de données</li>
+          <li>conditions métier complexes</li>
+        </ul>
+        <p>
+          Tout cela appartient aux <strong>services</strong> ou aux
+          <strong>contrôleurs</strong>.
+        </p>
+        <hr />
+        <h2>7. L’héritage de templates</h2>
+        <p>Twig permet de créer une structure commune à toutes les pages.</p>
+        <h3>7.1 Le template de base</h3>
+        <pre><code class="language-twig">{# templates/base.html.twig #}
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;{% block title %}Mon site{% endblock %}&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;header&gt;
+    &lt;h1&gt;Mon application&lt;/h1&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+    {% block body %}{% endblock %}
+&lt;/main&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+        <hr />
+        <h3>7.2 Étendre un template</h3>
+        <pre><code class="language-twig">{# templates/home/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+    &lt;p&gt;Bienvenue sur le site&lt;/p&gt;
+{% endblock %}
+</code></pre>
+        <p>L’héritage permet :</p>
+        <ul>
+          <li>une mise en page cohérente</li>
+          <li>une maintenance simplifiée</li>
+          <li>un code plus propre</li>
+        </ul>
+        <hr />
+        <h2>8. Générer des liens avec les routes</h2>
+        <p>Twig s’intègre avec le routing :</p>
+        <pre><code class="language-twig">&lt;a href="{{ path('home') }}"&gt;Accueil&lt;/a&gt;
+</code></pre>
+        <p>Si la route change :</p>
+        <ul>
+          <li>le lien reste valide</li>
+          <li>aucune URL en dur</li>
+        </ul>
+        <hr />
+        <h2>9. Organisation recommandée des vues</h2>
+        <p>Exemple :</p>
+        <pre><code class="language-text">templates/
+├── base.html.twig
+├── home/
+│   └── index.html.twig
+├── article/
+│   ├── index.html.twig
+│   └── show.html.twig
+</code></pre>
+        <p>Cette organisation reflète :</p>
+        <ul>
+          <li>les contrôleurs</li>
+          <li>les routes</li>
+          <li>les intentions</li>
+        </ul>
+        <hr />
+        <h2>10. Ce que vous devez maîtriser à ce stade</h2>
+        <p>Vous devez être capable de :</p>
+        <ul>
+          <li>expliquer le rôle de Twig</li>
+          <li>afficher une vue avec <code>render()</code></li>
+          <li>passer des variables à Twig</li>
+          <li>utiliser conditions et boucles simples</li>
+          <li>comprendre l’héritage de templates</li>
+          <li>respecter la séparation HTML / PHP</li>
+        </ul>
+        <hr />
+        <h2>11. À retenir absolument</h2>
+        <blockquote>
+          <p>
+            Twig sert uniquement à l’affichage. Le contrôleur prépare les
+            données. Le HTML est séparé du PHP. L’héritage de templates
+            structure l’application.
+          </p>
+        </blockquote>
+        <hr />
+        <h2>Conclusion</h2>
+        <p>Twig est un outil simple mais puissant. Il vous permet de :</p>
+        <ul>
+          <li>produire du HTML propre</li>
+          <li>maintenir une architecture claire</li>
+          <li>éviter les mélanges dangereux entre logique et affichage</li>
+        </ul>
+        <p>
+          Maîtriser Twig, c’est écrire des vues
+          <strong>propres, lisibles et professionnelles</strong>.
+        </p>
+      </div>
+    </div>
+    <script>
+      hljs.highlightAll();
+    </script>
+    <script>
+      document.title = document.querySelector("h1").textContent;
+    </script>
+  </body>
+</html>

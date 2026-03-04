@@ -1,0 +1,485 @@
+<!doctype html>
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Symfony - 13 - CRUD avancé</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/github-markdown.css" rel="stylesheet" />
+    <script src="assets/js/jquery-3.4.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <link href="assets/css/stackoverflow-dark.min.css" rel="stylesheet" />
+    <link href="assets/css/navbar.css" rel="stylesheet" />
+    <script src="assets/js/highlight.min.js"></script>
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0"
+      id="jsnav"
+    >
+      <div class="container">
+        <a
+          class="navbar-brand py-0 my-0"
+          href="SF_01_Presentation_Symfony.html"
+          style="font-size: 14px"
+          >Symfony Cours</a
+        >
+        <button
+          aria-controls="jsNavbar"
+          aria-expanded="false"
+          aria-label="Menu"
+          class="navbar-toggler"
+          data-target="#jsNavbar"
+          data-toggle="collapse"
+          type="button"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="jsNavbar">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="nav-link dropdown-toggle py-1"
+                data-toggle="dropdown"
+                href="#"
+                id="chaptersDropdown"
+                role="button"
+              >
+                Chapitres
+              </a>
+              <div
+                aria-labelledby="chaptersDropdown"
+                class="dropdown-menu dropdown-menu-right"
+              >
+                <a class="dropdown-item" href="SF_01_Presentation_Symfony.html"
+                  >01 - Présentation Symfony</a
+                ><a class="dropdown-item" href="SF_02_Demarrage.html"
+                  >02 - Démarrage</a
+                ><a class="dropdown-item" href="SF_03_Namespaces.html"
+                  >03 - Namespaces</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_04_le_contrôleur_symfony.html"
+                  >04 - Le contrôleur et AbstractController</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_05_les_services_en_symfony.html"
+                  >05 - Les services</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_06_le_routing_en_symfony.html"
+                  >06 - Les routes</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_07_la_request_et_la_response_en_symfony.html"
+                  >07 - Request - Response</a
+                ><a class="dropdown-item" href="SF_08_Twig.html">08 - Twig</a
+                ><a class="dropdown-item" href="SF_09_Doctrine.html"
+                  >09 - Doctrine</a
+                ><a class="dropdown-item" href="SF_10_Architecture_Globale.html"
+                  >10 - Architecture globale</a
+                ><a class="dropdown-item" href="SF_11_Les_Formulaires.html"
+                  >11 - Les formulaires</a
+                ><a class="dropdown-item" href="SF_12_La_Securite.html"
+                  >12 - La sécurité</a
+                ><a class="dropdown-item" href="SF_13_CRUD_Avance.html"
+                  >13 - CRUD avancé</a
+                >
+                <a
+                  class="dropdown-item"
+                  href="SF_14_Tests_Unitaires_et_Fonctionnels.html"
+                  >14 - Test Unitaires/Fonctionnels</a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="markdown-body">
+        <h1>CRUD COMPLET EN SYMFONY</h1>
+        <h2>Synthèse : Doctrine, Formulaires, Sécurité et Twig</h2>
+        <p><em>(dans le framework Symfony)</em></p>
+        <hr />
+        <h2>1. Pourquoi un chapitre CRUD de synthèse ?</h2>
+        <p>Vous avez étudié séparément :</p>
+        <ul>
+          <li>Doctrine (les données)</li>
+          <li>les Formulaires</li>
+          <li>la Sécurité</li>
+          <li>Twig</li>
+          <li>les Contrôleurs et le Routing</li>
+        </ul>
+        <p>
+          Dans une application réelle,
+          <strong>tout cela fonctionne ensemble</strong>.
+        </p>
+        <p>Ce chapitre a pour objectif de :</p>
+        <ul>
+          <li>montrer comment ces briques s’articulent</li>
+          <li>comprendre la structure complète d’un CRUD Symfony</li>
+          <li>savoir analyser, écrire ou adapter un CRUD existant</li>
+        </ul>
+        <p>
+          L’objectif n’est pas d’introduire de nouveaux concepts, mais de
+          <strong>mettre en cohérence tout ce que vous avez appris</strong>.
+        </p>
+        <hr />
+        <h2>2. Qu’est-ce qu’un CRUD ?</h2>
+        <p>CRUD est l’acronyme de :</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Action</th>
+              <th>Signification</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Create</td>
+              <td>Créer</td>
+            </tr>
+            <tr>
+              <td>Read</td>
+              <td>Lire</td>
+            </tr>
+            <tr>
+              <td>Update</td>
+              <td>Modifier</td>
+            </tr>
+            <tr>
+              <td>Delete</td>
+              <td>Supprimer</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Un CRUD Symfony standard repose sur :</p>
+        <ul>
+          <li>une <strong>Entity Doctrine</strong></li>
+          <li>un <strong>Repository</strong></li>
+          <li>un <strong>FormType</strong></li>
+          <li>un <strong>Controller</strong></li>
+          <li>des <strong>vues Twig</strong></li>
+          <li>des <strong>règles de sécurité</strong></li>
+        </ul>
+        <p>Chaque élément a une responsabilité précise.</p>
+        <hr />
+        <h2>3. Génération automatique avec <code>make:crud</code></h2>
+        <p>
+          Symfony fournit une commande permettant de générer automatiquement un
+          CRUD à partir d’une entité existante :
+        </p>
+        <pre><code class="language-bash">php bin/console make:crud
+</code></pre>
+        <p>Cette commande :</p>
+        <ul>
+          <li>s’appuie sur une <strong>Entity Doctrine</strong></li>
+          <li>génère une structure CRUD complète</li>
+          <li>permet d’obtenir rapidement une base fonctionnelle</li>
+        </ul>
+        <hr />
+        <h3>3.1 Ce que génère réellement <code>make:crud</code></h3>
+        <p>
+          Pour une entité <code>Article</code>, Symfony génère généralement :
+        </p>
+        <pre><code class="language-text">src/Controller/ArticleController.php
+src/Form/ArticleType.php
+templates/article/
+    index.html.twig
+    new.html.twig
+    edit.html.twig
+    show.html.twig
+</code></pre>
+        <p>Tous les composants que vous avez étudiés séparément.</p>
+        <hr />
+        <h3>3.2 Limites du code généré</h3>
+        <p>Le CRUD généré :</p>
+        <ul>
+          <li>est volontairement <strong>générique</strong></li>
+          <li>ne contient <strong>pas de logique métier</strong></li>
+          <li>applique peu ou pas de règles de sécurité</li>
+          <li>nécessite presque toujours des adaptations</li>
+        </ul>
+        <p>
+          <code>make:crud</code> est un <strong>outil d’accélération</strong>,
+          pas un substitut à la compréhension.
+        </p>
+        <hr />
+        <h3>3.3 Bonne pratique pédagogique</h3>
+        <blockquote>
+          <p>
+            Vous devez être capable de comprendre, modifier ou réécrire
+            entièrement le code généré par <code>make:crud</code>.
+          </p>
+        </blockquote>
+        <p>Un développeur qui ne comprend pas ce qui est généré :</p>
+        <ul>
+          <li>dépend trop de l’outil</li>
+          <li>produit du code fragile</li>
+          <li>ne maîtrise pas l’architecture</li>
+        </ul>
+        <hr />
+        <h2>4. La base : l’Entity Doctrine</h2>
+        <p>Exemple : <code>Article</code></p>
+        <pre><code class="language-php">namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity]
+class Article
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 255)]
+    private string $title;
+
+    public function getId(): ?int
+    {
+        return $this-&gt;id;
+    }
+
+    public function getTitle(): string
+    {
+        return $this-&gt;title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this-&gt;title = $title;
+        return $this;
+    }
+}
+</code></pre>
+        <p>
+          L’Entity représente les données. Elle ne gère ni formulaire, ni
+          affichage, ni sécurité.
+        </p>
+        <hr />
+        <h2>5. Le Repository : lecture des données</h2>
+        <pre><code class="language-php">namespace App\Repository;
+
+use App\Entity\Article;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+
+class ArticleRepository extends ServiceEntityRepository
+{
+}
+</code></pre>
+        <p>Utilisé pour :</p>
+        <ul>
+          <li>lister</li>
+          <li>rechercher</li>
+          <li>filtrer</li>
+        </ul>
+        <p>Le Repository lit. Il ne décide pas.</p>
+        <hr />
+        <h2>6. Le FormType : création et modification</h2>
+        <pre><code class="language-php">namespace App\Form;
+
+use App\Entity\Article;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class ArticleType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder-&gt;add('title');
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver-&gt;setDefaults([
+            'data_class' =&gt; Article::class,
+        ]);
+    }
+}
+</code></pre>
+        <p>Le FormType :</p>
+        <ul>
+          <li>décrit les champs</li>
+          <li>hydrate l’Entity</li>
+          <li>déclenche la validation</li>
+        </ul>
+        <hr />
+        <h2>7. Le contrôleur CRUD</h2>
+        <h3>7.1 Lister (READ)</h3>
+        <pre><code class="language-php">#[Route('/article', name: 'article_index')]
+public function index(ArticleRepository $repository): Response
+{
+    return $this-&gt;render('article/index.html.twig', [
+        'articles' =&gt; $repository-&gt;findAll(),
+    ]);
+}
+</code></pre>
+        <hr />
+        <h3>7.2 Créer (CREATE)</h3>
+        <pre><code class="language-php">#[Route('/article/new', name: 'article_new')]
+public function new(
+    Request $request,
+    EntityManagerInterface $em
+): Response {
+    $this-&gt;denyAccessUnlessGranted('ROLE_USER');
+
+    $article = new Article();
+    $form = $this-&gt;createForm(ArticleType::class, $article);
+    $form-&gt;handleRequest($request);
+
+    if ($form-&gt;isSubmitted() &amp;&amp; $form-&gt;isValid()) {
+        $em-&gt;persist($article);
+        $em-&gt;flush();
+
+        return $this-&gt;redirectToRoute('article_index');
+    }
+
+    return $this-&gt;render('article/new.html.twig', [
+        'form' =&gt; $form,
+    ]);
+}
+</code></pre>
+        <p>Sécurité Formulaire Doctrine Redirection</p>
+        <hr />
+        <h3>7.3 Modifier (UPDATE)</h3>
+        <pre><code class="language-php">#[Route('/article/{id}/edit', name: 'article_edit')]
+public function edit(
+    Article $article,
+    Request $request,
+    EntityManagerInterface $em
+): Response {
+    $this-&gt;denyAccessUnlessGranted('ROLE_USER');
+
+    $form = $this-&gt;createForm(ArticleType::class, $article);
+    $form-&gt;handleRequest($request);
+
+    if ($form-&gt;isSubmitted() &amp;&amp; $form-&gt;isValid()) {
+        $em-&gt;flush();
+        return $this-&gt;redirectToRoute('article_index');
+    }
+
+    return $this-&gt;render('article/edit.html.twig', [
+        'form' =&gt; $form,
+    ]);
+}
+</code></pre>
+        <p>Pas besoin de <code>persist()</code> Doctrine suit déjà l’objet</p>
+        <hr />
+        <h3>7.4 Supprimer (DELETE)</h3>
+        <pre><code class="language-php">#[Route('/article/{id}/delete', name: 'article_delete', methods: ['POST'])]
+public function delete(
+    Article $article,
+    EntityManagerInterface $em
+): Response {
+    $this-&gt;denyAccessUnlessGranted('ROLE_ADMIN');
+
+    $em-&gt;remove($article);
+    $em-&gt;flush();
+
+    return $this-&gt;redirectToRoute('article_index');
+}
+</code></pre>
+        <p>Sécurité renforcée Méthode POST Action explicite</p>
+        <hr />
+        <h2>8. Les vues Twig</h2>
+        <h3>8.1 Liste</h3>
+        <pre><code class="language-twig">{% for article in articles %}
+    &lt;p&gt;{{ article.title }}&lt;/p&gt;
+{% endfor %}
+</code></pre>
+        <hr />
+        <h3>8.2 Formulaire</h3>
+        <pre><code class="language-twig">{{ form_start(form) }}
+{{ form_widget(form) }}
+&lt;button&gt;Enregistrer&lt;/button&gt;
+{{ form_end(form) }}
+</code></pre>
+        <p>Twig affiche Ne traite pas Ne décide pas</p>
+        <hr />
+        <h2>9. Sécurité intégrée au CRUD</h2>
+        <p>Dans ce CRUD :</p>
+        <ul>
+          <li>création et modification réservées aux utilisateurs connectés</li>
+          <li>suppression réservée aux administrateurs</li>
+        </ul>
+        <p>La sécurité est :</p>
+        <ul>
+          <li>explicite</li>
+          <li>centralisée</li>
+          <li>lisible</li>
+        </ul>
+        <p>Aucun contrôle métier dans Twig Aucun contournement</p>
+        <hr />
+        <h2>10. Vue d’ensemble : qui fait quoi ?</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Élément</th>
+              <th>Rôle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Entity</td>
+              <td>Données</td>
+            </tr>
+            <tr>
+              <td>Repository</td>
+              <td>Lecture</td>
+            </tr>
+            <tr>
+              <td>FormType</td>
+              <td>Saisie</td>
+            </tr>
+            <tr>
+              <td>Controller</td>
+              <td>Orchestration</td>
+            </tr>
+            <tr>
+              <td>Doctrine</td>
+              <td>Persistance</td>
+            </tr>
+            <tr>
+              <td>Twig</td>
+              <td>Affichage</td>
+            </tr>
+            <tr>
+              <td>Sécurité</td>
+              <td>Accès</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Chaque couche fait <strong>une seule chose</strong>.</p>
+        <hr />
+        <h2>11. Ce que vous devez maîtriser à l’issue de ce chapitre</h2>
+        <p>Vous devez être capable de :</p>
+        <ul>
+          <li>expliquer la structure complète d’un CRUD Symfony</li>
+          <li>utiliser <code>make:crud</code> en connaissance de cause</li>
+          <li>lire et modifier le code généré</li>
+          <li>relier Doctrine, Formulaires, Sécurité et Twig</li>
+          <li>produire un CRUD propre et maintenable</li>
+        </ul>
+        <p>
+          !!! <code>make:crud</code> génère du code générique, pas du code en
+          adéquation avec votre logique métier.
+        </p>
+      </div>
+    </div>
+    <script>
+      hljs.highlightAll();
+    </script>
+    <script>
+      document.title = document.querySelector("h1").textContent;
+    </script>
+  </body>
+</html>

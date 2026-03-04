@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Découverte des principaux composants Bootstrap 5.3.8</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap 5.3.8 CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    />
+
+    <style>
+      body {
+        padding-top: 4.5rem; /* pour ne pas masquer le contenu sous la navbar fixed */
+      }
+      .demo-section {
+        margin-bottom: 4rem;
+      }
+      .demo-section h2 {
+        margin-bottom: 1rem;
+      }
+      .demo-section p.lead {
+        margin-bottom: 2rem;
+      }
+      .card-img-top {
+        height: 200px;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR FIXE EN HAUT -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Bootstrap 5.3.8 – Démo</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarMain"
+          aria-controls="navbarMain"
+          aria-expanded="false"
+          aria-label="Basculer la navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMain">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" href="#alerts">Alertes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#buttons">Boutons</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#cards">Cards</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#grid">Grille</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#form">Formulaire</a>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Rechercher"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-light" type="submit">OK</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container my-4">
+      <header class="mb-5">
+        <h1 class="mb-3">Les principaux composants de Bootstrap 5.3.8</h1>
+        <p class="lead">
+          Cette page démontre quelques composants essentiels de Bootstrap :
+          alertes, boutons, cartes (cards), navbar, modales, infobulles, système
+          de grille, badges, pagination, barres de progression, etc. Idéal pour
+          une première prise en main en formation.
+        </p>
+      </header>
+
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseOne"
+              aria-expanded="true"
+              aria-controls="collapseOne"
+            >
+              Accordion Item #1
+            </button>
+          </h2>
+          <div
+            id="collapseOne"
+            class="accordion-collapse collapse show"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              <strong>This is the first item’s accordion body.</strong> It is
+              shown by default, until the collapse plugin adds the appropriate
+              classes that we use to style each element. These classes control
+              the overall appearance, as well as the showing and hiding via CSS
+              transitions. You can modify any of this with custom CSS or
+              overriding our default variables. It’s also worth noting that just
+              about any HTML can go within the <code>.accordion-body</code>,
+              though the transition does limit overflow.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseTwo"
+              aria-expanded="false"
+              aria-controls="collapseTwo"
+            >
+              Accordion Item #2
+            </button>
+          </h2>
+          <div
+            id="collapseTwo"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              <strong>This is the second item’s accordion body.</strong> It is
+              hidden by default, until the collapse plugin adds the appropriate
+              classes that we use to style each element. These classes control
+              the overall appearance, as well as the showing and hiding via CSS
+              transitions. You can modify any of this with custom CSS or
+              overriding our default variables. It’s also worth noting that just
+              about any HTML can go within the <code>.accordion-body</code>,
+              though the transition does limit overflow.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseThree"
+              aria-expanded="false"
+              aria-controls="collapseThree"
+            >
+              Accordion Item #3
+            </button>
+          </h2>
+          <div
+            id="collapseThree"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              <strong>This is the third item’s accordion body.</strong> It is
+              hidden by default, until the collapse plugin adds the appropriate
+              classes that we use to style each element. These classes control
+              the overall appearance, as well as the showing and hiding via CSS
+              transitions. You can modify any of this with custom CSS or
+              overriding our default variables. It’s also worth noting that just
+              about any HTML can go within the <code>.accordion-body</code>,
+              though the transition does limit overflow.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ALERTES -->
+      <section id="alerts" class="demo-section">
+        <h2>1. Alertes</h2>
+        <p class="lead">
+          Les alertes permettent d’afficher des messages de feedback aux
+          utilisateurs.
+        </p>
+
+        <div
+          class="alert alert-primary alert-dismissible fade show"
+          role="alert"
+        >
+          Alerte <strong>primary</strong> – message d’information général.
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Fermer"
+          ></button>
+        </div>
+        <div
+          class="alert alert-success alert-dismissible fade show"
+          role="alert"
+        >
+          Alerte <strong>success</strong> – action réussie.
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Fermer"
+          ></button>
+        </div>
+        <div
+          class="alert alert-danger alert-dismissible fade show"
+          role="alert"
+        >
+          Alerte <strong>danger</strong> – erreur ou problème important.
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Fermer"
+          ></button>
+        </div>
+        <div
+          class="alert alert-warning alert-dismissible fade show"
+          role="alert"
+        >
+          Alerte <strong>warning</strong> – avertissement.
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Fermer"
+          ></button>
+        </div>
+      </section>
+
+      <!-- BOUTONS -->
+      <section id="buttons" class="demo-section">
+        <h2>2. Boutons</h2>
+        <p class="lead">
+          Les boutons existent en versions pleines, outline et peuvent être
+          utilisés sur des &lt;button&gt;, &lt;a&gt; ou &lt;input&gt;.
+        </p>
+
+        <div class="mb-3">
+          <button type="button" class="btn btn-primary">Primary</button>
+          <button type="button" class="btn btn-secondary">Secondary</button>
+          <button type="button" class="btn btn-success">Success</button>
+          <button type="button" class="btn btn-danger">Danger</button>
+          <button type="button" class="btn btn-warning">Warning</button>
+          <button type="button" class="btn btn-info">Info</button>
+          <button type="button" class="btn btn-light">Light</button>
+          <button type="button" class="btn btn-dark">Dark</button>
+          <button type="button" class="btn btn-link">Link</button>
+        </div>
+
+        <div class="mb-3">
+          <button type="button" class="btn btn-outline-primary">
+            Outline Primary
+          </button>
+          <button type="button" class="btn btn-outline-secondary">
+            Outline Secondary
+          </button>
+          <button type="button" class="btn btn-outline-success">
+            Outline Success
+          </button>
+          <button type="button" class="btn btn-outline-danger">
+            Outline Danger
+          </button>
+        </div>
+
+        <div class="d-grid gap-2 d-md-block">
+          <button class="btn btn-success btn-lg" type="button">
+            Bouton large
+          </button>
+          <button class="btn btn-outline-dark btn-sm" type="button">
+            Petit bouton
+          </button>
+        </div>
+      </section>
+
+      <!-- CARDS + GRID DE CARTES -->
+      <section id="cards" class="demo-section">
+        <h2>3. Cartes (Cards) et Carrousel</h2>
+        <p class="lead">
+          Les cartes sont parfaites pour présenter des éléments comme des
+          produits, des articles ou… des chalets. les Carrousel font défiler
+          images ou éléments
+        </p>
+
+        <div class="row g-4">
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card">
+              <img src="img/chalet1.jpg" class="card-img-top" alt="Chalet 1" />
+              <div class="card-body">
+                <h5 class="card-title">Chalet Panorama</h5>
+                <p class="card-text">
+                  Vue imprenable sur la vallée, cheminée, 3 chambres.
+                </p>
+                <a href="#" class="btn btn-primary">Voir les détails</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card">
+              <img src="img/chalet2.webp" class="card-img-top" alt="Chalet 2" />
+              <div class="card-body">
+                <h5 class="card-title">Chalet Forêt</h5>
+                <p class="card-text">
+                  Au calme, au cœur des sapins, idéal pour se ressourcer.
+                </p>
+                <a href="#" class="btn btn-outline-success">Réserver</a>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">4 personnes</li>
+                <li class="list-group-item">Wi-Fi &amp; Spa</li>
+                <li class="list-group-item">Animaux acceptés</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card text-center">
+              <div class="card-header">Offre spéciale</div>
+              <div class="card-body">
+                <h5 class="card-title">Chalet Horizon</h5>
+                <p class="card-text">
+                  -20% sur les réservations de dernière minute.
+                </p>
+                <a href="#" class="btn btn-warning">Profiter de l’offre</a>
+              </div>
+              <div class="card-footer text-muted">Valable jusqu’au 31/12</div>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          <strong>Carrousel (Carousel)</strong> : Un slider pour faire défiler
+          des éléments ou des images, supportant les contrôles et indicateurs.
+        </p>
+        <button
+          class="btn btn-custom"
+          data-bs-toggle="collapse"
+          data-bs-target="#carouselExampleIndicators"
+        >
+          Afficher
+        </button>
+        <div id="carouselExampleIndicators" class="carousel slide collapse">
+          <div class="carousel-indicators">
+            <button
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide-to="0"
+              class="active"
+              aria-current="true"
+              aria-label="Slide 1"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide-to="1"
+              aria-label="Slide 2"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide-to="2"
+              aria-label="Slide 3"
+            ></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="img/chalet1.jpg" class="d-block w-100" alt="..." />
+            </div>
+            <div class="carousel-item">
+              <img src="img/chalet2.webp" class="d-block w-100" alt="..." />
+            </div>
+            <div class="carousel-item">
+              <img src="img/chalet3.jpg" class="d-block w-100" alt="..." />
+            </div>
+          </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- GRID SIMPLE -->
+      <section id="grid" class="demo-section">
+        <h2>4. Système de grille (Grid System)</h2>
+        <p class="lead">
+          Bootstrap permet de créer des layouts responsive avec des lignes
+          (<code>.row</code>) et des colonnes (<code>.col-*</code>).
+        </p>
+
+        <div class="container border p-3">
+          <div class="row g-3">
+            <div class="col-12 col-md-4">
+              <div class="bg-light border p-3 text-center">col-12 col-md-4</div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="bg-light border p-3 text-center">col-12 col-md-4</div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="bg-light border p-3 text-center">col-12 col-md-4</div>
+            </div>
+          </div>
+
+          <div class="row g-3 mt-3">
+            <div class="col-6 col-md-3">
+              <div class="bg-secondary text-white p-3 text-center">1</div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="bg-secondary text-white p-3 text-center">2</div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="bg-secondary text-white p-3 text-center">3</div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="bg-secondary text-white p-3 text-center">4</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FORMULAIRE -->
+      <section id="form" class="demo-section">
+        <h2>5. Formulaire (Form)</h2>
+        <p class="lead">
+          Exemple de formulaire Bootstrap pour une demande de réservation.
+        </p>
+
+        <form class="row g-3">
+          <div class="col-md-6">
+            <label for="nom" class="form-label">Nom</label>
+            <input type="text" class="form-control" id="nom" required />
+          </div>
+          <div class="col-md-6">
+            <label for="email" class="form-label">Adresse email</label>
+            <input type="email" class="form-control" id="email" required />
+          </div>
+
+          <div class="col-md-6">
+            <label for="chalet" class="form-label">Chalet</label>
+            <select id="chalet" class="form-select">
+              <option>Chalet Panorama</option>
+              <option>Chalet Forêt</option>
+              <option>Chalet Horizon</option>
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <label for="dateArrivee" class="form-label">Arrivée</label>
+            <input type="date" class="form-control" id="dateArrivee" />
+          </div>
+          <div class="col-md-3">
+            <label for="dateDepart" class="form-label">Départ</label>
+            <input type="date" class="form-control" id="dateDepart" />
+          </div>
+
+          <div class="col-12">
+            <label for="commentaire" class="form-label">Commentaire</label>
+            <textarea id="commentaire" class="form-control" rows="3"></textarea>
+          </div>
+
+          <div class="col-12 form-check">
+            <input class="form-check-input" type="checkbox" id="cgu" />
+            <label class="form-check-label" for="cgu">
+              J’accepte les conditions générales.
+            </label>
+          </div>
+
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">
+              Envoyer la demande
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- MODAL, TOOLTIP, POPOVER, BADGES, PROGRESS, PAGINATION, BREADCRUMB -->
+      <section class="demo-section">
+        <h2>6. Autres composants utiles</h2>
+        <p class="lead">Quelques extras rapidement montrables en cours.</p>
+
+        <!-- Badges -->
+        <p>
+          Notifications
+          <span class="badge text-bg-danger">3</span>
+          Nouveautés
+          <span class="badge text-bg-success">Nouveau</span>
+        </p>
+
+        <!-- Progress bar -->
+        <div class="mb-3">
+          <label class="form-label">Taux de remplissage des réservations</label>
+          <div class="progress">
+            <div
+              class="progress-bar"
+              role="progressbar"
+              style="width: 60%"
+              aria-valuenow="60"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              60%
+            </div>
+          </div>
+        </div>
+
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" class="mb-3">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Accueil</a></li>
+            <li class="breadcrumb-item"><a href="#">Chalets</a></li>
+            <li class="breadcrumb-item active" aria-current="page">
+              Chalet Panorama
+            </li>
+          </ol>
+        </nav>
+
+        <!-- Pagination -->
+        <nav aria-label="Page de chalets">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="#">Précédent</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Suivant</a></li>
+          </ul>
+        </nav>
+
+        <!-- Tooltips & Popovers -->
+        <button
+          type="button"
+          class="btn btn-secondary me-2"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          title="Petit texte d’aide"
+        >
+          Survolez-moi (tooltip)
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-info"
+          data-bs-toggle="popover"
+          title="Titre du popover"
+          data-bs-content="Contenu du popover, pour donner plus de détails."
+        >
+          Cliquez-moi (popover)
+        </button>
+
+        <!-- Modal -->
+        <button
+          type="button"
+          class="btn btn-primary ms-3"
+          data-bs-toggle="modal"
+          data-bs-target="#demoModal"
+        >
+          Ouvrir une modal
+        </button>
+
+        <div
+          class="modal fade"
+          id="demoModal"
+          tabindex="-1"
+          aria-labelledby="demoModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="demoModalLabel">
+                  Exemple de modal
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Fermer"
+                ></button>
+              </div>
+              <div class="modal-body">
+                Ceci est une boîte de dialogue Bootstrap. On peut l’utiliser
+                pour confirmer une action, afficher un message important, etc.
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Fermer
+                </button>
+                <button type="button" class="btn btn-primary">Valider</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bg-light text-center py-3 mt-5">
+      <small>&copy; 2025 – Démo Bootstrap 5.3.8 – Formation CDA</small>
+    </footer>
+
+    <!-- Bootstrap 5.3.8 JS (bundle avec Popper inclus) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
+
+    <script>
+      // Initialisation des tooltips
+      const tooltipTriggerList = document.querySelectorAll(
+        '[data-bs-toggle="tooltip"]'
+      );
+      tooltipTriggerList.forEach((el) => new bootstrap.Tooltip(el));
+
+      // Initialisation des popovers
+      const popoverTriggerList = document.querySelectorAll(
+        '[data-bs-toggle="popover"]'
+      );
+      popoverTriggerList.forEach((el) => new bootstrap.Popover(el));
+    </script>
+  </body>
+</html>

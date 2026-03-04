@@ -1,0 +1,125 @@
+@startuml
+' Organigramme chronologique des OS (1969 → 2025) - compatible PlantUML classique
+skinparam defaultFontName Arial
+skinparam ArrowColor #555
+skinparam RoundCorner 8
+skinparam Shadowing false
+left to right direction
+
+legend left
+  Organigramme chronologique par familles
+  Flèche pleine = filiation / succession
+  Flèche pointillée = influence / base technique
+end legend
+
+' =========================
+' UNIX / BSD / Apple
+' =========================
+package "UNIX / BSD / Apple" {
+  rectangle UNIX_1969       as "UNIX (Bell Labs)\n1969"
+  rectangle V6_1975         as "UNIX V6\n1975"
+  rectangle BSD_1977        as "BSD (Berkeley)\n1977"
+  rectangle BSD42_1983      as "4.2BSD (TCP/IP)\n1983"
+  rectangle SYSV_1983       as "UNIX System V\n1983"
+  rectangle BSD44_1994      as "4.4BSD-Lite\n1994"
+  rectangle FREEBSD_1993    as "FreeBSD\n1993"
+  rectangle NETBSD_1993     as "NetBSD\n1993"
+  rectangle OPENBSD_1996    as "OpenBSD\n1996"
+  rectangle SUNOS_SOL_1992  as "SunOS → Solaris\n1992"
+  rectangle HPUX_1984       as "HP-UX\n1984"
+  rectangle AIX_1986        as "IBM AIX\n1986"
+  rectangle ULTRIX_1984     as "Ultrix (DEC)\n1984"
+
+  rectangle NEXTSTEP_1988   as "NeXTSTEP (Mach+BSD)\n1988"
+  rectangle MACOSX_2001     as "Mac OS X → macOS\n2001"
+  rectangle IOS_2007        as "iOS\n2007"
+
+  UNIX_1969 --> V6_1975
+  V6_1975 --> BSD_1977
+  V6_1975 --> SYSV_1983
+  BSD_1977 --> BSD42_1983
+  BSD42_1983 --> BSD44_1994
+
+  BSD44_1994 --> FREEBSD_1993
+  BSD44_1994 --> NETBSD_1993
+  BSD44_1994 --> OPENBSD_1996
+
+  BSD42_1983 --> SUNOS_SOL_1992
+  SYSV_1983  --> SUNOS_SOL_1992
+  SYSV_1983  --> HPUX_1984
+  SYSV_1983  --> AIX_1986
+  BSD_1977   --> ULTRIX_1984
+
+  BSD_1977 --> NEXTSTEP_1988
+  NEXTSTEP_1988 --> MACOSX_2001
+  MACOSX_2001 --> IOS_2007
+}
+
+' =========================
+' Linux / Android / ChromeOS
+' =========================
+package "Linux / Android / ChromeOS" {
+  rectangle GNU_1983        as "GNU (R. Stallman)\n1983"
+  rectangle LINUX_1991      as "Noyau Linux (L. Torvalds)\n1991"
+  rectangle DEBIAN_1993     as "Debian\n1993"
+  rectangle SLACK_1993      as "Slackware\n1993"
+  rectangle SUSE_1992       as "SUSE\n1992"
+  rectangle REDHAT_1994     as "Red Hat\n1994"
+  rectangle ANDROID_2008    as "Android (Linux)\n2008"
+  rectangle CHROMEOS_2009   as "ChromeOS (Linux)\n2009"
+
+  GNU_1983 ..> LINUX_1991 : outils/userland
+  LINUX_1991 --> DEBIAN_1993
+  LINUX_1991 --> SLACK_1993
+  LINUX_1991 --> SUSE_1992
+  LINUX_1991 --> REDHAT_1994
+  LINUX_1991 --> ANDROID_2008
+  LINUX_1991 --> CHROMEOS_2009
+}
+
+' =========================
+' Windows (DOS → NT)
+' =========================
+package "Windows (DOS → NT)" {
+  rectangle CPM_1974        as "CP/M (G. Kildall)\n1974"
+  rectangle MSDOS_1981      as "MS-DOS\n1981"
+  rectangle WIN1_1985       as "Windows 1.x\n1985"
+  rectangle WIN3_1990       as "Windows 3.x\n1990"
+  rectangle WIN95_1995      as "Windows 95\n1995"
+  rectangle WIN98_1998      as "Windows 98\n1998"
+  rectangle WINME_2000      as "Windows ME\n2000"
+
+  rectangle VMS_1977        as "VMS (DEC)\n1977"
+  rectangle NT_1993         as "Windows NT 3.1\n1993"
+  rectangle W2K_2000        as "Windows 2000\n2000"
+  rectangle XP_2001         as "Windows XP\n2001"
+  rectangle W7_2009         as "Windows 7\n2009"
+  rectangle W10_2015        as "Windows 10\n2015"
+  rectangle W11_2021        as "Windows 11\n2021"
+
+  CPM_1974 --> MSDOS_1981
+  MSDOS_1981 --> WIN1_1985
+  WIN1_1985 --> WIN3_1990
+  WIN3_1990 --> WIN95_1995
+  WIN95_1995 --> WIN98_1998
+  WIN98_1998 --> WINME_2000
+
+  VMS_1977 ..> NT_1993 : influence archi
+  NT_1993 --> W2K_2000
+  W2K_2000 --> XP_2001
+  XP_2001 --> W7_2009
+  W7_2009 --> W10_2015
+  W10_2015 --> W11_2021
+}
+
+' =========================
+' Positionnement horizontal (liens cachés pour la mise en page)
+' =========================
+UNIX_1969 -[hidden]-> GNU_1983
+GNU_1983 -[hidden]-> CPM_1974
+BSD44_1994 -[hidden]-> LINUX_1991
+MACOSX_2001 -[hidden]-> ANDROID_2008
+SUNOS_SOL_1992 -[hidden]-> NT_1993
+
+@enduml
+

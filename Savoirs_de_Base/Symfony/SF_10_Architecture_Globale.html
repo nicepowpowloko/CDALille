@@ -1,0 +1,418 @@
+<!doctype html>
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Symfony - 10 - Architecture globale</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/github-markdown.css" rel="stylesheet" />
+    <script src="assets/js/jquery-3.4.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <link href="assets/css/stackoverflow-dark.min.css" rel="stylesheet" />
+    <link href="assets/css/navbar.css" rel="stylesheet" />
+    <script src="assets/js/highlight.min.js"></script>
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0"
+      id="jsnav"
+    >
+      <div class="container">
+        <a
+          class="navbar-brand py-0 my-0"
+          href="SF_01_Presentation_Symfony.html"
+          style="font-size: 14px"
+          >Symfony Cours</a
+        >
+        <button
+          aria-controls="jsNavbar"
+          aria-expanded="false"
+          aria-label="Menu"
+          class="navbar-toggler"
+          data-target="#jsNavbar"
+          data-toggle="collapse"
+          type="button"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="jsNavbar">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="nav-link dropdown-toggle py-1"
+                data-toggle="dropdown"
+                href="#"
+                id="chaptersDropdown"
+                role="button"
+              >
+                Chapitres
+              </a>
+              <div
+                aria-labelledby="chaptersDropdown"
+                class="dropdown-menu dropdown-menu-right"
+              >
+                <a class="dropdown-item" href="SF_01_Presentation_Symfony.html"
+                  >01 - Présentation Symfony</a
+                ><a class="dropdown-item" href="SF_02_Demarrage.html"
+                  >02 - Démarrage</a
+                ><a class="dropdown-item" href="SF_03_Namespaces.html"
+                  >03 - Namespaces</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_04_le_contrôleur_symfony.html"
+                  >04 - Le contrôleur et AbstractController</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_05_les_services_en_symfony.html"
+                  >05 - Les services</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_06_le_routing_en_symfony.html"
+                  >06 - Les routes</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_07_la_request_et_la_response_en_symfony.html"
+                  >07 - Request - Response</a
+                ><a class="dropdown-item" href="SF_08_Twig.html">08 - Twig</a
+                ><a class="dropdown-item" href="SF_09_Doctrine.html"
+                  >09 - Doctrine</a
+                ><a class="dropdown-item" href="SF_10_Architecture_Globale.html"
+                  >10 - Architecture globale</a
+                ><a class="dropdown-item" href="SF_11_Les_Formulaires.html"
+                  >11 - Les formulaires</a
+                ><a class="dropdown-item" href="SF_12_La_Securite.html"
+                  >12 - La sécurité</a
+                ><a class="dropdown-item" href="SF_13_CRUD_Avance.html"
+                  >13 - CRUD avancé</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_14_Tests_Unitaires_et_Fonctionnels.html"
+                  >14 - Test Unitaires/Fonctionnels</a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="markdown-body">
+        <h1>ARCHITECTURE GLOBALE D’UNE APPLICATION SYMFONY</h1>
+        <h2>Comprendre le fonctionnement d’ensemble</h2>
+        <p><em>(dans le framework Symfony)</em></p>
+        <hr />
+        <h2>1. Pourquoi parler d’architecture globale ?</h2>
+        <p>Après avoir vu :</p>
+        <ul>
+          <li>les contrôleurs</li>
+          <li>le routing</li>
+          <li>la Request et la Response</li>
+          <li>les vues Twig</li>
+          <li>les services</li>
+          <li>Doctrine</li>
+        </ul>
+        <p>Il devient indispensable de <strong>prendre du recul</strong>.</p>
+        <p>
+          Ce chapitre a pour but de répondre à une question simple mais
+          fondamentale :
+        </p>
+        <blockquote>
+          <p>
+            <strong
+              >Que se passe-t-il réellement lorsqu’un utilisateur accède à une
+              page Symfony ?</strong
+            >
+          </p>
+        </blockquote>
+        <hr />
+        <h2>2. Qui appelle qui ? (vue d’ensemble)</h2>
+        <p>Dans Symfony, <strong>rien n’est appelé au hasard</strong>.</p>
+        <p>Voici la chaîne logique simplifiée :</p>
+        <pre><code class="language-text">Navigateur
+   ↓
+Request HTTP
+   ↓
+Front Controller (index.php)
+   ↓
+Router
+   ↓
+Contrôleur
+   ↓
+Services / Doctrine
+   ↓
+Twig (optionnel)
+   ↓
+Response
+   ↓
+Navigateur
+</code></pre>
+        <p>
+          Chaque élément a un rôle précis. Aucun ne fait le travail d’un autre.
+        </p>
+        <hr />
+        <h2>3. Le cycle d’une requête HTTP pas à pas</h2>
+        <h3>3.1 Arrivée de la requête</h3>
+        <p>Un utilisateur accède à une URL :</p>
+        <pre><code class="language-text">https://example.com/article/12
+</code></pre>
+        <p>Le navigateur envoie une <strong>Request HTTP</strong>.</p>
+        <p>
+          Symfony reçoit <strong>toutes</strong> les requêtes via un seul
+          fichier :
+        </p>
+        <pre><code class="language-text">public/index.php
+</code></pre>
+        <p>C’est le <strong>Front Controller</strong>.</p>
+        <hr />
+        <h3>3.2 Le routing</h3>
+        <p>
+          Symfony analyse la Request et demande au <strong>routeur</strong> :
+        </p>
+        <blockquote>
+          <p>“Existe-t-il une route correspondant à cette URL ?”</p>
+        </blockquote>
+        <p>Si une route est trouvée :</p>
+        <ul>
+          <li>elle désigne un <strong>contrôleur</strong></li>
+          <li>et une <strong>méthode</strong></li>
+        </ul>
+        <p>Sinon :</p>
+        <ul>
+          <li>Symfony retourne une erreur 404</li>
+        </ul>
+        <hr />
+        <h3>3.3 L’appel du contrôleur</h3>
+        <p>Symfony :</p>
+        <ul>
+          <li>instancie le contrôleur via le <strong>container</strong></li>
+          <li>injecte les dépendances nécessaires</li>
+          <li>appelle la méthode correspondante</li>
+        </ul>
+        <p>Vous n’appelez <strong>jamais</strong> un contrôleur vous-même.</p>
+        <hr />
+        <h3>3.4 Le travail métier</h3>
+        <p>Le contrôleur :</p>
+        <ul>
+          <li>lit la Request</li>
+          <li>délègue le travail aux <strong>services</strong></li>
+          <li>récupère des données via Doctrine</li>
+          <li>prépare les données pour l’affichage</li>
+        </ul>
+        <p>Le contrôleur <strong>orchestre</strong>, il ne calcule pas.</p>
+        <hr />
+        <h3>3.5 La génération de la Response</h3>
+        <p>Selon le contexte :</p>
+        <ul>
+          <li>Twig génère du HTML</li>
+          <li>ou Symfony renvoie du JSON</li>
+          <li>ou une redirection</li>
+          <li>ou une erreur HTTP</li>
+        </ul>
+        <p>Le contrôleur retourne toujours une <strong>Response</strong>.</p>
+        <p>Symfony l’envoie ensuite au navigateur.</p>
+        <hr />
+        <h2>4. Le rôle central du container de services</h2>
+        <p>Le <strong>container</strong> est le cœur technique de Symfony.</p>
+        <p>Il est responsable de :</p>
+        <ul>
+          <li>créer les objets</li>
+          <li>gérer les dépendances</li>
+          <li>injecter les services</li>
+          <li>garantir une architecture cohérente</li>
+        </ul>
+        <p>Sans container :</p>
+        <ul>
+          <li>pas de services</li>
+          <li>pas d’injection</li>
+          <li>pas d’architecture propre</li>
+        </ul>
+        <p>
+          Vous ne travaillez <strong>jamais directement</strong> avec le
+          container :
+        </p>
+        <ul>
+          <li>vous déclarez vos dépendances</li>
+          <li>Symfony fait le reste</li>
+        </ul>
+        <hr />
+        <h2>5. Où mettre quoi ? (organisation du code)</h2>
+        <p>C’est une question clé pour éviter le désordre.</p>
+        <hr />
+        <h3>5.1 Le contrôleur</h3>
+        <p><code>src/Controller/</code></p>
+        <p>Rôle :</p>
+        <ul>
+          <li>recevoir la Request</li>
+          <li>appeler les services</li>
+          <li>retourner une Response</li>
+        </ul>
+        <p>Il ne doit pas :</p>
+        <ul>
+          <li>contenir de logique métier</li>
+          <li>accéder directement à la base</li>
+          <li>produire du HTML complexe</li>
+        </ul>
+        <hr />
+        <h3>5.2 Les services</h3>
+        <p><code>src/Service/</code> (par convention)</p>
+        <p>Rôle :</p>
+        <ul>
+          <li>contenir la logique métier</li>
+          <li>effectuer les calculs</li>
+          <li>appliquer les règles fonctionnelles</li>
+        </ul>
+        <p>Ils ne doivent pas :</p>
+        <ul>
+          <li>connaître HTTP</li>
+          <li>retourner des Response</li>
+          <li>dépendre de Twig</li>
+        </ul>
+        <hr />
+        <h3>5.3 Les entités Doctrine</h3>
+        <p><code>src/Entity/</code></p>
+        <p>Rôle :</p>
+        <ul>
+          <li>représenter les données</li>
+          <li>définir la structure métier</li>
+        </ul>
+        <p>Elles ne doivent pas :</p>
+        <ul>
+          <li>contenir de logique applicative complexe</li>
+          <li>accéder à la base</li>
+          <li>dépendre de Symfony</li>
+        </ul>
+        <hr />
+        <h3>5.4 Les repositories</h3>
+        <p><code>src/Repository/</code></p>
+        <p>Rôle :</p>
+        <ul>
+          <li>interroger la base de données</li>
+          <li>centraliser les requêtes</li>
+          <li>utiliser DQL / QueryBuilder</li>
+        </ul>
+        <p>Ils ne doivent pas :</p>
+        <ul>
+          <li>faire de l’affichage</li>
+          <li>contenir de logique métier transverse</li>
+        </ul>
+        <hr />
+        <h3>5.5 Les vues Twig</h3>
+        <p><code>templates/</code></p>
+        <p>Rôle :</p>
+        <ul>
+          <li>afficher les données</li>
+          <li>produire du HTML</li>
+        </ul>
+        <p>Elles ne doivent pas :</p>
+        <ul>
+          <li>contenir du PHP</li>
+          <li>faire des calculs</li>
+          <li>accéder aux données</li>
+        </ul>
+        <hr />
+        <h2>6. Séparation des responsabilités (principe fondamental)</h2>
+        <p>Symfony repose sur une idée simple :</p>
+        <blockquote>
+          <p><strong>Chaque couche a une responsabilité claire.</strong></p>
+        </blockquote>
+        <table>
+          <thead>
+            <tr>
+              <th>Élément</th>
+              <th>Responsabilité</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Controller</td>
+              <td>Orchestration</td>
+            </tr>
+            <tr>
+              <td>Service</td>
+              <td>Logique métier</td>
+            </tr>
+            <tr>
+              <td>Repository</td>
+              <td>Accès aux données</td>
+            </tr>
+            <tr>
+              <td>Entity</td>
+              <td>Modèle métier</td>
+            </tr>
+            <tr>
+              <td>Twig</td>
+              <td>Affichage</td>
+            </tr>
+            <tr>
+              <td>Routing</td>
+              <td>Navigation</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Quand cette règle est respectée, l’application reste lisible et
+          maintenable.
+        </p>
+        <hr />
+        <h2>7. Ce que vous devez retenir à ce stade</h2>
+        <p>Vous devez être capable de :</p>
+        <ul>
+          <li>expliquer le cycle d’une requête HTTP</li>
+          <li>comprendre qui appelle qui</li>
+          <li>identifier le rôle du container</li>
+          <li>savoir où placer votre code</li>
+          <li>lire l’architecture d’un projet Symfony existant</li>
+        </ul>
+        <hr />
+        <h2>8. Ce que vous n’êtes pas encore censé maîtriser</h2>
+        <p>À ce stade, il n’est pas attendu que vous maîtrisiez :</p>
+        <ul>
+          <li>les événements Symfony</li>
+          <li>les listeners / subscribers</li>
+          <li>la compilation du container</li>
+          <li>les optimisations avancées</li>
+        </ul>
+        <p>Ces sujets feront l’objet d’un approfondissement ultérieur.</p>
+        <hr />
+        <h2>9. Message clé de synthèse</h2>
+        <blockquote>
+          <p>
+            Symfony est une orchestration d’objets, pas une suite de scripts. Le
+            framework appelle votre code, jamais l’inverse. Une bonne
+            architecture repose sur la séparation des responsabilités.
+          </p>
+        </blockquote>
+        <hr />
+        <h2>Conclusion</h2>
+        <p>
+          Ce chapitre marque la
+          <strong>fin du socle fondamental Symfony</strong>.
+        </p>
+        <p>Vous avez maintenant une vision claire :</p>
+        <ul>
+          <li>du fonctionnement global</li>
+          <li>des rôles de chaque composant</li>
+          <li>de la place de votre code dans l’application</li>
+        </ul>
+        <p>Cette compréhension est essentielle pour :</p>
+        <ul>
+          <li>continuer sereinement</li>
+          <li>éviter les erreurs structurelles</li>
+          <li>aborder les approfondissements à venir avec de bonnes bases</li>
+        </ul>
+      </div>
+    </div>
+    <script>
+      hljs.highlightAll();
+    </script>
+    <script>
+      document.title = document.querySelector("h1").textContent;
+    </script>
+  </body>
+</html>

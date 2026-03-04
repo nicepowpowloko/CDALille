@@ -1,0 +1,427 @@
+<!doctype html>
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>LE CONTRÔLEUR SYMFONY</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/github-markdown.css" rel="stylesheet" />
+    <script src="assets/js/jquery-3.4.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <link href="assets/css/stackoverflow-dark.min.css" rel="stylesheet" />
+    <link href="assets/css/navbar.css" rel="stylesheet" />
+    <script src="assets/js/highlight.min.js"></script>
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0"
+      id="jsnav"
+    >
+      <div class="container">
+        <a
+          class="navbar-brand py-0 my-0"
+          href="SF_01_Presentation_Symfony.html"
+          style="font-size: 14px"
+          >Symfony Cours</a
+        >
+        <button
+          aria-controls="jsNavbar"
+          aria-expanded="false"
+          aria-label="Menu"
+          class="navbar-toggler"
+          data-target="#jsNavbar"
+          data-toggle="collapse"
+          type="button"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="jsNavbar">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="nav-link dropdown-toggle py-1"
+                data-toggle="dropdown"
+                href="#"
+                id="chaptersDropdown"
+                role="button"
+              >
+                Chapitres
+              </a>
+              <div
+                aria-labelledby="chaptersDropdown"
+                class="dropdown-menu dropdown-menu-right"
+              >
+                <a class="dropdown-item" href="SF_01_Presentation_Symfony.html"
+                  >01 - Présentation Symfony</a
+                ><a class="dropdown-item" href="SF_02_Demarrage.html"
+                  >02 - Démarrage</a
+                ><a class="dropdown-item" href="SF_03_Namespaces.html"
+                  >03 - Namespaces</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_04_le_contrôleur_symfony.html"
+                  >04 - Le contrôleur et AbstractController</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_05_les_services_en_symfony.html"
+                  >05 - Les services</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_06_le_routing_en_symfony.html"
+                  >06 - Les routes</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_07_la_request_et_la_response_en_symfony.html"
+                  >07 - Request - Response</a
+                ><a class="dropdown-item" href="SF_08_Twig.html">08 - Twig</a
+                ><a class="dropdown-item" href="SF_09_Doctrine.html"
+                  >09 - Doctrine</a
+                ><a class="dropdown-item" href="SF_10_Architecture_Globale.html"
+                  >10 - Architecture globale</a
+                ><a class="dropdown-item" href="SF_11_Les_Formulaires.html"
+                  >11 - Les formulaires</a
+                ><a class="dropdown-item" href="SF_12_La_Securite.html"
+                  >12 - La sécurité</a
+                ><a class="dropdown-item" href="SF_13_CRUD_Avance.html"
+                  >13 - CRUD avancé</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_14_Tests_Unitaires_et_Fonctionnels.html"
+                  >14 - Test Unitaires/Fonctionnels</a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="markdown-body">
+        <h1>LE CONTRÔLEUR SYMFONY</h1>
+        <h2>Comprendre et maîtriser <code>make:controller</code></h2>
+        <hr />
+        <h2>1. Le rôle du contrôleur dans Symfony</h2>
+        <h3>1.1 Le contrôleur dans l’architecture MVC</h3>
+        <p>
+          Dans Symfony, le <strong>contrôleur</strong> est le point d’entrée de
+          votre application côté serveur.
+        </p>
+        <p>Son rôle est de :</p>
+        <ul>
+          <li>recevoir une requête HTTP</li>
+          <li>coordonner le traitement de cette requête</li>
+          <li>
+            appeler les composants nécessaires (services, accès aux données)
+          </li>
+          <li>retourner une réponse HTTP</li>
+        </ul>
+        <p>Le contrôleur <strong>n’est pas</strong> :</p>
+        <ul>
+          <li>un modèle</li>
+          <li>un accès direct à la base de données</li>
+          <li>un conteneur de logique métier complexe</li>
+        </ul>
+        <p>
+          Le contrôleur <strong>oriente et orchestre</strong>, il ne fait pas le
+          travail métier.
+        </p>
+        <hr />
+        <h3>1.2 Le contrôleur Symfony est un service</h3>
+        <p>
+          Un contrôleur Symfony n’est pas un simple fichier PHP exécuté
+          directement.
+        </p>
+        <p>Il s’agit :</p>
+        <ul>
+          <li>d’un <strong>service</strong></li>
+          <li>instancié par le <strong>container de dépendances</strong></li>
+          <li>déclenché par le <strong>système de routage</strong></li>
+          <li>intégré à l’écosystème du framework</li>
+        </ul>
+        <p>Cela implique :</p>
+        <ul>
+          <li>une approche orientée objet</li>
+          <li>l’utilisation de l’injection de dépendances</li>
+          <li>le respect des conventions Symfony</li>
+        </ul>
+        <hr />
+        <h2>2. Que fait la commande <code>make:controller</code> ?</h2>
+        <h3>2.1 Objectif de la commande</h3>
+        <p>La commande :</p>
+        <div class="codehilite">
+          <pre><span></span><code>php<span class="w"> </span>bin/console<span class="w"> </span>make:controller
+</code></pre>
+        </div>
+        <p>permet de :</p>
+        <ul>
+          <li>créer un contrôleur conforme aux conventions Symfony</li>
+          <li>générer automatiquement une route fonctionnelle</li>
+          <li>créer un template Twig associé</li>
+        </ul>
+        <p>
+          Elle vous évite d’écrire du code répétitif et vous place immédiatement
+          dans une structure correcte.
+        </p>
+        <hr />
+        <h3>2.2 Fichiers générés</h3>
+        <p>Après l’exécution de la commande, vous obtenez généralement :</p>
+        <ul>
+          <li>un contrôleur dans :</li>
+        </ul>
+        <div class="codehilite">
+          <pre><span></span><code>src/Controller/
+</code></pre>
+        </div>
+        <ul>
+          <li>un template Twig dans :</li>
+        </ul>
+        <div class="codehilite">
+          <pre><span></span><code>templates/
+</code></pre>
+        </div>
+        <hr />
+        <h3>2.3 Exemple de contrôleur généré</h3>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">namespace App\Controller;</span>
+
+<span class="x">use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;</span>
+<span class="x">use Symfony\Component\HttpFoundation\Response;</span>
+<span class="x">use Symfony\Component\Routing\Attribute\Route;</span>
+
+<span class="x">class ArticleController extends AbstractController</span>
+<span class="x">{</span>
+<span class="x">    #[Route('/article', name: 'article_index')]</span>
+<span class="x">    public function index(): Response</span>
+<span class="x">    {</span>
+<span class="x">        return $this-&gt;render('article/index.html.twig');</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</code></pre>
+        </div>
+        <p>
+          Chaque ligne de ce fichier a une utilité précise et mérite d’être
+          comprise.
+        </p>
+        <hr />
+        <h2>3. Comprendre <code>AbstractController</code></h2>
+        <h3>3.1 Pourquoi utiliser <code>AbstractController</code> ?</h3>
+        <p>
+          <code>AbstractController</code> est une classe fournie par Symfony
+          pour faciliter l’écriture des contrôleurs.
+        </p>
+        <p>Elle vous apporte :</p>
+        <ul>
+          <li>des méthodes utilitaires prêtes à l’emploi</li>
+          <li>une meilleure lisibilité du code</li>
+          <li>une réduction du code technique répétitif</li>
+        </ul>
+        <p>
+          Son utilisation est <strong>optionnelle</strong>, mais
+          <strong>parfaitement légitime</strong>.
+        </p>
+        <hr />
+        <h3>3.2 Fonctionnalités principales fournies</h3>
+        <p>
+          En étendant <code>AbstractController</code>, vous disposez notamment
+          de :
+        </p>
+        <ul>
+          <li>rendu de templates Twig :</li>
+        </ul>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">$this-&gt;render()</span>
+</code></pre>
+        </div>
+        <ul>
+          <li>réponses JSON :</li>
+        </ul>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">$this-&gt;json()</span>
+</code></pre>
+        </div>
+        <ul>
+          <li>redirections :</li>
+        </ul>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">$this-&gt;redirectToRoute()</span>
+</code></pre>
+        </div>
+        <ul>
+          <li>gestion des erreurs HTTP :</li>
+        </ul>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">$this-&gt;createNotFoundException()</span>
+</code></pre>
+        </div>
+        <ul>
+          <li>sécurité :</li>
+        </ul>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">$this-&gt;getUser()</span>
+<span class="x">$this-&gt;isGranted()</span>
+</code></pre>
+        </div>
+        <ul>
+          <li>formulaires :</li>
+        </ul>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">$this-&gt;createForm()</span>
+</code></pre>
+        </div>
+        <p>
+          Ces méthodes vous permettent de vous concentrer sur la logique de
+          votre application.
+        </p>
+        <hr />
+        <h3>3.3 Ce que fait <code>AbstractController</code> en interne</h3>
+        <p><code>AbstractController</code> :</p>
+        <ul>
+          <li>déclare explicitement les services dont il a besoin</li>
+          <li>permet à Symfony de les injecter automatiquement</li>
+          <li>respecte le principe d’injection de dépendances</li>
+        </ul>
+        <p>
+          Il ne s’agit pas de magie, mais d’une
+          <strong>convention maîtrisée</strong>.
+        </p>
+        <hr />
+        <h2>4. Ce que vous devez maîtriser à ce stade</h2>
+        <h3>4.1 Compétences attendues</h3>
+        <p>
+          Lorsque vous créez vos premiers contrôleurs Symfony, vous devez être
+          capable de :
+        </p>
+        <ul>
+          <li>générer un contrôleur avec <code>make:controller</code></li>
+          <li>comprendre le lien entre une route et une méthode</li>
+          <li>retourner une réponse HTTP appropriée</li>
+          <li>afficher une vue avec Twig ou retourner du JSON</li>
+          <li>structurer correctement votre code</li>
+        </ul>
+        <p>
+          L’utilisation d’<code>AbstractController</code> est
+          <strong>parfaitement adaptée</strong> à ce niveau.
+        </p>
+        <hr />
+        <h3>4.2 Responsabilités du contrôleur</h3>
+        <p>Votre contrôleur doit :</p>
+        <ul>
+          <li>rester court et lisible</li>
+          <li>déléguer la logique métier à des services</li>
+          <li>utiliser les repositories pour l’accès aux données</li>
+          <li>se limiter à l’orchestration</li>
+        </ul>
+        <p>
+          Un bon contrôleur est souvent simple et peu spectaculaire. C’est un
+          signe de qualité.
+        </p>
+        <hr />
+        <h2>5. Comprendre que <code>AbstractController</code> est optionnel</h2>
+        <h3>5.1 Savoir ce que signifie “s’en passer”</h3>
+        <p>
+          Il est possible d’écrire un contrôleur sans étendre
+          <code>AbstractController</code>.
+        </p>
+        <p>Dans ce cas, vous devez :</p>
+        <ul>
+          <li>injecter explicitement les services nécessaires</li>
+          <li>créer manuellement les réponses HTTP</li>
+          <li>gérer vous-même le rendu des vues</li>
+        </ul>
+        <p>Exemple :</p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">class ArticleController</span>
+<span class="x">{</span>
+<span class="x">    public function __construct(</span>
+<span class="x">        private Environment $twig</span>
+<span class="x">    ) {}</span>
+
+<span class="x">    public function index(): Response</span>
+<span class="x">    {</span>
+<span class="x">        return new Response(</span>
+<span class="x">            $this-&gt;twig-&gt;render('article/index.html.twig')</span>
+<span class="x">        );</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</code></pre>
+        </div>
+        <hr />
+        <h3>5.2 Ce que cela implique pour vous</h3>
+        <p>
+          À ce stade, il n’est <strong>pas exigé</strong> que vous écriviez vos
+          contrôleurs de cette manière.
+        </p>
+        <p>En revanche, vous devez :</p>
+        <ul>
+          <li>savoir que cette possibilité existe</li>
+          <li>
+            comprendre pourquoi <code>AbstractController</code> est utilisé par
+            défaut
+          </li>
+          <li>être capable d’expliquer la différence</li>
+        </ul>
+        <p>
+          La maîtrise complète de cette approche relève d’un approfondissement
+          ultérieur.
+        </p>
+        <hr />
+        <h2>6. Bonnes pratiques essentielles</h2>
+        <h3>6.1 À faire dans un contrôleur Symfony</h3>
+        <ul>
+          <li>recevoir et analyser la requête</li>
+          <li>valider les données</li>
+          <li>appeler les bons services</li>
+          <li>retourner une réponse cohérente</li>
+        </ul>
+        <h3>6.2 À éviter absolument</h3>
+        <ul>
+          <li>écrire des requêtes SQL dans le contrôleur</li>
+          <li>placer de la logique métier complexe</li>
+          <li>utiliser directement le container</li>
+          <li>transformer le contrôleur en script procédural</li>
+        </ul>
+        <hr />
+        <h2>7. Message essentiel à retenir</h2>
+        <blockquote>
+          <p>
+            <code>AbstractController</code> est un outil normal et
+            professionnel. Vous devez comprendre ce qu’il vous apporte. Vous
+            devez savoir qu’il est possible de s’en passer. Vous n’êtes pas tenu
+            de le faire à ce stade.
+          </p>
+        </blockquote>
+        <hr />
+        <h2>8. Conclusion</h2>
+        <p>Lorsque vous exécutez :</p>
+        <div class="codehilite">
+          <pre><span></span><code>php<span class="w"> </span>bin/console<span class="w"> </span>make:controller
+</code></pre>
+        </div>
+        <p>vous ne créez pas simplement un fichier PHP.</p>
+        <p>Vous vous inscrivez dans :</p>
+        <ul>
+          <li>une architecture MVC claire</li>
+          <li>une logique orientée objet</li>
+          <li>une organisation professionnelle du code</li>
+        </ul>
+        <p>
+          En maîtrisant le rôle du contrôleur et l’usage
+          d’<code>AbstractController</code>, vous posez des bases solides pour
+          la suite de votre apprentissage de Symfony.
+        </p>
+      </div>
+    </div>
+    <script>
+      hljs.highlightAll();
+    </script>
+    <script>
+      document.title = document.querySelector("h1").textContent;
+    </script>
+  </body>
+</html>

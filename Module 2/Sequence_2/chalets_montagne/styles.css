@@ -1,0 +1,292 @@
+/* Palette
+   Bleu nuit:   #0b3d91
+   Bleu clair:  #1c64f2
+   Fond clair:  #f5f7fa
+   Texte:       #1f2933
+*/
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  line-height: 1.6;
+  color: #1f2933;
+  background: #f5f7fa;
+}
+
+h1, h2, h3 {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  margin-top: 0;
+}
+
+h1 {
+  font-size: 2.2rem;
+  letter-spacing: 0.05em;
+}
+
+h2 {
+  font-size: 1.6rem;
+  margin-top: 2rem;
+}
+
+h3 {
+  font-size: 1.3rem;
+  margin-top: 1.5rem;
+}
+
+p {
+  margin: 0.75rem 0;
+}
+
+ul,
+ol {
+  padding-left: 1.5rem;
+  margin: 0.75rem 0;
+}
+
+a {
+  color: #0b3d91;
+}
+
+a:hover,
+a:focus {
+  color: #1c64f2;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0.5rem;
+  background: #0b3d91;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  left: 0.5rem;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+}
+
+header {
+  background: #0b3d91;
+  color: #ffffff;
+  padding: 1rem 0;
+  margin-bottom: 1.5rem;
+}
+
+header .brand p {
+  margin: 0.25rem 0 0;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+footer {
+  background: #102a43;
+  color: #d9e2ec;
+  padding: 1rem 0;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+header .container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  header .container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.nav-principale ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.nav-principale a {
+  color: #e0f2ff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-principale a:hover,
+.nav-principale a:focus {
+  text-decoration: underline;
+}
+
+main .container {
+  padding-top: 0;
+}
+
+.intro-site {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.08);
+  margin-bottom: 1.5rem;
+}
+
+.layout-accueil {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.section-atouts,
+.section-preparer {
+  background: #ffffff;
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+}
+
+.section-atouts ul li::marker {
+  color: #0b3d91;
+}
+
+.section-preparer ol li::marker {
+  color: #d97706;
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+  .layout-accueil {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .section-atouts,
+  .section-preparer {
+    flex: 1 1 0;
+  }
+}
+
+.fiche-chalet {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 8px rgba(15, 23, 42, 0.12);
+}
+
+.fiche-chalet header {
+  margin-bottom: 1rem;
+}
+
+.fiche-chalet time {
+  font-size: 0.9rem;
+  color: #62748a;
+}
+
+.fiche-chalet figure {
+  margin: 1rem 0;
+}
+
+.fiche-chalet img {
+  max-width: 100%;
+  display: block;
+  border-radius: 0.75rem;
+}
+
+.fiche-chalet figcaption {
+  font-size: 0.9rem;
+  color: #52606d;
+  margin-top: 0.5rem;
+}
+
+.fiche-chalet footer {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #d9e2ec;
+  background: transparent;
+  text-align: right;
+  color: #334e68;
+}
+
+.bloc-formulaire {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+.form-reservation {
+  display: grid;
+  gap: 1rem;
+}
+
+.form-reservation label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.form-reservation input,
+.form-reservation select,
+.form-reservation textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #cbd2e1;
+  font: inherit;
+}
+
+.form-reservation textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-reservation .form-dates {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 600px) {
+  .form-reservation .form-dates {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.form-reservation button[type="submit"] {
+  background: #0b3d91;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.6rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.form-reservation button[type="submit"]:hover,
+.form-reservation button[type="submit"]:focus {
+  background: #1c64f2;
+}
+
+.infos-contact {
+  background: #ffffff;
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+}

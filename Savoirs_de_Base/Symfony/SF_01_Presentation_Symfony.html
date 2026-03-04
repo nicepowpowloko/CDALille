@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>01 - Présentation Symfony</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/github-markdown.css" />
+
+    <script src="assets/js/jquery-3.4.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="assets/css/stackoverflow-dark.min.css" />
+    <link rel="stylesheet" href="assets/css/navbar.css" />
+    <script src="assets/js/highlight.min.js"></script>
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0"
+      id="jsnav"
+    >
+      <div class="container">
+        <a
+          class="navbar-brand py-0 my-0"
+          href="SF_01_Presentation_Symfony.html"
+          style="font-size: 14px"
+          >Symfony Cours</a
+        >
+        <button
+          aria-controls="jsNavbar"
+          aria-expanded="false"
+          aria-label="Menu"
+          class="navbar-toggler"
+          data-target="#jsNavbar"
+          data-toggle="collapse"
+          type="button"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="jsNavbar">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="nav-link dropdown-toggle py-1"
+                data-toggle="dropdown"
+                href="#"
+                id="chaptersDropdown"
+                role="button"
+              >
+                Chapitres
+              </a>
+              <div
+                aria-labelledby="chaptersDropdown"
+                class="dropdown-menu dropdown-menu-right"
+              >
+                <a class="dropdown-item" href="SF_01_Presentation_Symfony.html"
+                  >01 - Présentation Symfony</a
+                ><a class="dropdown-item" href="SF_02_Demarrage.html"
+                  >02 - Démarrage</a
+                ><a class="dropdown-item" href="SF_03_Namespaces.html"
+                  >03 - Namespaces</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_04_le_contrôleur_symfony.html"
+                  >04 - Le contrôleur et AbstractController</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_05_les_services_en_symfony.html"
+                  >05 - Les services</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_06_le_routing_en_symfony.html"
+                  >06 - Les routes</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_07_la_request_et_la_response_en_symfony.html"
+                  >07 - Request - Response</a
+                ><a class="dropdown-item" href="SF_08_Twig.html">08 - Twig</a
+                ><a class="dropdown-item" href="SF_09_Doctrine.html"
+                  >09 - Doctrine</a
+                ><a class="dropdown-item" href="SF_10_Architecture_Globale.html"
+                  >10 - Architecture globale</a
+                ><a class="dropdown-item" href="SF_11_Les_Formulaires.html"
+                  >11 - Les formulaires</a
+                ><a class="dropdown-item" href="SF_12_La_Securite.html"
+                  >12 - La sécurité</a
+                ><a class="dropdown-item" href="SF_13_CRUD_Avance.html"
+                  >13 - CRUD avancé</a
+                >
+                <a
+                  class="dropdown-item"
+                  href="SF_14_Tests_Unitaires_et_Fonctionnels.html"
+                  >14 - Test Unitaires/Fonctionnels</a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="markdown-body">
+        <h1>Présentation du Framework Symfony 7</h1>
+        <h2>1. Histoire de Symfony</h2>
+        <p>
+          Symfony est un <strong>framework PHP open source</strong> créé en 2005
+          par l’entreprise française <strong>SensioLabs</strong>, fondée par
+          Fabien Potencier. À l’époque, PHP était déjà très utilisé mais
+          manquait d’outils robustes pour structurer des applications complexes.
+          Les développeurs écrivaient souvent du “PHP spaghetti”, difficile à
+          maintenir et à faire évoluer. Symfony a été conçu pour apporter :
+        </p>
+        <ul>
+          <li>
+            une <strong>architecture claire</strong> basée sur le modèle MVC
+            (Modèle-Vue-Contrôleur),
+          </li>
+          <li>
+            une <strong>réutilisation du code</strong> via des composants,
+          </li>
+          <li>
+            des <strong>bonnes pratiques de développement</strong> (séparation
+            des responsabilités, tests unitaires, etc.),
+          </li>
+          <li>
+            une <strong>standardisation</strong> dans la manière de développer
+            des applications web en PHP.
+          </li>
+        </ul>
+        <p>
+          Au fil des années, Symfony a acquis une place centrale dans
+          l’écosystème PHP. Il a également influencé d’autres projets majeurs :
+          par exemple, <strong>Laravel</strong> s’appuie sur plusieurs
+          composants Symfony. Aujourd’hui, Symfony n’est plus seulement un
+          framework, mais un
+          <strong>ensemble de composants réutilisables</strong> qui servent de
+          fondations à une grande partie des applications PHP modernes.
+        </p>
+        <hr />
+        <h2>2. Nature et fonctionnement de Symfony</h2>
+        <p>Symfony est à la fois :</p>
+        <ul>
+          <li>
+            <strong>Un framework complet</strong> : permettant de construire des
+            applications web de A à Z, avec gestion des routes, des contrôleurs,
+            des vues, des formulaires, de la sécurité, de l’accès aux bases de
+            données (Doctrine), etc.
+          </li>
+          <li>
+            <strong>Un ensemble de composants indépendants</strong> : plus de 50
+            composants (HttpFoundation, Routing, Console, EventDispatcher,
+            DependencyInjection…), que l’on peut utiliser séparément dans
+            n’importe quel projet PHP, même sans le framework complet.
+          </li>
+        </ul>
+        <h3>Les principes de fonctionnement</h3>
+        <ul>
+          <li>
+            <strong>Front Controller</strong> : une seule porte d’entrée
+            (généralement <code>public/index.php</code>) reçoit toutes les
+            requêtes HTTP et les transmet au framework.
+          </li>
+          <li>
+            <strong>Routing</strong> : Symfony associe chaque URL à une action
+            de contrôleur définie par le développeur.
+          </li>
+          <li>
+            <strong>Contrôleurs</strong> : classes PHP qui traitent la requête,
+            appellent la logique métier et renvoient une réponse.
+          </li>
+          <li>
+            <strong>Vues</strong> : souvent gérées avec le moteur de templates
+            Twig, permettant de séparer le HTML du code PHP.
+          </li>
+          <li>
+            <strong>Services &amp; Injection de dépendances</strong> : toute
+            logique réutilisable est centralisée sous forme de services,
+            instanciés et injectés automatiquement par le conteneur de
+            dépendances.
+          </li>
+          <li>
+            <strong>Bundles</strong> : un bundle est un paquet réutilisable qui
+            étend les fonctionnalités du framework.
+          </li>
+        </ul>
+        <p>
+          Ce découpage rend Symfony
+          <strong>modulaire, extensible et maintenable</strong>.
+        </p>
+        <hr />
+        <h2>3. Symfony 7 : version actuelle</h2>
+        <p>
+          La <strong>version 7 de Symfony</strong> est sortie le
+          <strong>21 novembre 2023</strong>. C’est la version stable la plus
+          récente (en 2025). Elle s’inscrit dans le cycle de vie habituel de
+          Symfony : une
+          <strong>nouvelle version mineure tous les 6 mois</strong> et une
+          <strong>version LTS (Long Term Support)</strong> tous les 2 ans (la
+          dernière étant Symfony 6.4 LTS).
+        </p>
+        <h3>Nouveautés principales de Symfony 7</h3>
+        <ul>
+          <li>
+            <strong>Compatibilité PHP 8.2 et 8.3</strong> : Symfony 7 exploite
+            pleinement les dernières fonctionnalités de PHP, comme les enums,
+            les readonly classes, les types améliorés, etc.
+          </li>
+          <li>
+            <strong>Amélioration des performances</strong> : réduction de la
+            consommation mémoire et des temps de compilation du conteneur de
+            services.
+          </li>
+          <li>
+            <strong>Meilleure DX (Developer Experience)</strong> : de nouveaux
+            outils en ligne de commande, des messages d’erreur plus clairs, une
+            meilleure intégration avec les IDE modernes.
+          </li>
+          <li>
+            <strong>Écosystème modernisé</strong> : mise à jour de nombreux
+            composants pour coller aux standards actuels (PSR, HTTP/3,
+            compatibilité avec les dernières versions de Doctrine, Twig et API
+            Platform).
+          </li>
+        </ul>
+        <p>
+          Symfony 7 poursuit donc la logique de stabilité et de compatibilité
+          ascendante, tout en intégrant les évolutions de PHP et du web moderne.
+        </p>
+        <hr />
+        <h2>4. Popularité et importance dans l’écosystème PHP</h2>
+        <p>
+          Symfony est l’un des frameworks
+          <strong>les plus utilisés dans le monde professionnel</strong> pour
+          les applications PHP complexes et de grande envergure.
+        </p>
+        <h3>En France</h3>
+        <ul>
+          <li>
+            Symfony est né en France, et la communauté française est
+            <strong>parmi les plus actives au monde</strong>.
+          </li>
+          <li>
+            Beaucoup d’entreprises françaises (petites comme grandes)
+            l’utilisent, notamment dans le e-commerce, l’administration
+            publique, les banques, les assurances, l’édition de logiciels et les
+            startups.
+          </li>
+          <li>
+            De nombreux sites institutionnels et gouvernementaux reposent sur
+            Symfony.
+          </li>
+        </ul>
+        <h3>Dans le monde</h3>
+        <ul>
+          <li>
+            Symfony est utilisé par des grandes entreprises internationales
+            comme
+            <strong
+              >Spotify, BlaBlaCar, Dailymotion, Trivago, Drupal (CMS)</strong
+            >
+            ou encore Prestashop.
+          </li>
+          <li>
+            La majorité des CMS et frameworks modernes en PHP (Laravel, Drupal
+            9+, Magento 2, OroCRM, eZ Platform, etc.) utilisent directement ou
+            indirectement les composants Symfony.
+          </li>
+        </ul>
+        <h3>Son importance dans l’écosystème</h3>
+        <ul>
+          <li>
+            Symfony est vu comme un <strong>framework industriel</strong>,
+            solide, adapté aux projets à long terme.
+          </li>
+          <li>
+            Il a instauré une <strong>culture de qualité</strong> dans le
+            développement PHP (tests, CI/CD, architecture claire).
+          </li>
+          <li>
+            Son influence dépasse Symfony lui-même : l’approche par composants
+            est désormais un standard dans la communauté PHP.
+          </li>
+        </ul>
+        <hr />
+        <h2>Conclusion</h2>
+        <p>
+          Symfony 7 représente l’aboutissement de près de 20 ans d’évolution
+          dans l’univers PHP.
+        </p>
+        <ul>
+          <li>
+            C’est un <strong>framework robuste, moderne et modulaire</strong>,
+            qui s’appuie sur les bonnes pratiques du développement logiciel.
+          </li>
+          <li>
+            Il occupe une <strong>place centrale dans l’écosystème PHP</strong>,
+            tant par ses composants que par sa communauté.
+          </li>
+          <li>
+            En France, il est particulièrement
+            <strong>populaire et stratégique</strong>, formant un socle
+            incontournable pour de nombreux projets web.
+          </li>
+        </ul>
+        <p>
+          Symfony reste ainsi une <strong>référence mondiale</strong> pour le
+          développement d’applications web professionnelles en PHP, et Symfony 7
+          confirme cette position en s’adaptant aux standards et aux besoins
+          actuels du développement.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+    <script>
+      const h1 = document.querySelector("h1");
+      if (h1) document.title = h1.textContent;
+    </script>
+  </body>
+</html>

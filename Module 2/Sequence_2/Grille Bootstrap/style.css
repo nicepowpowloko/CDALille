@@ -1,0 +1,56 @@
+      h1 {
+        text-align: center;
+        margin: 2rem 0 1rem;
+      }
+
+      .label-container {
+        margin: 1rem 0 2rem;
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: bold;
+      }
+
+      .card-demo {
+        text-align: center;
+        padding: 1.5rem;
+        border: 1px solid #000;
+        background-color: lightgray; /* par défaut (XS) */
+        font-weight: 500;
+      }
+
+      /* Couleurs selon les breakpoints Bootstrap */
+
+      /* ≥ 576px (sm) */
+      @media (min-width: 576px) {
+        .card-demo {
+          background-color: lightblue;
+        }
+      }
+
+      /* ≥ 768px (md) */
+      @media (min-width: 768px) {
+        .card-demo {
+          background-color: lightgreen;
+        }
+      }
+
+      /* ≥ 992px (lg) */
+      @media (min-width: 992px) {
+        .card-demo {
+          background-color: lightcoral;
+        }
+      }
+
+      /* ≥ 1200px (xl) */
+      @media (min-width: 1200px) {
+        .card-demo {
+          background-color: lightgoldenrodyellow;
+        }
+      }
+
+      /* ≥ 1400px (xxl) */
+      @media (min-width: 1400px) {
+        .card-demo {
+          background-color: lightsalmon;
+        }
+      }

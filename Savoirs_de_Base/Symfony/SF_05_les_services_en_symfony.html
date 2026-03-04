@@ -1,0 +1,417 @@
+<!doctype html>
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>LES SERVICES EN SYMFONY</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/github-markdown.css" rel="stylesheet" />
+    <script src="assets/js/jquery-3.4.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <link href="assets/css/stackoverflow-dark.min.css" rel="stylesheet" />
+    <link href="assets/css/navbar.css" rel="stylesheet" />
+    <script src="assets/js/highlight.min.js"></script>
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0"
+      id="jsnav"
+    >
+      <div class="container">
+        <a
+          class="navbar-brand py-0 my-0"
+          href="SF_01_Presentation_Symfony.html"
+          style="font-size: 14px"
+          >Symfony Cours</a
+        >
+        <button
+          aria-controls="jsNavbar"
+          aria-expanded="false"
+          aria-label="Menu"
+          class="navbar-toggler"
+          data-target="#jsNavbar"
+          data-toggle="collapse"
+          type="button"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="jsNavbar">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="nav-link dropdown-toggle py-1"
+                data-toggle="dropdown"
+                href="#"
+                id="chaptersDropdown"
+                role="button"
+              >
+                Chapitres
+              </a>
+              <div
+                aria-labelledby="chaptersDropdown"
+                class="dropdown-menu dropdown-menu-right"
+              >
+                <a class="dropdown-item" href="SF_01_Presentation_Symfony.html"
+                  >01 - Présentation Symfony</a
+                ><a class="dropdown-item" href="SF_02_Demarrage.html"
+                  >02 - Démarrage</a
+                ><a class="dropdown-item" href="SF_03_Namespaces.html"
+                  >03 - Namespaces</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_04_le_contrôleur_symfony.html"
+                  >04 - Le contrôleur et AbstractController</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_05_les_services_en_symfony.html"
+                  >05 - Les services</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_06_le_routing_en_symfony.html"
+                  >06 - Les routes</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_07_la_request_et_la_response_en_symfony.html"
+                  >07 - Request - Response</a
+                ><a class="dropdown-item" href="SF_08_Twig.html">08 - Twig</a
+                ><a class="dropdown-item" href="SF_09_Doctrine.html"
+                  >09 - Doctrine</a
+                ><a class="dropdown-item" href="SF_10_Architecture_Globale.html"
+                  >10 - Architecture globale</a
+                ><a class="dropdown-item" href="SF_11_Les_Formulaires.html"
+                  >11 - Les formulaires</a
+                ><a class="dropdown-item" href="SF_12_La_Securite.html"
+                  >12 - La sécurité</a
+                ><a class="dropdown-item" href="SF_13_CRUD_Avance.html"
+                  >13 - CRUD avancé</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_14_Tests_Unitaires_et_Fonctionnels.html"
+                  >14 - Test Unitaires/Fonctionnels</a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="markdown-body">
+        <h1>LES SERVICES EN SYMFONY</h1>
+        <h2>Comprendre, créer et utiliser un service</h2>
+        <p><em>(dans le framework Symfony)</em></p>
+        <hr />
+        <h2>1. Pourquoi Symfony parle autant de “services” ?</h2>
+        <p>
+          Symfony est un framework <strong>orienté architecture</strong>. Au
+          cœur de cette architecture se trouve une idée simple :
+        </p>
+        <blockquote>
+          <p>
+            Toute fonctionnalité réutilisable doit être un
+            <strong>service</strong>.
+          </p>
+        </blockquote>
+        <p>Un service est un <strong>objet PHP</strong> :</p>
+        <ul>
+          <li>instancié par Symfony</li>
+          <li>partagé dans l’application</li>
+          <li>réutilisable</li>
+          <li>injecté là où on en a besoin</li>
+        </ul>
+        <hr />
+        <h2>2. Définition simple d’un service</h2>
+        <p>Un <strong>service Symfony</strong> est :</p>
+        <ul>
+          <li>une <strong>classe PHP</strong></li>
+          <li>dont l’instance est <strong>gérée par le container</strong></li>
+          <li>
+            et utilisée par d’autres parties de l’application (contrôleurs,
+            autres services…)
+          </li>
+        </ul>
+        <p>
+          Un service <strong>fait le travail</strong>. Le contrôleur
+          <strong>orchestre</strong>.
+        </p>
+        <hr />
+        <h2>3. Pourquoi ne pas tout mettre dans les contrôleurs ?</h2>
+        <p>Sans services, on obtient souvent ceci :</p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">class OrderController</span>
+<span class="x">{</span>
+<span class="x">    public function create()</span>
+<span class="x">    {</span>
+<span class="x">        // validation</span>
+<span class="x">        // calcul du total</span>
+<span class="x">        // logique métier</span>
+<span class="x">        // enregistrement en base</span>
+<span class="x">        // envoi d’email</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</code></pre>
+        </div>
+        <p>Problèmes :</p>
+        <ul>
+          <li>contrôleur trop long</li>
+          <li>logique difficile à relire</li>
+          <li>code non réutilisable</li>
+          <li>tests compliqués</li>
+        </ul>
+        <p>Symfony propose une autre approche :</p>
+        <ul>
+          <li>le contrôleur délègue</li>
+          <li>le service travaille</li>
+        </ul>
+        <hr />
+        <h2>4. Exemple simple : un service métier</h2>
+        <h3>4.1 Création d’un service</h3>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">namespace App\Service;</span>
+
+<span class="x">class PriceCalculator</span>
+<span class="x">{</span>
+<span class="x">    public function calculate(float $price, float $taxRate): float</span>
+<span class="x">    {</span>
+<span class="x">        return $price * (1 + $taxRate);</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</code></pre>
+        </div>
+        <p>Cette classe :</p>
+        <ul>
+          <li>ne dépend pas de Symfony</li>
+          <li>ne retourne pas de Response</li>
+          <li>contient uniquement de la logique métier</li>
+        </ul>
+        <p>C’est un <strong>excellent service</strong>.</p>
+        <hr />
+        <h2>5. Où placer un service ?</h2>
+        <p>Par convention, les services sont placés dans :</p>
+        <div class="codehilite">
+          <pre><span></span><code>src/Service/
+</code></pre>
+        </div>
+        <p>Mais techniquement :</p>
+        <ul>
+          <li>un service peut être n’importe où</li>
+          <li>tant qu’il est déclaré ou auto-détecté</li>
+        </ul>
+        <hr />
+        <h2>6. Le container de services</h2>
+        <p>Symfony utilise un <strong>container de dépendances</strong>.</p>
+        <p>Son rôle est de :</p>
+        <ul>
+          <li>créer les objets</li>
+          <li>gérer leurs dépendances</li>
+          <li>les fournir aux classes qui en ont besoin</li>
+        </ul>
+        <p>
+          Vous
+          <strong>ne créez pas vos services avec <code>new</code></strong>
+          Symfony s’en charge pour vous
+        </p>
+        <hr />
+        <h2>7. L’injection de dépendances (principe fondamental)</h2>
+        <h3>7.1 Mauvaise pratique (à éviter)</h3>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">$calculator = new PriceCalculator();</span>
+</code></pre>
+        </div>
+        <p>Pourquoi c’est mal ?</p>
+        <ul>
+          <li>vous contournez le container</li>
+          <li>vous perdez les avantages de Symfony</li>
+          <li>le code devient rigide</li>
+        </ul>
+        <hr />
+        <h3>7.2 Bonne pratique : injection par constructeur</h3>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">class OrderController extends AbstractController</span>
+<span class="x">{</span>
+<span class="x">    public function __construct(</span>
+<span class="x">        private PriceCalculator $calculator</span>
+<span class="x">    ) {}</span>
+
+<span class="x">    public function create(): Response</span>
+<span class="x">    {</span>
+<span class="x">        $total = $this-&gt;calculator-&gt;calculate(100, 0.2);</span>
+<span class="x">        // ...</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</code></pre>
+        </div>
+        <p>Symfony :</p>
+        <ul>
+          <li>voit la dépendance</li>
+          <li>crée le service</li>
+          <li>l’injecte automatiquement</li>
+        </ul>
+        <hr />
+        <h2>8. Autowiring et autoconfiguration</h2>
+        <p>Symfony moderne utilise deux mécanismes clés :</p>
+        <h3>8.1 Autowiring</h3>
+        <p>Symfony devine <strong>quoi injecter</strong> grâce au type :</p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">PriceCalculator $calculator</span>
+</code></pre>
+        </div>
+        <p>Pas besoin de configuration manuelle.</p>
+        <hr />
+        <h3>8.2 Autoconfiguration</h3>
+        <p>Symfony applique automatiquement :</p>
+        <ul>
+          <li>les bons comportements</li>
+          <li>les bonnes interfaces</li>
+          <li>les bons tags</li>
+        </ul>
+        <p>
+          Dans la majorité des cas,
+          <strong>vous n’avez rien à configurer</strong>.
+        </p>
+        <hr />
+        <h2>9. services.yaml : faut-il encore l’utiliser ?</h2>
+        <p>Par défaut, Symfony contient :</p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="c1"># config/services.yaml</span>
+<span class="nt">services</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">App\</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">resource</span><span class="p">:</span><span class="w"> </span><span class="s">'../src/'</span>
+<span class="w">        </span><span class="nt">autowire</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">        </span><span class="nt">autoconfigure</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre>
+        </div>
+        <p>Cela signifie :</p>
+        <ul>
+          <li>
+            toutes les classes dans <code>src/</code> peuvent devenir des
+            services
+          </li>
+          <li>si elles sont utilisées quelque part</li>
+        </ul>
+        <p>
+          Vous n’avez <strong>rien à ajouter</strong> pour un service simple.
+        </p>
+        <hr />
+        <h2>10. Services et contrôleurs : qui fait quoi ?</h2>
+        <h3>10.1 Le contrôleur</h3>
+        <ul>
+          <li>reçoit la requête</li>
+          <li>appelle les services</li>
+          <li>retourne une réponse</li>
+        </ul>
+        <h3>10.2 Le service</h3>
+        <ul>
+          <li>contient la logique métier</li>
+          <li>effectue les calculs</li>
+          <li>applique les règles</li>
+          <li>ne connaît pas HTTP</li>
+        </ul>
+        <p>
+          Un service <strong>ne doit pas</strong> retourner une
+          <code>Response</code>.
+        </p>
+        <hr />
+        <h2>11. Un contrôleur bien écrit</h2>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">class OrderController extends AbstractController</span>
+<span class="x">{</span>
+<span class="x">    public function __construct(</span>
+<span class="x">        private OrderService $orderService</span>
+<span class="x">    ) {}</span>
+
+<span class="x">    public function create(): Response</span>
+<span class="x">    {</span>
+<span class="x">        $this-&gt;orderService-&gt;createOrder();</span>
+<span class="x">        return new Response('Commande créée');</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</code></pre>
+        </div>
+        <p>Le contrôleur est :</p>
+        <ul>
+          <li>court</li>
+          <li>lisible</li>
+          <li>facile à maintenir</li>
+        </ul>
+        <hr />
+        <h2>12. Un service peut dépendre d’un autre service</h2>
+        <p>Exemple :</p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">class OrderService</span>
+<span class="x">{</span>
+<span class="x">    public function __construct(</span>
+<span class="x">        private PriceCalculator $calculator</span>
+<span class="x">    ) {}</span>
+<span class="x">}</span>
+</code></pre>
+        </div>
+        <p>Symfony gère toute la chaîne automatiquement.</p>
+        <hr />
+        <h2>13. Ce que vous devez maîtriser à ce stade</h2>
+        <p>Vous devez être capable de :</p>
+        <ul>
+          <li>expliquer ce qu’est un service</li>
+          <li>créer un service simple</li>
+          <li>l’injecter dans un contrôleur</li>
+          <li>comprendre le rôle du container</li>
+          <li>distinguer logique métier et orchestration</li>
+        </ul>
+        <hr />
+        <h2>14. Ce qui n’est pas attendu immédiatement</h2>
+        <ul>
+          <li>écrire des services ultra-génériques</li>
+          <li>manipuler le container directement</li>
+          <li>configurer manuellement tous les services</li>
+          <li>optimiser prématurément</li>
+        </ul>
+        <p>Ces points relèvent d’un approfondissement.</p>
+        <hr />
+        <h2>15. Bonnes pratiques essentielles</h2>
+        <ul>
+          <li>un service = une responsabilité claire</li>
+          <li>pas de logique HTTP dans un service</li>
+          <li>pas de <code>new</code> pour créer des services</li>
+          <li>injection par constructeur</li>
+          <li>services testables indépendamment</li>
+        </ul>
+        <hr />
+        <h2>16. Message clé à retenir</h2>
+        <blockquote>
+          <p>
+            Un service est une classe métier gérée par Symfony. Le contrôleur
+            orchestre, le service travaille. L’injection de dépendances est
+            centrale. Le container est votre allié, pas un détail technique.
+          </p>
+        </blockquote>
+        <hr />
+        <h2>Conclusion</h2>
+        <p>
+          Les services sont <strong>le cœur de Symfony</strong>. Les comprendre
+          vous permet :
+        </p>
+        <ul>
+          <li>d’écrire un code propre</li>
+          <li>de séparer correctement les responsabilités</li>
+          <li>de faire évoluer vos projets sans les casser</li>
+        </ul>
+        <p>
+          Maîtriser les services, c’est passer du “code qui fonctionne” à une
+          <strong>application professionnelle</strong>.
+        </p>
+      </div>
+    </div>
+    <script>
+      hljs.highlightAll();
+    </script>
+    <script>
+      document.title = document.querySelector("h1").textContent;
+    </script>
+  </body>
+</html>

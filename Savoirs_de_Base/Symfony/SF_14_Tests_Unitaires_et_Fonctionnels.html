@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>Les tests (unitaires et fonctionnels) en Symfony</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/github-markdown.css">
+  <link rel="stylesheet" href="assets/css/menu-markdown.css">
+
+  <script src="assets/js/jquery-3.4.1.min.js"></script>
+  <script src="assets/js/popper.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="assets/css/stackoverflow-dark.min.css">
+  <link rel="stylesheet" href="assets/css/navbar.css" />
+  <script src="assets/js/highlight.min.js"></script>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0" id="jsnav">
+    <div class="container">
+      <a class="navbar-brand py-0 my-0" href="PHP_21_Symfony_Tests_Unitaires_et_Fonctionnels.html" style="font-size: 14px">
+        Symfony Cours
+      </a>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#jsNavbar"
+        aria-controls="jsNavbar" aria-expanded="false" aria-label="Menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="jsNavbar">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle py-1" href="#" id="chaptersDropdown" role="button"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Chapitres
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="chaptersDropdown">
+                            <a class="dropdown-item" href="SF_01_Presentation_Symfony.html"
+                  >01 - Présentation Symfony</a
+                ><a class="dropdown-item" href="SF_02_Demarrage.html"
+                  >02 - Démarrage</a
+                ><a class="dropdown-item" href="SF_03_Namespaces.html"
+                  >03 - Namespaces</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_04_le_contrôleur_symfony.html"
+                  >04 - Le contrôleur et AbstractController</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_05_les_services_en_symfony.html"
+                  >05 - Les services</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_06_le_routing_en_symfony.html"
+                  >06 - Les routes</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_07_la_request_et_la_response_en_symfony.html"
+                  >07 - Request - Response</a
+                ><a class="dropdown-item" href="SF_08_Twig.html">08 - Twig</a
+                ><a class="dropdown-item" href="SF_09_Doctrine.html"
+                  >09 - Doctrine</a
+                ><a class="dropdown-item" href="SF_10_Architecture_Globale.html"
+                  >10 - Architecture globale</a
+                ><a class="dropdown-item" href="SF_11_Les_Formulaires.html"
+                  >11 - Les formulaires</a
+                ><a class="dropdown-item" href="SF_12_La_Securite.html"
+                  >12 - La sécurité</a
+                ><a class="dropdown-item" href="SF_13_CRUD_Avance.html"
+                  >13 - CRUD avancé</a
+                >
+                <a
+                  class="dropdown-item"
+                  href="SF_14_Tests_Unitaires_et_Fonctionnels.html"
+                  >14 - Test Unitaires/Fonctionnels</a
+                >
+            </div>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+
+  <div class="container">
+        <div class="markdown-body">
+
+      <h1 id="symfony-tests">Symfony - Tests unitaires et fonctionnels</h1>
+
+      <h2 id="objectifs">Objectifs pédagogiques</h2>
+      <p>A la fin de cette séance, vous serez en mesure de :</p>
+      <ul>
+        <li>mettre en œuvre le framework de tests <code>PHPUnit</code> dans un projet Symfony</li>
+        <li>choisir le bon type de test (unitaire, intégration, fonctionnel, E2E)</li>
+        <li>écrire des tests lisibles et utiles (AAA, assertions pertinentes, isolation)</li>
+      </ul>
+
+      <h2 id="intro">Introduction</h2>
+      <p>
+        Les tests sont là pour vérifier que ton application fait toujours ce qu'elle doit faire, même après des modifications.
+        On parle de tests de non-régression.
+      </p>
+
+      <h3 id="types-de-tests">Les grands types de tests</h3>
+      <ul>
+        <li><strong>Test unitaire (UT)</strong> : teste une classe ou une fonction <em>isolée</em>, sans HTTP, sans base de données, sans container Symfony.</li>
+        <li><strong>Test d'intégration</strong> : teste un service avec Symfony (Kernel + container), éventuellement avec une configuration particulière, mais sans scénario HTTP complet.</li>
+        <li><strong>Test fonctionnel</strong> : teste un parcours applicatif via HTTP (routes, contrôleurs, formulaires, sécurité, templates).</li>
+        <li><strong>Test E2E</strong> (end-to-end) : teste dans un vrai navigateur (JS, React, interactions), typiquement avec Panther. Plus lent, à réserver à quelques scénarios critiques.</li>
+      </ul>
+
+      <blockquote>
+        <p>
+          <strong>Raccourci utile.</strong>
+          UT = rapide et isolé. Intégration = container. Fonctionnel = HTTP. E2E = vrai navigateur.
+        </p>
+      </blockquote>
+
+      <h2 id="mise-en-place">Mise en place des tests (Symfony + PHPUnit)</h2>
+      <p>
+        Suis le tutoriel officiel Symfony pour initialiser <code>phpunit</code> et créer tes premiers tests :
+      </p>
+      <p>
+        <a href="https://symfony.com/doc/current/testing.html#application-tests">
+          https://symfony.com/doc/current/testing.html#application-tests
+        </a>
+      </p>
+
+      <h3 id="aaa">Ecrire des tests lisibles (AAA)</h3>
+      <p>
+        La structure la plus simple est <strong>AAA</strong> :
+      </p>
+      <ul>
+        <li><strong>Arrange</strong> : je prépare les données</li>
+        <li><strong>Act</strong> : j'appelle la méthode / l'action</li>
+        <li><strong>Assert</strong> : je vérifie le résultat</li>
+      </ul>
+      <p>
+        Exemple de nommage : <code>testTotalIsZeroWhenCartIsEmpty()</code> (on décrit un comportement).
+      </p>
+
+      <h2 id="tests-unitaires">Tests unitaires (UT)</h2>
+      <p>
+        Un test unitaire ne dépend pas de Symfony. On teste une classe métier (service “pur”) en l'instanciant directement.
+        <strong>Pas de Kernel</strong>, <strong>pas de base</strong>, <strong>pas de HTTP</strong>.
+      </p>
+
+      <h3 id="ut-exemple">Exemple: calculateur de total</h3>
+      <p>
+        Voici un exemple minimal avec <code>PHPUnit\Framework\TestCase</code>.
+        On suppose une classe <code>CartTotalCalculator</code> qui additionne les prix d'articles.
+      </p>
+
+      <pre><code class="language-php">&lt;?php
+
+namespace App\Tests\Unit;
+
+use PHPUnit\Framework\TestCase;
+use App\Service\CartTotalCalculator;
+
+final class CartTotalCalculatorTest extends TestCase
+{
+    public function testTotalIsZeroWhenCartIsEmpty(): void
+    {
+        // Arrange
+        $calculator = new CartTotalCalculator();
+
+        // Act
+        $total = $calculator-&gt;total([]);
+
+        // Assert
+        $this-&gt;assertSame(0, $total);
+    }
+
+    public function testTotalIsSumOfItemPrices(): void
+    {
+        // Arrange
+        $calculator = new CartTotalCalculator();
+        $items = [
+            ['price' =&gt; 12],
+            ['price' =&gt; 5],
+        ];
+
+        // Act
+        $total = $calculator-&gt;total($items);
+
+        // Assert
+        $this-&gt;assertSame(17, $total);
+    }
+}</code></pre>
+
+      <blockquote>
+        <p>
+          <strong>Objectif UT.</strong> Valider une règle métier rapidement, avec des entrées/sorties claires.
+          Si tu as besoin du container Symfony, tu n'es plus en unitaire.
+        </p>
+      </blockquote>
+
+      <h2 id="tests-integration">Tests d'intégration (KernelTestCase)</h2>
+      <p>
+        Quand tu veux tester un service “dans Symfony” (autowiring, paramètres, configuration), tu peux démarrer le Kernel et récupérer un service du container.
+        Ça reste plus léger qu'un test fonctionnel (pas de HTTP).
+      </p>
+
+      <pre><code class="language-php">&lt;?php
+
+namespace App\Tests\Integration;
+
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Service\CartTotalCalculator;
+
+final class CartTotalCalculatorIntegrationTest extends KernelTestCase
+{
+    public function testServiceIsWired(): void
+    {
+        self::bootKernel();
+        $container = static::getContainer();
+
+        $service = $container-&gt;get(CartTotalCalculator::class);
+
+        $this-&gt;assertInstanceOf(CartTotalCalculator::class, $service);
+    }
+}</code></pre>
+
+      <h2 id="tests-fonctionnels">Tests fonctionnels (WebTestCase)</h2>
+
+      <h3 id="client-crawler">Client vs Crawler</h3>
+      <p>
+        Dans les tests fonctionnels, il faut bien différencier le <code>client</code> et le <code>crawler</code>.
+      </p>
+      <p>
+        <strong>Le client</strong> effectue les requêtes HTTP (GET/POST), clique sur des liens, soumet des formulaires.
+        Le résultat est un <strong><code>crawler</code></strong>.
+      </p>
+      <p>
+        <a href="https://symfony.com/doc/current/components/browser_kit.html">
+          https://symfony.com/doc/current/components/browser_kit.html
+        </a>
+      </p>
+
+      <pre><code class="language-php">// Charger une nouvelle page
+$crawler = $client-&gt;request('GET', '/clients');
+
+// Cliquer sur un lien
+$crawler = $client-&gt;clickLink('Details');
+
+// Soumettre un formulaire
+$crawler = $client-&gt;submitForm('Valider', [
+    'login' =&gt; 'toto',
+    'password' =&gt; '1234',
+]);</code></pre>
+
+      <p>
+        <strong>Le crawler</strong> contient le HTML (ou du JSON) et permet de naviguer dans le DOM pour extraire des informations.
+      </p>
+      <p>
+        <a href="https://symfony.com/doc/current/components/dom_crawler.html">
+          https://symfony.com/doc/current/components/dom_crawler.html
+        </a>
+      </p>
+
+      <pre><code class="language-php">// Extraire toutes les balises &lt;p&gt; du &lt;body&gt;
+$dom = $crawler-&gt;filter('body &gt; p');
+
+// le premier
+$dom = $crawler-&gt;filter('body &gt; p')-&gt;first();
+// le dernier
+$dom = $crawler-&gt;filter('body &gt; p')-&gt;last();
+
+// récupère le contenu de l'élément sous forme de texte
+$nom = $dom-&gt;text();</code></pre>
+
+      <h3 id="assertions">Assertions utiles</h3>
+      <p>
+        Les assertions valident ton test en indiquant des conditions de réussite.
+      </p>
+      <p>
+        Références :
+        <a href="https://docs.phpunit.de/en/10.5/assertions.html">phpunit assertions</a>,
+        <a href="https://symfony.com/doc/current/testing.html#testing-the-response-assertions">symfony response assertions</a>.
+      </p>
+
+      <ul>
+        <li><code>assertResponseIsSuccessful()</code> (statut 2xx)</li>
+        <li><code>assertResponseStatusCodeSame(401|403|404|500)</code></li>
+        <li><code>assertResponseRedirects('/login')</code></li>
+        <li><code>assertSelectorExists('h1')</code></li>
+        <li><code>assertSelectorTextContains('h1', 'Titre')</code></li>
+      </ul>
+
+      <h3 id="fonctionnel-exemple">Exemple minimal</h3>
+      <pre><code class="language-php">&lt;?php
+
+namespace App\Tests\Functional;
+
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
+final class HomePageTest extends WebTestCase
+{
+    public function testHomePageDisplaysTitle(): void
+    {
+        $client = static::createClient();
+        $client-&gt;request('GET', '/');
+
+        $this-&gt;assertResponseIsSuccessful();
+        $this-&gt;assertSelectorExists('h1');
+        $this-&gt;assertSelectorTextContains('h1', 'Village Green');
+    }
+}</code></pre>
+
+      <h3 id="auth">Tester une page protégée (authentification)</h3>
+      <p>
+        Très souvent, une route est protégée par des rôles. Plutôt que de remplir le formulaire de login à chaque test,
+        tu peux connecter un utilisateur directement.
+      </p>
+
+      <pre><code class="language-php">&lt;?php
+
+namespace App\Tests\Functional;
+
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Entity\User;
+
+final class AdminPageTest extends WebTestCase
+{
+    public function testAdminIsAccessibleForAdminUser(): void
+    {
+        $client = static::createClient();
+
+        // Récupère un user en base (exemple) - à adapter à ton projet
+        $user = static::getContainer()-&gt;get('doctrine')-&gt;getRepository(User::class)-&gt;findOneBy(['email' =&gt; 'admin@example.com']);
+
+        $client-&gt;loginUser($user);
+
+        $client-&gt;request('GET', '/admin');
+        $this-&gt;assertResponseIsSuccessful();
+    }
+
+    public function testAdminIsForbiddenForAnonymous(): void
+    {
+        $client = static::createClient();
+        $client-&gt;request('GET', '/admin');
+
+        $this-&gt;assertResponseStatusCodeSame(302); // souvent redirection vers /login
+        // ou: $this-&gt;assertResponseRedirects('/login');
+    }
+}</code></pre>
+
+      <h3 id="db">Base de données: isolation des tests</h3>
+      <ul>
+        <li>Utilise une base dédiée aux tests (env <code>test</code>).</li>
+        <li>Prépare des données reproductibles (fixtures, factory, jeux de données).</li>
+        <li>Assure-toi que chaque test démarre dans un état connu (reset DB, transactions, purge, etc.).</li>
+      </ul>
+
+      <h2 id="panther">Panther (tests E2E avec vrai navigateur)</h2>
+      <p>
+        Les tests <code>WebTestCase</code> utilisent un navigateur “rudimentaire” : il n'exécute pas le JavaScript,
+        donc il ne permet pas de tester correctement une application React.
+      </p>
+      <p>
+        <code>Panther</code> permet d'exécuter les tests dans un vrai navigateur (Chrome, Firefox) et de tester les interactions JS.
+        Attention: c'est plus lent et plus fragile. Garde Panther pour quelques scénarios E2E vraiment importants (login, panier, paiement, etc.).
+      </p>
+      <p>
+        <a href="https://symfony.com/doc/current/testing/end_to_end.html">
+          https://symfony.com/doc/current/testing/end_to_end.html
+        </a>
+      </p>
+
+      <hr>
+      <!--
+      <p><em>Corrections typographiques: envoi, réussite, élément, pallier (ou “résoudre”).</em></p>
+      -->
+
+    </div></div>
+  </div>
+
+  <script>hljs.highlightAll();</script>
+  <script src="assets/js/menu-markdown.js"></script>
+  <script>document.title = document.querySelector("h1").textContent;</script>
+</body>
+
+</html>
+

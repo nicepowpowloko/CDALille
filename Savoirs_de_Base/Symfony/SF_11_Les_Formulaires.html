@@ -1,0 +1,362 @@
+<!doctype html>
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Symfony - 11 - Les formulaires</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/github-markdown.css" rel="stylesheet" />
+    <script src="assets/js/jquery-3.4.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <link href="assets/css/stackoverflow-dark.min.css" rel="stylesheet" />
+    <link href="assets/css/navbar.css" rel="stylesheet" />
+    <script src="assets/js/highlight.min.js"></script>
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0"
+      id="jsnav"
+    >
+      <div class="container">
+        <a
+          class="navbar-brand py-0 my-0"
+          href="SF_01_Presentation_Symfony.html"
+          style="font-size: 14px"
+          >Symfony Cours</a
+        >
+        <button
+          aria-controls="jsNavbar"
+          aria-expanded="false"
+          aria-label="Menu"
+          class="navbar-toggler"
+          data-target="#jsNavbar"
+          data-toggle="collapse"
+          type="button"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="jsNavbar">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="nav-link dropdown-toggle py-1"
+                data-toggle="dropdown"
+                href="#"
+                id="chaptersDropdown"
+                role="button"
+              >
+                Chapitres
+              </a>
+              <div
+                aria-labelledby="chaptersDropdown"
+                class="dropdown-menu dropdown-menu-right"
+              >
+                <a class="dropdown-item" href="SF_01_Presentation_Symfony.html"
+                  >01 - Présentation Symfony</a
+                ><a class="dropdown-item" href="SF_02_Demarrage.html"
+                  >02 - Démarrage</a
+                ><a class="dropdown-item" href="SF_03_Namespaces.html"
+                  >03 - Namespaces</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_04_le_contrôleur_symfony.html"
+                  >04 - Le contrôleur et AbstractController</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_05_les_services_en_symfony.html"
+                  >05 - Les services</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_06_le_routing_en_symfony.html"
+                  >06 - Les routes</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_07_la_request_et_la_response_en_symfony.html"
+                  >07 - Request - Response</a
+                ><a class="dropdown-item" href="SF_08_Twig.html">08 - Twig</a
+                ><a class="dropdown-item" href="SF_09_Doctrine.html"
+                  >09 - Doctrine</a
+                ><a class="dropdown-item" href="SF_10_Architecture_Globale.html"
+                  >10 - Architecture globale</a
+                ><a class="dropdown-item" href="SF_11_Les_Formulaires.html"
+                  >11 - Les formulaires</a
+                ><a class="dropdown-item" href="SF_12_La_Securite.html"
+                  >12 - La sécurité</a
+                ><a class="dropdown-item" href="SF_13_CRUD_Avance.html"
+                  >13 - CRUD avancé</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_14_Tests_Unitaires_et_Fonctionnels.html"
+                  >14 - Test Unitaires/Fonctionnels</a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="markdown-body">
+        <h1>LES FORMULAIRES EN SYMFONY</h1>
+        <h2>Créer, traiter et valider des formulaires proprement</h2>
+        <hr />
+        <h2>1. Pourquoi Symfony propose un système de formulaires ?</h2>
+        <p>Dans une application web, les formulaires sont omniprésents :</p>
+        <ul>
+          <li>création d’un compte</li>
+          <li>ajout / modification de données</li>
+          <li>recherche</li>
+          <li>authentification</li>
+          <li>administration</li>
+        </ul>
+        <p>
+          Symfony propose un
+          <strong>système de formulaires structuré</strong> pour :
+        </p>
+        <ul>
+          <li>éviter le traitement manuel de <code>$_POST</code></li>
+          <li>centraliser la validation</li>
+          <li>lier les formulaires aux entités</li>
+          <li>garantir une architecture propre</li>
+        </ul>
+        <p>Le formulaire est <strong>un objet</strong>, pas un simple HTML.</p>
+        <hr />
+        <h2>2. Principe général d’un formulaire Symfony</h2>
+        <p>
+          Un formulaire Symfony repose sur <strong>trois éléments</strong> :
+        </p>
+        <ol>
+          <li>une <strong>Entity</strong> (optionnelle mais fréquente)</li>
+          <li>une <strong>classe FormType</strong></li>
+          <li>un <strong>contrôleur</strong> qui traite le formulaire</li>
+        </ol>
+        <p>Schéma mental :</p>
+        <pre><code class="language-text">Formulaire HTML
+   ↓
+Request
+   ↓
+FormType
+   ↓
+Validation
+   ↓
+Entity / Service
+</code></pre>
+        <hr />
+        <h2>3. La classe FormType</h2>
+        <p>
+          La logique d’un formulaire est définie dans une
+          <strong>classe dédiée</strong>.
+        </p>
+        <p>Par convention :</p>
+        <pre><code class="language-text">src/Form/
+</code></pre>
+        <hr />
+        <h3>3.1 Exemple simple de FormType</h3>
+        <pre><code class="language-php">namespace App\Form;
+
+use App\Entity\Article;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class ArticleType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            -&gt;add('title', TextType::class)
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver-&gt;setDefaults([
+            'data_class' =&gt; Article::class,
+        ]);
+    }
+}
+</code></pre>
+        <p>Cette classe :</p>
+        <ul>
+          <li>décrit les champs</li>
+          <li>ne gère ni l’affichage, ni la Request</li>
+          <li>peut être réutilisée</li>
+        </ul>
+        <hr />
+        <h2>4. Créer un formulaire dans un contrôleur</h2>
+        <p>
+          Dans le contrôleur, vous créez le formulaire à partir du FormType.
+        </p>
+        <pre><code class="language-php">$form = $this-&gt;createForm(ArticleType::class, $article);
+</code></pre>
+        <p>Symfony :</p>
+        <ul>
+          <li>instancie le formulaire</li>
+          <li>le lie à l’entité</li>
+          <li>prépare la gestion des données</li>
+        </ul>
+        <hr />
+        <h2>5. Traiter la Request</h2>
+        <p>
+          Un formulaire Symfony doit être <strong>lié à la Request</strong>.
+        </p>
+        <pre><code class="language-php">$form-&gt;handleRequest($request);
+</code></pre>
+        <p>Cette méthode :</p>
+        <ul>
+          <li>détecte si le formulaire a été soumis</li>
+          <li>hydrate l’objet</li>
+          <li>déclenche la validation</li>
+        </ul>
+        <hr />
+        <h3>5.1 Vérifier la soumission et la validité</h3>
+        <pre><code class="language-php">if ($form-&gt;isSubmitted() &amp;&amp; $form-&gt;isValid()) {
+    // traitement
+}
+</code></pre>
+        <p>
+          C’est <strong>le cœur du traitement des formulaires Symfony</strong>.
+        </p>
+        <hr />
+        <h2>6. Exemple complet dans un contrôleur</h2>
+        <pre><code class="language-php">#[Route('/article/new', name: 'article_new')]
+public function new(
+    Request $request,
+    EntityManagerInterface $entityManager
+): Response {
+    $article = new Article();
+
+    $form = $this-&gt;createForm(ArticleType::class, $article);
+    $form-&gt;handleRequest($request);
+
+    if ($form-&gt;isSubmitted() &amp;&amp; $form-&gt;isValid()) {
+        $entityManager-&gt;persist($article);
+        $entityManager-&gt;flush();
+
+        return $this-&gt;redirectToRoute('article_index');
+    }
+
+    return $this-&gt;render('article/new.html.twig', [
+        'form' =&gt; $form,
+    ]);
+}
+</code></pre>
+        <p>Le contrôleur :</p>
+        <ul>
+          <li>orchestre</li>
+          <li>délègue au formulaire</li>
+          <li>délègue à Doctrine</li>
+          <li>reste lisible</li>
+        </ul>
+        <hr />
+        <h2>7. Afficher un formulaire avec Twig</h2>
+        <p>Twig fournit des fonctions dédiées.</p>
+        <pre><code class="language-twig">{{ form_start(form) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}
+</code></pre>
+        <p>Symfony :</p>
+        <ul>
+          <li>génère le HTML</li>
+          <li>gère les noms des champs</li>
+          <li>protège contre les attaques CSRF</li>
+        </ul>
+        <hr />
+        <h2>8. Validation des données</h2>
+        <p>
+          La validation se fait <strong>au niveau de l’Entity</strong>, pas dans
+          le contrôleur.
+        </p>
+        <h3>8.1 Exemple de contraintes</h3>
+        <pre><code class="language-php">use Symfony\Component\Validator\Constraints as Assert;
+
+#[ORM\Column(length: 255)]
+#[Assert\NotBlank]
+#[Assert\Length(min: 3)]
+private string $title;
+</code></pre>
+        <p>Symfony :</p>
+        <ul>
+          <li>valide automatiquement lors de <code>handleRequest</code></li>
+          <li>remonte les erreurs dans le formulaire</li>
+        </ul>
+        <hr />
+        <h2>9. Afficher les erreurs dans Twig</h2>
+        <p>Twig affiche automatiquement les erreurs :</p>
+        <pre><code class="language-twig">{{ form_errors(form.title) }}
+</code></pre>
+        <p>Ou globalement :</p>
+        <pre><code class="language-twig">{{ form_errors(form) }}
+</code></pre>
+        <hr />
+        <h2>10. Bonnes pratiques essentielles</h2>
+        <ul>
+          <li>un formulaire = une classe FormType</li>
+          <li>aucune validation dans le contrôleur</li>
+          <li>aucune logique métier dans Twig</li>
+          <li>redirection après succès (POST → Redirect → GET)</li>
+          <li>le formulaire manipule des objets, pas <code>$_POST</code></li>
+        </ul>
+        <hr />
+        <h2>11. Ce que vous devez maîtriser à ce stade</h2>
+        <p>Vous devez être capable de :</p>
+        <ul>
+          <li>expliquer le rôle d’un FormType</li>
+          <li>créer un formulaire simple</li>
+          <li>traiter la Request</li>
+          <li>valider les données</li>
+          <li>persister avec Doctrine</li>
+          <li>afficher un formulaire avec Twig</li>
+        </ul>
+        <hr />
+        <h2>12. Ce que vous n’êtes pas encore censé maîtriser</h2>
+        <ul>
+          <li>formulaires imbriqués</li>
+          <li>collections dynamiques</li>
+          <li>formulaires complexes JavaScript</li>
+          <li>custom form themes</li>
+        </ul>
+        <p>Ces points viendront plus tard.</p>
+        <hr />
+        <h2>13. À retenir absolument</h2>
+        <blockquote>
+          <p>
+            Un formulaire Symfony est un objet. La Request est traitée par le
+            formulaire. La validation est déclarative. Le contrôleur orchestre,
+            le formulaire travaille.
+          </p>
+        </blockquote>
+        <hr />
+        <h2>Conclusion</h2>
+        <p>
+          Le système de formulaires est un <strong>pilier de Symfony</strong>.
+        </p>
+        <p>Bien utilisé, il permet :</p>
+        <ul>
+          <li>un code propre</li>
+          <li>une validation centralisée</li>
+          <li>une sécurité intégrée</li>
+          <li>une vraie séparation des responsabilités</li>
+        </ul>
+        <p>
+          La maîtrise des formulaires marque une
+          <strong>étape décisive</strong> vers des applications Symfony
+          professionnelles.
+        </p>
+      </div>
+    </div>
+    <script>
+      hljs.highlightAll();
+    </script>
+    <script>
+      document.title = document.querySelector("h1").textContent;
+    </script>
+  </body>
+</html>

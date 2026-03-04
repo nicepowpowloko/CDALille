@@ -1,0 +1,446 @@
+<!doctype html>
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>LA REQUEST ET LA RESPONSE EN SYMFONY</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/github-markdown.css" rel="stylesheet" />
+    <script src="assets/js/jquery-3.4.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <link href="assets/css/stackoverflow-dark.min.css" rel="stylesheet" />
+    <link href="assets/css/navbar.css" rel="stylesheet" />
+    <script src="assets/js/highlight.min.js"></script>
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0"
+      id="jsnav"
+    >
+      <div class="container">
+        <a
+          class="navbar-brand py-0 my-0"
+          href="SF_01_Presentation_Symfony.html"
+          style="font-size: 14px"
+          >Symfony Cours</a
+        >
+        <button
+          aria-controls="jsNavbar"
+          aria-expanded="false"
+          aria-label="Menu"
+          class="navbar-toggler"
+          data-target="#jsNavbar"
+          data-toggle="collapse"
+          type="button"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="jsNavbar">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="nav-link dropdown-toggle py-1"
+                data-toggle="dropdown"
+                href="#"
+                id="chaptersDropdown"
+                role="button"
+              >
+                Chapitres
+              </a>
+              <div
+                aria-labelledby="chaptersDropdown"
+                class="dropdown-menu dropdown-menu-right"
+              >
+                <a class="dropdown-item" href="SF_01_Presentation_Symfony.html"
+                  >01 - Présentation Symfony</a
+                ><a class="dropdown-item" href="SF_02_Demarrage.html"
+                  >02 - Démarrage</a
+                ><a class="dropdown-item" href="SF_03_Namespaces.html"
+                  >03 - Namespaces</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_04_le_contrôleur_symfony.html"
+                  >04 - Le contrôleur et AbstractController</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_05_les_services_en_symfony.html"
+                  >05 - Les services</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_06_le_routing_en_symfony.html"
+                  >06 - Les routes</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_07_la_request_et_la_response_en_symfony.html"
+                  >07 - Request - Response</a
+                ><a class="dropdown-item" href="SF_08_Twig.html">08 - Twig</a
+                ><a class="dropdown-item" href="SF_09_Doctrine.html"
+                  >09 - Doctrine</a
+                ><a class="dropdown-item" href="SF_10_Architecture_Globale.html"
+                  >10 - Architecture globale</a
+                ><a class="dropdown-item" href="SF_11_Les_Formulaires.html"
+                  >11 - Les formulaires</a
+                ><a class="dropdown-item" href="SF_12_La_Securite.html"
+                  >12 - La sécurité</a
+                ><a class="dropdown-item" href="SF_13_CRUD_Avance.html"
+                  >13 - CRUD avancé</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_14_Tests_Unitaires_et_Fonctionnels.html"
+                  >14 - Test Unitaires/Fonctionnels</a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="markdown-body">
+        <h1>LA REQUEST ET LA RESPONSE EN SYMFONY</h1>
+        <h2>Comprendre les échanges HTTP entre le client et le serveur</h2>
+        <p><em>(dans le framework Symfony)</em></p>
+        <hr />
+        <h2>1. Pourquoi parler de Request et de Response ?</h2>
+        <p>Le web repose sur un principe fondamental :</p>
+        <blockquote>
+          <p>
+            <strong
+              >Un client envoie une requête (Request), le serveur renvoie une
+              réponse (Response).</strong
+            >
+          </p>
+        </blockquote>
+        <p>
+          Symfony ne fait pas exception. Il se contente de
+          <strong>structurer proprement</strong> ce mécanisme.
+        </p>
+        <p>Comprendre <code>Request</code> et <code>Response</code>, c’est :</p>
+        <ul>
+          <li>
+            comprendre comment les données arrivent dans votre application
+          </li>
+          <li>comprendre comment vous répondez au navigateur ou à une API</li>
+          <li>comprendre le cœur du fonctionnement web</li>
+        </ul>
+        <hr />
+        <h2>2. Le cycle simplifié d’une requête HTTP</h2>
+        <p>Voici ce qu’il se passe lorsqu’un utilisateur accède à une page :</p>
+        <ol>
+          <li>Le navigateur envoie une <strong>Request</strong></li>
+          <li>Symfony reçoit cette Request</li>
+          <li>Le routing choisit un contrôleur</li>
+          <li>Le contrôleur traite la Request</li>
+          <li>Le contrôleur retourne une <strong>Response</strong></li>
+          <li>Symfony envoie la Response au client</li>
+        </ol>
+        <p>
+          Tout votre code s’inscrit
+          <strong>entre la Request et la Response</strong>.
+        </p>
+        <hr />
+        <h2>3. La classe <code>Request</code></h2>
+        <p>
+          La classe <code>Request</code> représente
+          <strong>la requête HTTP entrante</strong>.
+        </p>
+        <p>Elle contient :</p>
+        <ul>
+          <li>l’URL</li>
+          <li>les paramètres</li>
+          <li>les données envoyées par un formulaire</li>
+          <li>les headers</li>
+          <li>la méthode HTTP (GET, POST…)</li>
+        </ul>
+        <h3>3.1 Obtenir la Request dans un contrôleur</h3>
+        <p>Symfony injecte automatiquement la <code>Request</code> :</p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">use Symfony\Component\HttpFoundation\Request;</span>
+
+<span class="x">public function index(Request $request): Response</span>
+<span class="x">{</span>
+<span class="x">    // ...</span>
+<span class="x">}</span>
+</code></pre>
+        </div>
+        <p>Vous ne créez jamais une <code>Request</code> vous-même.</p>
+        <hr />
+        <h2>4. Les différentes sources de données dans la Request</h2>
+        <h3>4.1 <code>query</code> - paramètres GET</h3>
+        <p>Correspond aux paramètres dans l’URL :</p>
+        <div class="codehilite">
+          <pre><span></span><code>/search?q=symfony&amp;page=2
+</code></pre>
+        </div>
+        <p>Récupération :</p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">$q = $request-&gt;query-&gt;get('q');</span>
+<span class="x">$page = $request-&gt;query-&gt;get('page');</span>
+</code></pre>
+        </div>
+        <p><code>query</code> = <strong>GET</strong></p>
+        <hr />
+        <h3>4.2 <code>request</code> - données POST</h3>
+        <p>
+          Correspond aux données envoyées par un formulaire ou un POST
+          classique.
+        </p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">$name = $request-&gt;request-&gt;get('name');</span>
+</code></pre>
+        </div>
+        <p><code>request</code> = <strong>POST</strong></p>
+        <hr />
+        <h3>4.3 <code>attributes</code> - paramètres de route</h3>
+        <p>Ce sont les paramètres définis dans les routes :</p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">#[Route('/article/{id}', name: 'article_show')]</span>
+<span class="x">public function show(Request $request): Response</span>
+<span class="x">{</span>
+<span class="x">    $id = $request-&gt;attributes-&gt;get('id');</span>
+<span class="x">}</span>
+</code></pre>
+        </div>
+        <p>
+          Ces paramètres proviennent du <strong>routing</strong>, pas du
+          formulaire.
+        </p>
+        <p>
+          !!! En pratique, Symfony les injecte souvent directement dans la
+          méthode :
+        </p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">public function show(int $id): Response</span>
+</code></pre>
+        </div>
+        <p>Mais il est important de comprendre d’où ils viennent.</p>
+        <hr />
+        <h2>5. Résumé des sources de données</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th>Origine</th>
+              <th>Exemple</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>query</code></td>
+              <td>URL</td>
+              <td><code>?page=2</code></td>
+            </tr>
+            <tr>
+              <td><code>request</code></td>
+              <td>Formulaire / POST</td>
+              <td><code>name=Jean</code></td>
+            </tr>
+            <tr>
+              <td><code>attributes</code></td>
+              <td>Route</td>
+              <td><code>/article/{id}</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <hr />
+        <h2>6. La classe <code>Response</code></h2>
+        <p>
+          La classe <code>Response</code> représente
+          <strong>ce que le serveur renvoie au client</strong>.
+        </p>
+        <p>Une Response contient :</p>
+        <ul>
+          <li>un contenu</li>
+          <li>un code HTTP</li>
+          <li>des headers</li>
+        </ul>
+        <p>Exemple simple :</p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">use Symfony\Component\HttpFoundation\Response;</span>
+
+<span class="x">return new Response('Bienvenue');</span>
+</code></pre>
+        </div>
+        <hr />
+        <h2>7. Les codes HTTP essentiels à connaître</h2>
+        <p>
+          Les codes HTTP indiquent <strong>le résultat de la requête</strong>.
+        </p>
+        <h3>7.1 Codes courants</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Signification</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>200</td>
+              <td>OK</td>
+            </tr>
+            <tr>
+              <td>201</td>
+              <td>Créé</td>
+            </tr>
+            <tr>
+              <td>302</td>
+              <td>Redirection</td>
+            </tr>
+            <tr>
+              <td>400</td>
+              <td>Mauvaise requête</td>
+            </tr>
+            <tr>
+              <td>403</td>
+              <td>Accès interdit</td>
+            </tr>
+            <tr>
+              <td>404</td>
+              <td>Ressource introuvable</td>
+            </tr>
+            <tr>
+              <td>500</td>
+              <td>Erreur serveur</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Exemple :</p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">return new Response('Introuvable', 404);</span>
+</code></pre>
+        </div>
+        <p>Symfony fournit aussi des méthodes dédiées :</p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">throw $this-&gt;createNotFoundException();</span>
+</code></pre>
+        </div>
+        <hr />
+        <h2>8. Différence entre réponse HTML et réponse JSON</h2>
+        <h3>8.1 Réponse HTML</h3>
+        <p>Utilisée pour :</p>
+        <ul>
+          <li>afficher des pages</li>
+          <li>renvoyer des vues Twig</li>
+        </ul>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">return $this-&gt;render('home/index.html.twig');</span>
+</code></pre>
+        </div>
+        <p>Le navigateur reçoit du HTML.</p>
+        <hr />
+        <h3>8.2 Réponse JSON</h3>
+        <p>Utilisée pour :</p>
+        <ul>
+          <li>API</li>
+          <li>AJAX</li>
+          <li>front JavaScript</li>
+        </ul>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">return $this-&gt;json([</span>
+<span class="x">    'status' =&gt; 'ok',</span>
+<span class="x">    'data' =&gt; $data</span>
+<span class="x">]);</span>
+</code></pre>
+        </div>
+        <p>Le navigateur ou le client reçoit du JSON.</p>
+        <hr />
+        <h2>9. Comment choisir entre HTML et JSON ?</h2>
+        <p>Cela dépend :</p>
+        <ul>
+          <li>du type de client (navigateur, application JS, mobile)</li>
+          <li>de l’architecture de votre application</li>
+        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th>Cas</th>
+              <th>Type de réponse</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Site classique</td>
+              <td>HTML</td>
+            </tr>
+            <tr>
+              <td>API REST</td>
+              <td>JSON</td>
+            </tr>
+            <tr>
+              <td>Application hybride</td>
+              <td>Les deux</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Symfony permet de gérer les deux très simplement.</p>
+        <hr />
+        <h2>10. Un contrôleur bien écrit avec Request et Response</h2>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">#[Route('/search', name: 'search')]</span>
+<span class="x">public function search(Request $request): Response</span>
+<span class="x">{</span>
+<span class="x">    $term = $request-&gt;query-&gt;get('q');</span>
+
+<span class="x">    return new Response('Recherche : ' . $term);</span>
+<span class="x">}</span>
+</code></pre>
+        </div>
+        <p>Ce contrôleur :</p>
+        <ul>
+          <li>lit la Request</li>
+          <li>traite les données</li>
+          <li>retourne une Response claire</li>
+        </ul>
+        <hr />
+        <h2>11. Ce que vous devez maîtriser à ce stade</h2>
+        <p>Vous devez être capable de :</p>
+        <ul>
+          <li>
+            expliquer le rôle de <code>Request</code> et <code>Response</code>
+          </li>
+          <li>récupérer des données GET, POST et de route</li>
+          <li>comprendre les codes HTTP</li>
+          <li>retourner une réponse HTML ou JSON</li>
+          <li>lire et écrire un contrôleur orienté HTTP</li>
+        </ul>
+        <hr />
+        <h2>12. À retenir absolument</h2>
+        <blockquote>
+          <p>
+            La Request représente ce que le client envoie. La Response
+            représente ce que le serveur renvoie. Les paramètres viennent de
+            plusieurs sources. Les codes HTTP sont essentiels à la communication
+            web.
+          </p>
+        </blockquote>
+        <hr />
+        <h2>Conclusion</h2>
+        <p>
+          La maîtrise de <code>Request</code> et <code>Response</code> est
+          <strong>fondamentale</strong> :
+        </p>
+        <ul>
+          <li>pour comprendre le web</li>
+          <li>pour comprendre Symfony</li>
+          <li>pour écrire des applications robustes</li>
+        </ul>
+        <p>
+          Symfony ne cache pas le HTTP. Il vous aide à l’utiliser correctement.
+        </p>
+      </div>
+    </div>
+    <script>
+      hljs.highlightAll();
+    </script>
+    <script>
+      document.title = document.querySelector("h1").textContent;
+    </script>
+  </body>
+</html>

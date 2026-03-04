@@ -1,0 +1,395 @@
+<!doctype html>
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>LE ROUTING EN SYMFONY</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/github-markdown.css" rel="stylesheet" />
+    <script src="assets/js/jquery-3.4.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <link href="assets/css/stackoverflow-dark.min.css" rel="stylesheet" />
+    <link href="assets/css/navbar.css" rel="stylesheet" />
+    <script src="assets/js/highlight.min.js"></script>
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0"
+      id="jsnav"
+    >
+      <div class="container">
+        <a
+          class="navbar-brand py-0 my-0"
+          href="SF_01_Presentation_Symfony.html"
+          style="font-size: 14px"
+          >Symfony Cours</a
+        >
+        <button
+          aria-controls="jsNavbar"
+          aria-expanded="false"
+          aria-label="Menu"
+          class="navbar-toggler"
+          data-target="#jsNavbar"
+          data-toggle="collapse"
+          type="button"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="jsNavbar">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="nav-link dropdown-toggle py-1"
+                data-toggle="dropdown"
+                href="#"
+                id="chaptersDropdown"
+                role="button"
+              >
+                Chapitres
+              </a>
+              <div
+                aria-labelledby="chaptersDropdown"
+                class="dropdown-menu dropdown-menu-right"
+              >
+                <a class="dropdown-item" href="SF_01_Presentation_Symfony.html"
+                  >01 - Présentation Symfony</a
+                ><a class="dropdown-item" href="SF_02_Demarrage.html"
+                  >02 - Démarrage</a
+                ><a class="dropdown-item" href="SF_03_Namespaces.html"
+                  >03 - Namespaces</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_04_le_contrôleur_symfony.html"
+                  >04 - Le contrôleur et AbstractController</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_05_les_services_en_symfony.html"
+                  >05 - Les services</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_06_le_routing_en_symfony.html"
+                  >06 - Les routes</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_07_la_request_et_la_response_en_symfony.html"
+                  >07 - Request - Response</a
+                ><a class="dropdown-item" href="SF_08_Twig.html">08 - Twig</a
+                ><a class="dropdown-item" href="SF_09_Doctrine.html"
+                  >09 - Doctrine</a
+                ><a class="dropdown-item" href="SF_10_Architecture_Globale.html"
+                  >10 - Architecture globale</a
+                ><a class="dropdown-item" href="SF_11_Les_Formulaires.html"
+                  >11 - Les formulaires</a
+                ><a class="dropdown-item" href="SF_12_La_Securite.html"
+                  >12 - La sécurité</a
+                ><a class="dropdown-item" href="SF_13_CRUD_Avance.html"
+                  >13 - CRUD avancé</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_14_Tests_Unitaires_et_Fonctionnels.html"
+                  >14 - Test Unitaires/Fonctionnels</a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="markdown-body">
+        <h1>LE ROUTING EN SYMFONY</h1>
+        <h2>Comprendre les routes et les attributs <code>#[Route]</code></h2>
+        <hr />
+        <h2>1. Pourquoi le routing est indispensable</h2>
+        <p>
+          Dans une application Symfony,
+          <strong>aucun contrôleur n’est appelé directement</strong>.
+        </p>
+        <p>Lorsqu’un utilisateur accède à une URL, par exemple :</p>
+        <div class="codehilite">
+          <pre><span></span><code>https://example.com/article/12
+</code></pre>
+        </div>
+        <p>Symfony doit répondre à une question essentielle :</p>
+        <blockquote>
+          <p>
+            <strong
+              >Quel contrôleur et quelle méthode doivent traiter cette requête
+              ?</strong
+            >
+          </p>
+        </blockquote>
+        <p>
+          Le <strong>routing</strong> est le mécanisme qui permet de faire ce
+          lien.
+        </p>
+        <hr />
+        <h2>2. Le rôle du routing</h2>
+        <p>Le routing sert à :</p>
+        <ul>
+          <li>
+            associer une <strong>URL</strong> à une
+            <strong>méthode de contrôleur</strong>
+          </li>
+          <li>transmettre des <strong>paramètres</strong> depuis l’URL</li>
+          <li>identifier une route par un <strong>nom</strong></li>
+          <li>centraliser la logique d’accès aux pages</li>
+        </ul>
+        <p>Sans routing :</p>
+        <ul>
+          <li>Symfony ne sait pas quoi exécuter</li>
+          <li>les contrôleurs ne sont jamais appelés</li>
+        </ul>
+        <p>
+          Le routing est le <strong>pont entre le web (URL)</strong> et
+          <strong>le code PHP (contrôleurs)</strong>.
+        </p>
+        <hr />
+        <h2>3. Le principe général</h2>
+        <p>Une <strong>route</strong> définit :</p>
+        <ul>
+          <li>un <strong>chemin</strong> (URL)</li>
+          <li>un <strong>contrôleur</strong></li>
+          <li>une <strong>méthode</strong></li>
+          <li>éventuellement des <strong>paramètres</strong></li>
+          <li>un <strong>nom de route</strong></li>
+        </ul>
+        <p>Schéma mental simple :</p>
+        <div class="codehilite">
+          <pre><span></span><code>URL → Route → Contrôleur → Méthode → Response
+</code></pre>
+        </div>
+        <hr />
+        <h2>4. Les routes avec attributs <code>#[Route]</code></h2>
+        <p>
+          Symfony moderne utilise principalement les
+          <strong>attributs PHP</strong> (depuis PHP 8).
+        </p>
+        <p>Exemple simple :</p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">use Symfony\Component\Routing\Attribute\Route;</span>
+
+<span class="x">class HomeController extends AbstractController</span>
+<span class="x">{</span>
+<span class="x">    #[Route('/', name: 'home')]</span>
+<span class="x">    public function index(): Response</span>
+<span class="x">    {</span>
+<span class="x">        return new Response('Accueil');</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</code></pre>
+        </div>
+        <p>Ici :</p>
+        <ul>
+          <li><code>#[Route]</code> définit la route</li>
+          <li><code>/</code> est le chemin</li>
+          <li><code>home</code> est le nom de la route</li>
+          <li><code>index()</code> est la méthode appelée</li>
+        </ul>
+        <hr />
+        <h2>5. Lien entre route et contrôleur</h2>
+        <p>Symfony fonctionne ainsi :</p>
+        <ol>
+          <li>Une requête HTTP arrive (<code>/</code>)</li>
+          <li>Symfony analyse toutes les routes connues</li>
+          <li>Il trouve une route qui correspond</li>
+          <li>Il appelle la <strong>méthode du contrôleur associée</strong></li>
+          <li>La méthode retourne une <code>Response</code></li>
+        </ol>
+        <p>
+          Le contrôleur <strong>n’est jamais appelé par vous</strong>, mais par
+          Symfony.
+        </p>
+        <hr />
+        <h2>6. Les paramètres d’URL</h2>
+        <p>
+          Les routes peuvent contenir des
+          <strong>paramètres dynamiques</strong>.
+        </p>
+        <p>Exemple :</p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">#[Route('/article/{id}', name: 'article_show')]</span>
+<span class="x">public function show(int $id): Response</span>
+<span class="x">{</span>
+<span class="x">    return new Response('Article ' . $id);</span>
+<span class="x">}</span>
+</code></pre>
+        </div>
+        <p>Si l’URL est :</p>
+        <div class="codehilite">
+          <pre><span></span><code>/article/42
+</code></pre>
+        </div>
+        <p>Alors :</p>
+        <ul>
+          <li><code>{id}</code> vaut <code>42</code></li>
+          <li>Symfony injecte automatiquement la valeur dans la méthode</li>
+        </ul>
+        <hr />
+        <h3>6.1 Typage des paramètres</h3>
+        <p>Symfony respecte les types PHP :</p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">public function show(int $id)</span>
+</code></pre>
+        </div>
+        <p>Si la valeur ne correspond pas :</p>
+        <ul>
+          <li>Symfony retourne une erreur 404</li>
+        </ul>
+        <p>Le typage est une <strong>sécurité implicite</strong>.</p>
+        <hr />
+        <h2>7. Contraintes sur les paramètres</h2>
+        <p>Vous pouvez limiter les valeurs acceptées :</p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">#[Route('/article/{id}', name: 'article_show', requirements: ['id' =&gt; '\d+'])]</span>
+</code></pre>
+        </div>
+        <p>Ici :</p>
+        <ul>
+          <li><code>{id}</code> doit être un nombre</li>
+        </ul>
+        <p>Sinon, la route ne correspond pas.</p>
+        <hr />
+        <h2>8. Les noms de routes</h2>
+        <p>Chaque route doit avoir un <strong>nom unique</strong> :</p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">#[Route('/contact', name: 'contact')]</span>
+</code></pre>
+        </div>
+        <p>Les noms de routes servent à :</p>
+        <ul>
+          <li>générer des URLs</li>
+          <li>éviter d’écrire des chemins en dur</li>
+          <li>faciliter la maintenance</li>
+        </ul>
+        <p>Exemple :</p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">$this-&gt;redirectToRoute('contact');</span>
+</code></pre>
+        </div>
+        <p>Si le chemin change, le nom reste le même.</p>
+        <p>
+          <strong>On ne travaille jamais avec des URLs en dur</strong>, mais
+          avec des noms de routes.
+        </p>
+        <hr />
+        <h2>9. Générer des URLs à partir des routes</h2>
+        <h3>9.1 Redirection</h3>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">return $this-&gt;redirectToRoute('article_show', [</span>
+<span class="x">    'id' =&gt; 12</span>
+<span class="x">]);</span>
+</code></pre>
+        </div>
+        <p>Symfony génère automatiquement :</p>
+        <div class="codehilite">
+          <pre><span></span><code>/article/12
+</code></pre>
+        </div>
+        <hr />
+        <h3>9.2 Dans Twig</h3>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">&lt;a href="</span><span class="cp">{{</span> <span class="nv">path</span><span class="o">(</span><span class="s1">'article_show'</span><span class="o">,</span> <span class="o">{</span> <span class="nv">id</span><span class="o">:</span> <span class="m">12</span> <span class="o">})</span> <span class="cp">}}</span><span class="x">"&gt;</span>
+<span class="x">    Voir l’article</span>
+<span class="x">&lt;/a&gt;</span>
+</code></pre>
+        </div>
+        <hr />
+        <h2>10. Une route = une action</h2>
+        <p>Bonne pratique essentielle :</p>
+        <ul>
+          <li>une route appelle <strong>une seule méthode</strong></li>
+          <li>une méthode répond à <strong>une seule intention</strong></li>
+        </ul>
+        <p>!!! À éviter :</p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">#[Route('/article')]</span>
+<span class="x">public function article()</span>
+<span class="x">{</span>
+<span class="x">    if ($_GET['action'] === 'delete') {</span>
+<span class="x">        // ...</span>
+<span class="x">    }</span>
+<span class="x">}</span>
+</code></pre>
+        </div>
+        <p>Chaque action doit avoir <strong>sa propre route</strong>.</p>
+        <hr />
+        <h2>11. Méthodes HTTP (GET, POST…)</h2>
+        <p>Par défaut, une route accepte toutes les méthodes HTTP.</p>
+        <p>Vous pouvez restreindre :</p>
+        <div class="codehilite">
+          <pre><span></span><code><span class="x">#[Route('/article', name: 'article_create', methods: ['POST'])]</span>
+</code></pre>
+        </div>
+        <p>Cela permet de :</p>
+        <ul>
+          <li>respecter le fonctionnement HTTP</li>
+          <li>sécuriser les accès</li>
+          <li>clarifier l’intention</li>
+        </ul>
+        <hr />
+        <h2>12. Où sont définies les routes ?</h2>
+        <p>Avec les attributs :</p>
+        <ul>
+          <li>directement <strong>au-dessus des méthodes</strong></li>
+          <li>dans les contrôleurs</li>
+        </ul>
+        <p>Symfony détecte automatiquement les routes dans :</p>
+        <div class="codehilite">
+          <pre><span></span><code>src/Controller/
+</code></pre>
+        </div>
+        <hr />
+        <h2>13. Ce que vous devez maîtriser à ce stade</h2>
+        <p>Vous devez être capable de :</p>
+        <ul>
+          <li>expliquer le rôle du routing</li>
+          <li>définir une route avec <code>#[Route]</code></li>
+          <li>relier une URL à un contrôleur</li>
+          <li>utiliser des paramètres d’URL</li>
+          <li>nommer correctement une route</li>
+          <li>générer une URL à partir de son nom</li>
+        </ul>
+        <hr />
+        <h2>14. À retenir absolument</h2>
+        <blockquote>
+          <p>
+            Le routing relie le web au code. Une URL n’appelle jamais un fichier
+            PHP. Une route appelle une méthode de contrôleur. Les noms de routes
+            sont plus importants que les chemins.
+          </p>
+        </blockquote>
+        <hr />
+        <h2>Conclusion</h2>
+        <p>
+          Maintenant que vous savez créer des contrôleurs, il est indispensable
+          de comprendre <strong>comment Symfony décide de les appeler</strong>.
+        </p>
+        <p>Le routing est :</p>
+        <ul>
+          <li>central</li>
+          <li>structurant</li>
+          <li>indispensable à toute application Symfony</li>
+        </ul>
+        <p>Une bonne compréhension du routing vous permettra :</p>
+        <ul>
+          <li>d’écrire des contrôleurs propres</li>
+          <li>de naviguer correctement dans l’application</li>
+          <li>d’éviter les erreurs classiques de débutant</li>
+        </ul>
+      </div>
+    </div>
+    <script>
+      hljs.highlightAll();
+    </script>
+    <script>
+      document.title = document.querySelector("h1").textContent;
+    </script>
+  </body>
+</html>

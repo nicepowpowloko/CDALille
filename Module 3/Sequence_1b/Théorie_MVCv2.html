@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Théorie_MVCv2.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<img src="../../Logo.png" width="550" height="75" alt="logo">
+<h1 id="cours-mvc-en-php---du-proc%C3%A9dural-au-mvc-poo-mini-blog">Cours MVC en PHP - Du procédural au MVC POO (mini blog)</h1>
+<p>Ce cours vise à rendre <strong>MVC concret</strong> tout en donnant une base <strong>théorique solide</strong> pour comprendre ensuite Symfony sans le “subir”.</p>
+<p>Avant toute chose, à l'instar de la POO, MVC ne doit pas être appliqué de manière dogmatique. C’est une manière de <strong>réduire le chaos</strong> en séparant clairement les responsabilités, afin que le code reste modifiable sans casse.</p>
+<hr>
+<h2 id="pr%C3%A9requis-techniques">Prérequis techniques</h2>
+<p>On part sur PHP 8.1+ (idéalement 8.2 ou 8.3) avec un serveur local (Apache, Nginx ou <code>symfony serve</code>) et une base MariaDB/MySQL (ou SQLite si besoin). Le code de départ est un mini blog simple (liste, création, suppression) avec PDO, ce qui est parfait : le périmètre fonctionnel est petit, donc on peut se concentrer sur l’architecture.</p>
+<hr>
+<h2 id="lid%C3%A9e-g%C3%A9n%C3%A9rale--pourquoi-on-%C3%A9volue-du-proc%C3%A9dural-vers-mvc">L’idée générale : pourquoi on “évolue” du procédural vers MVC</h2>
+<p>Au début, le procédural marche. C’est même souvent la meilleure option pour apprendre : on voit tout, tout de suite, sans magie. Mais dès qu’un projet grandit un peu, le même fichier finit par contenir à la fois :</p>
+<ul>
+<li>de la lecture de paramètres HTTP (<code>$_GET</code>, <code>$_POST</code>)</li>
+<li>des décisions sur “quoi faire”</li>
+<li>de la validation de formulaire</li>
+<li>des requêtes SQL</li>
+<li>et du HTML mélangé au PHP</li>
+</ul>
+<p>Le problème n’est pas “le procédural”, ni “PDO”, ni “PHP qui est nul”. Le vrai problème, c’est l’absence de <strong>frontières</strong> : quand tout est partout, personne ne sait plus où toucher sans provoquer des effets de bord.</p>
+<h3 id="sch%C3%A9ma-du-probl%C3%A8me-typique-monopage-qui-grossit">Schéma du problème typique (monopage qui grossit)</h3>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+  A[Requête HTTP] --> B[index.php]
+  B --> C{Décide action}
+  C -->|list| D[SQL SELECT + HTML]
+  C -->|create| E[Validation + SQL INSERT + HTML]
+  C -->|delete| F[SQL DELETE + redirect]
+  B --> G[Effets de bord: duplication, bugs, confusion]
+</div></code></pre>
+<p>Ce schéma n’est pas “mal” moralement. Il illustre juste que tout dépend de tout, et donc que la maintenance devient difficile.</p>
+<hr>
+<h2 id="mvc--d%C3%A9finition-claire-utile-et-surtout-testable">MVC : définition claire, utile, et surtout testable</h2>
+<p>MVC signifie Model - View - Controller.</p>
+<ul>
+<li>Le <strong>Controller</strong> reçoit la requête HTTP, décide quoi faire, orchestre les appels, puis choisit une réponse.</li>
+<li>Le <strong>Model</strong> représente les données et la logique liée à ces données (accès DB, entités, règles métiers, services).</li>
+<li>La <strong>View</strong> s’occupe du rendu (souvent HTML), et ne doit pas contenir de SQL ni de logique métier.</li>
+</ul>
+<p>Ce qui est intéressant pédagogiquement, c’est que MVC force à répondre à une question simple :
+“Quand je veux modifier l’affichage, où est-ce que je vais ? Quand je veux modifier une règle, où est-ce que je vais ? Quand je veux modifier une requête, où est-ce que je vais ?”</p>
+<h3 id="sch%C3%A9ma-mvc-minimal-web">Schéma MVC minimal (web)</h3>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart LR
+  U[Navigateur] -->|HTTP request| C[Controller]
+  C --> M[Model]
+  M --> DB[(Database)]
+  C --> V[View]
+  V -->|HTML response| U
+</div></code></pre>
+<p>À ce stade, tu peux poser une règle d’or facile à retenir :</p>
+<blockquote>
+<p>Le contrôleur orchestre, le modèle sait, la vue montre.</p>
+</blockquote>
+<hr>
+<h2 id="vue-densemble-de-la-progression-li%C3%A9e-aux-branches-mvcevo">Vue d’ensemble de la progression (liée aux branches <code>mvcevo</code>)</h2>
+<p>Dans le repo GitHub <code>mvcevo</code>, les “paliers” (branches) font très bien le boulot : chaque étape enlève un type de mélange, et introduit une responsabilité claire.</p>
+<p>L’objectif n’est pas de produire “l’architecture parfaite”. L’objectif est de comprendre la différence entre :</p>
+<ul>
+<li>“ça marche” (procédural rapide)</li>
+<li>et “ça se maintient” (structure claire)</li>
+</ul>
+<p>On peut raconter cette progression comme une histoire : au départ on code vite, puis on commence à souffrir, alors on découpe, puis on centralise l’entrée, puis on sépare le rendu, puis on centralise le SQL, puis on transforme les actions en contrôleurs POO, puis on sort la logique métier dans des services.</p>
+<hr>
+<h2 id="%C3%A9tape-a---la-version-proc%C3%A9durale-monopage-volontairement-imparfaite">Étape A - La version procédurale monopage (volontairement imparfaite)</h2>
+<p>Au départ, on prend une seule page <code>index.php</code>. Elle liste les articles, et selon un paramètre <code>action</code>, elle peut aussi créer ou supprimer. Sur le moment, c’est rassurant : tout est là, on comprend facilement l’exécution.</p>
+<p>Mais très vite, on voit la limite : les sections “create” et “delete” sont des “mini-programmes” cachés dans le même fichier. Quand on ajoute une fonctionnalité (par exemple “modifier un article”), on ajoute encore une section, et le fichier devient une forêt.</p>
+<h3 id="sch%C3%A9ma-typique-dun-contr%C3%B4leur-proc%C3%A9dural-action-based">Schéma typique d’un contrôleur procédural “action-based”</h3>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+  A[GET /index.php?action=list] --> B[index.php]
+  C[POST /index.php?action=create] --> B
+  D[GET /index.php?action=delete&id=3] --> B
+
+  B --> E{action ?}
+  E -->|list| F[SELECT + HTML list]
+  E -->|create| G[validate + INSERT + redirect]
+  E -->|delete| H[DELETE + redirect]
+</div></code></pre>
+<p>Ce schéma est parfait pour expliquer le problème : un seul fichier cumule les rôles. L’étape suivante consiste souvent à “séparer par pages”.</p>
+<hr>
+<h2 id="%C3%A9tape-b---proc%C3%A9dural-multi-fichiers-page--action">Étape B - Procédural multi-fichiers (page = action)</h2>
+<p>On sépare <code>index.php</code> (liste), <code>create.php</code>, <code>delete.php</code>, et on garde <code>db.php</code> pour la connexion. Ce n’est pas encore MVC, mais on sent déjà un gain : chaque fichier a un objectif plus clair.</p>
+<p>Le piège pédagogique ici, c’est que ça marche tellement bien qu’on peut s’y installer. Pourtant, dès qu’on a plusieurs ressources (posts, users, comments), on duplique des morceaux identiques (connexion DB, header HTML, gestion d’erreurs, etc.). On a aussi une architecture qui devient “une page par action”, ce qui ne ressemble pas aux frameworks modernes.</p>
+<h3 id="sch%C3%A9ma-page--action">Schéma “page = action”</h3>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart LR
+  U[Navigateur] -->|GET| A[index.php]
+  U -->|POST| B[create.php]
+  U -->|GET| C[delete.php]
+  A --> DB[(DB)]
+  B --> DB
+  C --> DB
+</div></code></pre>
+<p>Cette étape est utile parce qu’elle rend visible le prochain besoin : unifier l’entrée et éviter la duplication.</p>
+<hr>
+<h2 id="%C3%A9tape-c---front-controller--une-seule-porte-dentr%C3%A9e">Étape C - Front Controller : une seule porte d’entrée</h2>
+<p>C’est un concept extrêmement important pour comprendre Symfony ensuite.</p>
+<p>Un <strong>Front Controller</strong> signifie : “toutes les requêtes web passent par un seul fichier”, souvent <code>public/index.php</code>. Ce fichier devient la porte d’entrée unique. Il peut ensuite faire du routage, appliquer des règles communes (sessions, sécurité minimale, gestion des erreurs), puis déléguer à un contrôleur.</p>
+<p>Ce concept règle d’un coup plusieurs problèmes : on centralise la configuration, on évite que des scripts internes soient accessibles directement, et on se rapproche de la logique des frameworks.</p>
+<h3 id="arborescence-recommand%C3%A9e">Arborescence recommandée</h3>
+<pre class="hljs"><code><div>mini-blog-mvc/
+  public/
+    index.php
+  src/
+  templates/
+  config/
+  vendor/
+</div></code></pre>
+<p>Ici, <code>public/</code> est la seule racine web. Le reste n’est pas accessible directement par HTTP, ce qui est déjà une forme de “sécurité passive”.</p>
+<h3 id="sch%C3%A9ma-du-front-controller--router">Schéma du Front Controller + Router</h3>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+  U[Navigateur] -->|HTTP| FC[public/index.php]
+  FC --> R{Router}
+  R -->|/posts| CL[PostController::list]
+  R -->|/posts/create| CC[PostController::create]
+  R -->|/posts/delete| CD[PostController::delete]
+  CL --> RESP[Réponse HTML]
+  CC --> RESP
+  CD --> RESP
+  RESP --> U
+</div></code></pre>
+<p>À ce stade, on n’est pas obligé d’être en POO. Le simple fait d’avoir une seule entrée et un routage centralisé est déjà un énorme progrès.</p>
+<hr>
+<h2 id="%C3%A9tape-d---les-vues--templates--layout">Étape D - Les vues : templates + layout</h2>
+<p>Une fois que les actions sont centralisées, on s’attaque au rendu. Le problème classique est que le contrôleur “echo” du HTML, ou mélange du HTML dans sa logique. L’idée est d’extraire l’affichage dans des fichiers de templates.</p>
+<p>Le contrôleur prépare des données (par exemple <code>$posts</code>), puis appelle un rendu (<code>render</code>) qui inclut un layout commun et une vue spécifique.</p>
+<h3 id="sch%C3%A9ma-controller---view-avec-donn%C3%A9es">Schéma “Controller -&gt; View (avec données)”</h3>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart LR
+  C[Controller] -->|params| R["render(template, params)"]
+  R --> L[layout.php]
+  L --> T[template: post/list.php]
+  T --> H[HTML final]
+</div></code></pre>
+<p>À partir de là, nous povons introduire une règle simple :</p>
+<blockquote>
+<p>La vue a le droit d’utiliser des variables, mais elle n’a pas le droit d’aller chercher des données (pas de SQL, pas de PDO, pas de logique métier).</p>
+</blockquote>
+<p>On peut aussi poser l’idée de “contrat de données” : le contrôleur garantit que la vue reçoit les variables dont elle a besoin.</p>
+<hr>
+<h2 id="%C3%A9tape-e---le-model--repository--entit%C3%A9-ou-dto-simple">Étape E - Le Model : Repository + Entité (ou DTO simple)</h2>
+<p>Le gros gain de MVC, côté “model”, c’est d’éviter le SQL dispersé. On centralise l’accès aux données dans une classe, souvent appelée <code>Repository</code>. Ce repository devient “l’endroit unique” où l’on écrit les requêtes liées à une ressource (ici : les posts).</p>
+<p>Nous pouvons expliquer ça comme une séparation de deux connaissances :</p>
+<ul>
+<li>le contrôleur connaît les actions web (list, create, delete)</li>
+<li>le repository connaît comment parler à la base (SELECT, INSERT, DELETE)</li>
+</ul>
+<h3 id="diagramme-repository-acc%C3%A8s-db">Diagramme Repository (accès DB)</h3>
+<pre><code class="language-mermaid"><div class="mermaid">classDiagram
+  class PostRepository {
+    -pdo : PDO
+    +findAll() : array
+    +create(title : string, content : string, author : string) : void
+    +delete(id : int) : void
+  }
+
+  class PDO
+  class Database
+
+  PostRepository --> PDO : dépend de
+  PDO --> Database : connexion
+</div></code></pre>
+<p>Ensuite, nous pouvons introduire une idée très utile sans trop alourdir : une “entité” <code>Post</code>. Même si on reste simple, ça permet d’éviter les tableaux associatifs partout et de donner une structure stable aux données.</p>
+<h3 id="exemple--entit%C3%A9-post-simple">Exemple : entité Post (simple)</h3>
+<pre><code class="language-mermaid"><div class="mermaid">classDiagram
+  class Post {
+    +int id
+    +string title
+    +string content
+    +string author
+    +DateTimeImmutable createdAt
+  }
+</div></code></pre>
+<p>Le message théorique important : une entité n’est pas juste “un sac de propriétés”, c’est une représentation d’un concept métier. Même dans un mini blog, “Post” est un concept.</p>
+<hr>
+<h2 id="%C3%A9tape-f---controllers-en-poo--actions--m%C3%A9thodes">Étape F - Controllers en POO : actions = méthodes</h2>
+<p>Le passage en POO pour les contrôleurs est un cap pédagogique important. Il permet de comprendre l’injection de dépendances (même sans container), et de structurer l’application en objets qui ont chacun un rôle.</p>
+<p>Le contrôleur devient une classe <code>PostController</code> avec des méthodes <code>list</code>, <code>create</code>, <code>delete</code>. Il reçoit un <code>PostRepository</code> (ou plus tard un <code>PostService</code>).</p>
+<h3 id="diagramme-controller---repository---db">Diagramme Controller -&gt; Repository -&gt; DB</h3>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart LR
+  C[PostController] --> R[PostRepository]
+  R --> DB[(Database)]
+  C --> V["render(view)"]
+  V --> U[Navigateur]
+</div></code></pre>
+<p>Nous pouvons insister sur un point qui prépare Symfony : le contrôleur n’instancie pas tout lui-même “n’importe comment”. Il reçoit ses dépendances, ce qui rend le code plus testable et plus propre.</p>
+<hr>
+<h2 id="%C3%A9tape-g---service--la-logique-m%C3%A9tier-sort-du-contr%C3%B4leur">Étape G - Service : la logique métier sort du contrôleur</h2>
+<p>Même avec un repository, on peut encore se retrouver avec un contrôleur trop gros si on met dedans toutes les validations et règles.</p>
+<p>Le <strong>service</strong> sert à porter les règles métiers et les validations cohérentes. L’idée est de rendre le contrôleur “bête mais lisible” : il lit la requête, appelle le service, puis choisit une vue ou une redirection.</p>
+<h3 id="sch%C3%A9ma-controller-fin---service---repository">Schéma “Controller fin -&gt; Service -&gt; Repository”</h3>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+  C[Controller] -->|appelle| S[PostService]
+  S -->|utilise| R[PostRepository]
+  R -->|accède| DB[(Database)]
+  C -->|rend| V[View]
+</div></code></pre>
+<p>Nous pouvons aussi en profiter pour expliquer le vocabulaire important :</p>
+<ul>
+<li>Repository : “accès aux données”</li>
+<li>Service : “règles et orchestration métier”</li>
+<li>Controller : “orchestration HTTP”</li>
+</ul>
+<p>Ce trio est une base qui colle très bien à Symfony.</p>
+<hr>
+<h2 id="s%C3%A9curit%C3%A9-minimale--ce-quon-fait-bien-m%C3%AAme-dans-un-mini-projet">Sécurité minimale : ce qu’on fait “bien” même dans un mini projet</h2>
+<p>L’objectif n’est pas de transformer le mini blog en appli blindée, mais on peut introduire quelques réflexes.</p>
+<p>D’abord, la sortie HTML : on échappe ce qui vient de l’utilisateur. Sinon, un article peut contenir du JavaScript malveillant (XSS). Même en TP, c’est un bon moment pour apprendre <code>htmlspecialchars()</code>.</p>
+<p>Ensuite, la suppression : pédagogiquement, un lien GET est simple. Mais théoriquement, supprimer via GET est dangereux. En “vrai”, on passe par POST et on protège par un token CSRF.</p>
+<h3 id="sch%C3%A9ma-csrf-id%C3%A9e">Schéma CSRF (idée)</h3>
+<pre><code class="language-mermaid"><div class="mermaid">sequenceDiagram
+  participant U as Utilisateur
+  participant B as Navigateur
+  participant C as Controller
+  participant S as Session
+
+  U->>B: ouvre le formulaire de suppression
+  C->>S: génère token CSRF et le stocke
+  C->>B: renvoie HTML avec token caché
+  U->>B: clique "Supprimer"
+  B->>C: POST /delete avec token
+  C->>S: vérifie token
+  C-->>B: OK -> suppression + redirect
+</div></code></pre>
+<p>Ce schéma suffit souvent à faire comprendre “pourquoi Symfony insiste”.</p>
+<hr>
+<h2 id="pont-vers-symfony--ce-que-symfony-ajoute-vraiment">Pont vers Symfony : ce que Symfony ajoute vraiment</h2>
+<p>Une fois que l'on comprend cette progression, Symfony devient beaucoup moins intimidant. Symfony ne change pas l’idée, il industrialise la mise en œuvre.</p>
+<p>Dans Symfony :</p>
+<ul>
+<li>le front controller existe déjà (<code>public/index.php</code>)</li>
+<li>le routage est robuste et déclaratif (attributs, YAML, etc.)</li>
+<li>les contrôleurs sont des classes</li>
+<li>le rendu utilise Twig (plus propre que du PHP brut dans les templates)</li>
+<li>l’injection de dépendances est gérée par un container</li>
+<li>la sécurité, les erreurs, la configuration sont standardisées</li>
+</ul>
+<h3 id="mapping-mental-mvc---symfony">Mapping mental MVC -&gt; Symfony</h3>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart LR
+  A["Ton mini MVC"] --> B[Symfony]
+
+  A --> A1[public/index.php]
+  A --> A2[Router maison]
+  A --> A3["render() maison"]
+  A --> A4[Repository PDO]
+  A --> A5[Services]
+
+  A1 --> B1[Front Controller Symfony]
+  A2 --> B2[Routing Symfony]
+  A3 --> B3["Twig + render()"]
+  A4 --> B4["Doctrine Repository ou PDO Service"]
+  A5 --> B5["Services + DI Container"]
+
+</div></code></pre>
+<p>L’idée forte : “Symfony est ton architecture MVC, mais en version standard, robuste et outillée”.</p>
+<hr>
+<h2 id="exercices-progressifs-compatibles-avec-ton-d%C3%A9coupage-par-paliers">Exercices progressifs (compatibles avec ton découpage par paliers)</h2>
+<p>Une fois le socle compris, tu peux proposer des ajouts qui renforcent le modèle mental, sans exploser la charge :</p>
+<ol>
+<li>Ajouter une route “voir un article” (show) pour introduire la notion de ressource adressable.</li>
+<li>Ajouter “edit” pour introduire le cycle lecture -&gt; formulaire -&gt; validation -&gt; update.</li>
+<li>Passer delete en POST + CSRF pour l’hygiène sécurité.</li>
+<li>Ajouter Composer autoload + namespaces pour professionnaliser l’arborescence.</li>
+<li>Ajouter une gestion d’erreur propre (404, 500) centralisée via le front controller.</li>
+</ol>
+<hr>
+<h2 id="conclusion">Conclusion</h2>
+<p>Le but de ce cours n’est pas de faire du “MVC académique”. Le but est de comprendre pourquoi les frameworks structurent les projets de cette manière.</p>
+<p>Le cours permet de structurer ces idées :</p>
+<ul>
+<li>une requête web passe par une entrée unique</li>
+<li>le contrôleur orchestre</li>
+<li>le modèle gère les données et les règles</li>
+<li>la vue rend sans savoir “comment” les données ont été obtenues</li>
+</ul>
+<p>alors Symfony devient une suite logique, pas une montagne.</p>
+
+</body>
+</html>

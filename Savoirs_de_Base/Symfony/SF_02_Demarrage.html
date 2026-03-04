@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>02 - Démarrage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/github-markdown.css" />
+
+    <script src="assets/js/jquery-3.4.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="assets/css/stackoverflow-dark.min.css" />
+    <link rel="stylesheet" href="assets/css/navbar.css" />
+    <script src="assets/js/highlight.min.js"></script>
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0"
+      id="jsnav"
+    >
+      <div class="container">
+        <a
+          class="navbar-brand py-0 my-0"
+          href="SF_01_Presentation_Symfony.html"
+          style="font-size: 14px"
+          >Symfony Cours</a
+        >
+        <button
+          aria-controls="jsNavbar"
+          aria-expanded="false"
+          aria-label="Menu"
+          class="navbar-toggler"
+          data-target="#jsNavbar"
+          data-toggle="collapse"
+          type="button"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="jsNavbar">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="nav-link dropdown-toggle py-1"
+                data-toggle="dropdown"
+                href="#"
+                id="chaptersDropdown"
+                role="button"
+              >
+                Chapitres
+              </a>
+              <div
+                aria-labelledby="chaptersDropdown"
+                class="dropdown-menu dropdown-menu-right"
+              >
+                <a class="dropdown-item" href="SF_01_Presentation_Symfony.html"
+                  >01 - Présentation Symfony</a
+                ><a class="dropdown-item" href="SF_02_Demarrage.html"
+                  >02 - Démarrage</a
+                ><a class="dropdown-item" href="SF_03_Namespaces.html"
+                  >03 - Namespaces</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_04_le_contrôleur_symfony.html"
+                  >04 - Le contrôleur et AbstractController</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_05_les_services_en_symfony.html"
+                  >05 - Les services</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_06_le_routing_en_symfony.html"
+                  >06 - Les routes</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_07_la_request_et_la_response_en_symfony.html"
+                  >07 - Request - Response</a
+                ><a class="dropdown-item" href="SF_08_Twig.html">08 - Twig</a
+                ><a class="dropdown-item" href="SF_09_Doctrine.html"
+                  >09 - Doctrine</a
+                ><a class="dropdown-item" href="SF_10_Architecture_Globale.html"
+                  >10 - Architecture globale</a
+                ><a class="dropdown-item" href="SF_11_Les_Formulaires.html"
+                  >11 - Les formulaires</a
+                ><a class="dropdown-item" href="SF_12_La_Securite.html"
+                  >12 - La sécurité</a
+                ><a class="dropdown-item" href="SF_13_CRUD_Avance.html"
+                  >13 - CRUD avancé</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_14_Tests_Unitaires_et_Fonctionnels.html"
+                  >14 - Test Unitaires/Fonctionnels</a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="markdown-body">
+        <h1>Démarrer avec Symfony 7</h1>
+        <h2>1. Pré-requis techniques</h2>
+        <p>Avant de créer ton projet Symfony :</p>
+        <ul>
+          <li>
+            PHP <strong>8.2 ou supérieur</strong> avec extensions : Ctype,
+            iconv, PCRE, Session, SimpleXML, Tokenizer.
+          </li>
+          <li><strong>Composer</strong> (gestionnaire de dépendances PHP).</li>
+          <li>
+            (Optionnel mais recommandé) <strong>Symfony CLI</strong> : outil qui
+            simplifie la création, le lancement et la vérification de ton
+            projet.
+          </li>
+        </ul>
+        <p>Vérifier les prérequis :</p>
+        <pre><code class="language-bash">symfony check:requirements
+      </code></pre>
+        <hr />
+        <h2>2. Créer une application Symfony</h2>
+        <p>Avec <strong>Symfony CLI</strong> :</p>
+        <pre><code class="language-bash">symfony new my_project_directory --version=&quot;7.3.x&quot; --webapp
+      </code></pre>
+        <p>Installe une application web complète.</p>
+        <p>Ou plus minimaliste :</p>
+        <pre><code class="language-bash">symfony new my_project_directory --version=&quot;7.3.x&quot;
+      </code></pre>
+        <p>Sans Symfony CLI (via Composer) :</p>
+        <pre><code class="language-bash">composer create-project symfony/skeleton:&quot;7.3.x&quot; my_project_directory
+      cd my_project_directory
+      composer require webapp
+      </code></pre>
+        <hr />
+        <h2>3. Travailler sur un projet existant</h2>
+        <pre><code class="language-bash">cd projects/
+      git clone ...
+      cd my-project/
+      composer install
+      php bin/console about
+      </code></pre>
+        <hr />
+        <h2>4. Lancer l’application</h2>
+        <p>Avec Symfony CLI (recommandé en local) :</p>
+        <pre><code class="language-bash">cd my-project/
+      symfony server:start
+      </code></pre>
+        <p>
+          Ouvrir : <a href="http://localhost:8000">http://localhost:8000</a>
+        </p>
+        <p>Arrêter : <code>Ctrl + C</code></p>
+        <hr />
+        <h2>5. Installer des paquets</h2>
+        <p>
+          Symfony utilise <strong>Flex</strong> pour simplifier l’ajout de
+          bundles :
+        </p>
+        <pre><code class="language-bash">composer require logger
+      </code></pre>
+        <p>Flex installe le bon bundle + sa configuration automatiquement.</p>
+        <p>Exemple pour le debug :</p>
+        <pre><code class="language-bash">composer require --dev debug
+      </code></pre>
+        <hr />
+        <h2>6. Sécurité</h2>
+        <p>Vérifier les vulnérabilités connues :</p>
+        <pre><code class="language-bash">symfony check:security
+      </code></pre>
+        <p>Ou, sans CLI :</p>
+        <pre><code class="language-bash">composer audit
+      </code></pre>
+        <hr />
+        <h2>7. Versions LTS</h2>
+        <p>
+          Symfony publie une version <strong>LTS</strong> tous les 2 ans. Créer
+          un projet avec la dernière LTS :
+        </p>
+        <pre><code class="language-bash">symfony new my_project_directory --version=lts
+      </code></pre>
+        <hr />
+        <h2>8. Exemple : Symfony Demo</h2>
+        <p>Projet de démonstration recommandé pour apprendre :</p>
+        <pre><code class="language-bash">symfony new my_project_directory --demo
+      </code></pre>
+      </div>
+    </div>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+    <script>
+      const h1 = document.querySelector("h1");
+      if (h1) document.title = h1.textContent;
+    </script>
+  </body>
+</html>

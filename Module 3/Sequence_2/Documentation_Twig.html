@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Documentation_Twig.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<img src="../../Logo.png" width="550" height="75" alt="logo">
+<h1 id="documentation-twig"><strong>Documentation TWIG</strong></h1>
+<h2 id="1-twig-cest-quoi-exactement">1 Twig, c’est quoi exactement ?</h2>
+<p>Twig est un moteur de templates : tu écris des fichiers <code>.twig</code> (souvent du HTML + des balises Twig) et Twig les “rend” en HTML final à partir de données (variables) envoyées par ton code PHP (ou ton contrôleur Symfony).</p>
+<p>Objectifs :</p>
+<ul>
+<li>séparer clairement <strong>affichage</strong> et <strong>logique métier</strong></li>
+<li>éviter le “PHP spaghetti” dans les vues</li>
+<li>avoir un langage de template sûr (échappement XSS par défaut en HTML)</li>
+</ul>
+<hr>
+<h2 id="2-les-3-syntaxes-twig-%C3%A0-connaitre">2 Les 3 syntaxes Twig à connaitre</h2>
+<h3 id="affichage-print">Affichage (print)</h3>
+<p>Affiche une valeur (variable, expression, résultat d’un filtre, etc.) :</p>
+<pre class="hljs"><code><div><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span></span><span class="hljs-template-variable">{{ title }}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+</span></div></code></pre>
+<h3 id="instructions-tags">Instructions (tags)</h3>
+<p>Pour la logique : <code>if</code>, <code>for</code>, <code>set</code>, <code>include</code>, <code>extends</code>, etc. :</p>
+<pre class="hljs"><code><div><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">if</span></span> user %}</span><span class="xml">Bonjour</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endif</span></span> %}</span><span class="xml">
+</span></div></code></pre>
+<h3 id="commentaires">Commentaires</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">{# Ceci est un commentaire Twig #}</span><span class="xml">
+</span></div></code></pre>
+<hr>
+<h2 id="3-variables-acc%C3%A8s-aux-donn%C3%A9es-valeurs-par-d%C3%A9faut">3 Variables, accès aux données, valeurs par défaut</h2>
+<h3 id="variables-simples">Variables simples</h3>
+<pre class="hljs"><code><div><span class="hljs-template-variable">{{ name }}</span><span class="xml">
+</span><span class="hljs-template-variable">{{ user }}</span><span class="xml">
+</span></div></code></pre>
+<h3 id="acc%C3%A9der-%C3%A0-des-champs">Accéder à des champs</h3>
+<p>Twig supporte plusieurs “formes” et choisit intelligemment :</p>
+<ul>
+<li>tableau : <code>user['email']</code></li>
+<li>objet : <code>user.email</code> (propriété) ou <code>getEmail()</code> / <code>isAdmin()</code> si méthodes</li>
+</ul>
+<p>Exemples :</p>
+<pre class="hljs"><code><div><span class="hljs-template-variable">{{ user.email }}</span><span class="xml">
+</span><span class="hljs-template-variable">{{ user.profile.firstName }}</span><span class="xml">
+</span><span class="hljs-template-variable">{{ product.price }}</span><span class="xml">
+</span></div></code></pre>
+<h3 id="valeur-par-d%C3%A9faut">Valeur par défaut</h3>
+<ul>
+<li>Avec <code>default</code> :</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-template-variable">{{ user.nickname|<span class="hljs-keyword">default</span>('Invité') }}</span><span class="xml">
+</span></div></code></pre>
+<ul>
+<li>Avec l’opérateur <code>??</code> (coalesce) :</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-template-variable">{{ user.nickname ?? 'Invité' }}</span><span class="xml">
+</span></div></code></pre>
+<h3 id="d%C3%A9finir-une-variable">Définir une variable</h3>
+<pre class="hljs"><code><div><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">set</span></span> total = 0 %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">set</span></span> title = 'Accueil' %}</span><span class="xml">
+</span></div></code></pre>
+<hr>
+<h2 id="4-types-litt%C3%A9raux-op%C3%A9rateurs">4 Types, littéraux, opérateurs</h2>
+<h3 id="cha%C3%AEnes-nombres-bool%C3%A9ens">Chaînes, nombres, booléens</h3>
+<pre class="hljs"><code><div><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">set</span></span> s = 'hello' %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">set</span></span> n = 42 %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">set</span></span> ok = true %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">set</span></span> nothing = null %}</span><span class="xml">
+</span></div></code></pre>
+<h3 id="tableaux-listes-et-objets-hash">Tableaux (listes) et objets (hash)</h3>
+<pre class="hljs"><code><div><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">set</span></span> tags = ['php', 'twig', 'symfony'] %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">set</span></span> user = { id: 10, name: 'Manu' } %}</span><span class="xml">
+
+</span><span class="hljs-template-variable">{{ tags[0] }}</span><span class="xml">           </span><span class="hljs-comment">{# php #}</span><span class="xml">
+</span><span class="hljs-template-variable">{{ user.name }}</span><span class="xml">         </span><span class="hljs-comment">{# Manu #}</span><span class="xml">
+</span></div></code></pre>
+<h3 id="concat%C3%A9nation">Concaténation</h3>
+<pre class="hljs"><code><div><span class="hljs-template-variable">{{ 'Bonjour ' ~ user.name }}</span><span class="xml">
+</span></div></code></pre>
+<h3 id="op%C3%A9rateurs-utiles">Opérateurs utiles</h3>
+<pre class="hljs"><code><div><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">if</span></span> a and b %}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endif</span></span> %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">if</span></span> a or b %}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endif</span></span> %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">if</span></span> not a %}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endif</span></span> %}</span><span class="xml">
+
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">if</span></span> n &gt; 10 %}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endif</span></span> %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">if</span></span> n in [1, 2, 3] %}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endif</span></span> %}</span><span class="xml">
+</span></div></code></pre>
+<hr>
+<h2 id="5-conditions--if--elseif--else">5 Conditions : if / elseif / else</h2>
+<pre class="hljs"><code><div><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">if</span></span> user %}</span><span class="xml">
+  Bonjour </span><span class="hljs-template-variable">{{ user.name }}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name">elseif</span> guest %}</span><span class="xml">
+  Bonjour invité
+</span><span class="hljs-template-tag">{% <span class="hljs-name">else</span> %}</span><span class="xml">
+  Bonjour inconnu
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endif</span></span> %}</span><span class="xml">
+</span></div></code></pre>
+<h3 id="comparaisons-is">Comparaisons, “is”</h3>
+<p>Twig a un système de tests :</p>
+<pre class="hljs"><code><div><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">if</span></span> user is null %}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endif</span></span> %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">if</span></span> name is empty %}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endif</span></span> %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">if</span></span> n is even %}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endif</span></span> %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">if</span></span> n is odd %}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endif</span></span> %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">if</span></span> email is defined %}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endif</span></span> %}</span><span class="xml">
+</span></div></code></pre>
+<p><code>defined</code> est très utile si tu n’es pas sûr qu’une variable existe.</p>
+<hr>
+<h2 id="6-boucles--for-loop-else">6 Boucles : for, loop, else</h2>
+<h3 id="boucle-simple">Boucle simple</h3>
+<pre class="hljs"><code><div><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+  </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">for</span></span> p in products %}</span><span class="xml">
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span></span><span class="hljs-template-variable">{{ p.name }}</span><span class="xml"> - </span><span class="hljs-template-variable">{{ p.price }}</span><span class="xml"> €<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+  </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endfor</span></span> %}</span><span class="xml">
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+</span></div></code></pre>
+<h3 id="variables-de-boucle-loop">Variables de boucle <code>loop</code></h3>
+<pre class="hljs"><code><div><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">for</span></span> p in products %}</span><span class="xml">
+  </span><span class="hljs-template-variable">{{ loop.index }}</span><span class="xml"> / </span><span class="hljs-template-variable">{{ loop.length }}</span><span class="xml"> - </span><span class="hljs-template-variable">{{ p.name }}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endfor</span></span> %}</span><span class="xml">
+</span></div></code></pre>
+<p><code>loop</code> propose notamment :</p>
+<ul>
+<li><code>loop.index</code> (1..n)</li>
+<li><code>loop.index0</code> (0..n-1)</li>
+<li><code>loop.first</code>, <code>loop.last</code></li>
+<li><code>loop.length</code></li>
+<li><code>loop.parent</code> (dans les boucles imbriquées)</li>
+</ul>
+<h3 id="for-avec-else-si-liste-vide">For avec else (si liste vide)</h3>
+<pre class="hljs"><code><div><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">for</span></span> p in products %}</span><span class="xml">
+  <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span></span><span class="hljs-template-variable">{{ p.name }}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+</span><span class="hljs-template-tag">{% <span class="hljs-name">else</span> %}</span><span class="xml">
+  <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>Aucun produit<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endfor</span></span> %}</span><span class="xml">
+</span></div></code></pre>
+<h3 id="it%C3%A9rer-sur-un-hash">Itérer sur un hash</h3>
+<pre class="hljs"><code><div><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">for</span></span> key, value in config %}</span><span class="xml">
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span></span><span class="hljs-template-variable">{{ key }}</span><span class="xml"> = </span><span class="hljs-template-variable">{{ value }}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endfor</span></span> %}</span><span class="xml">
+</span></div></code></pre>
+<hr>
+<h2 id="7-filtres--la-boite-%C3%A0-outils-twig">7 Filtres : la “boite à outils” Twig</h2>
+<p>Un filtre transforme une valeur : <code>valeur|filtre(...)</code></p>
+<h3 id="filtres-courants">Filtres courants</h3>
+<pre class="hljs"><code><div><span class="hljs-template-variable">{{ name|<span class="hljs-keyword">upper</span> }}</span><span class="xml">
+</span><span class="hljs-template-variable">{{ name|<span class="hljs-keyword">lower</span> }}</span><span class="xml">
+</span><span class="hljs-template-variable">{{ name|<span class="hljs-keyword">capitalize</span> }}</span><span class="xml">
+</span><span class="hljs-template-variable">{{ text|<span class="hljs-keyword">trim</span> }}</span><span class="xml">
+</span><span class="hljs-template-variable">{{ text|<span class="hljs-keyword">length</span> }}</span><span class="xml">
+</span><span class="hljs-template-variable">{{ text|<span class="hljs-keyword">slice</span>(0, 50) }}</span><span class="xml">
+</span></div></code></pre>
+<h3 id="html-et-s%C3%A9curit%C3%A9--escape-raw">HTML et sécurité : escape, raw</h3>
+<p>En HTML, Twig échappe par défaut :</p>
+<pre class="hljs"><code><div><span class="hljs-template-variable">{{ user.bio }}</span><span class="xml">   </span><span class="hljs-comment">{# échappé, donc safe contre XSS #}</span><span class="xml">
+</span></div></code></pre>
+<p>Si tu veux afficher du HTML déjà sûr (attention) :</p>
+<pre class="hljs"><code><div><span class="hljs-template-variable">{{ post.content|<span class="hljs-keyword">raw</span> }}</span><span class="xml">
+</span></div></code></pre>
+<p>Dans un projet réel, <code>raw</code> doit être rare et justifié.</p>
+<h3 id="date">Date</h3>
+<pre class="hljs"><code><div><span class="hljs-template-variable">{{ createdAt|<span class="hljs-keyword">date</span>('Y-m-d H:i') }}</span><span class="xml">
+</span></div></code></pre>
+<h3 id="number--format">Number / format</h3>
+<pre class="hljs"><code><div><span class="hljs-template-variable">{{ price|<span class="hljs-keyword">number_format</span>(2, ',', ' ') }}</span><span class="xml">
+</span></div></code></pre>
+<h3 id="join">join</h3>
+<pre class="hljs"><code><div><span class="hljs-template-variable">{{ tags|<span class="hljs-keyword">join</span>(', ') }}</span><span class="xml">
+</span></div></code></pre>
+<h3 id="jsonencode-pratique-pour-js">json_encode (pratique pour JS)</h3>
+<pre class="hljs"><code><div><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="actionscript">
+  <span class="hljs-keyword">const</span> data = </span></span><span class="hljs-template-variable">{{ payload|<span class="hljs-keyword">json_encode</span>|<span class="hljs-keyword">raw</span> }}</span><span class="xml">;
+<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</span></div></code></pre>
+<hr>
+<h2 id="8-fonctions-twig-utiles">8 Fonctions Twig utiles</h2>
+<p>Twig a des fonctions (comme en PHP) :</p>
+<pre class="hljs"><code><div><span class="hljs-template-variable">{{ <span class="hljs-name">dump</span><span class="hljs-params">(user)</span> }}</span><span class="xml">              </span><span class="hljs-comment">{# debug en dev (Symfony) #}</span><span class="xml">
+</span><span class="hljs-template-variable">{{ <span class="hljs-name">include</span><span class="hljs-params">('parts/_card.html.twig')</span> }}</span><span class="xml">
+</span><span class="hljs-template-variable">{{ <span class="hljs-name">random</span><span class="hljs-params">(['a','b','c'])</span> }}</span><span class="xml">
+</span><span class="hljs-template-variable">{{ <span class="hljs-name">range</span><span class="hljs-params">(1, 10)</span>|<span class="hljs-keyword">join</span>(' ') }}</span><span class="xml">
+</span></div></code></pre>
+<p>En Symfony, tu as en plus :</p>
+<ul>
+<li><code>path('route_name', {id: 10})</code> pour générer une URL</li>
+<li><code>asset('images/logo.png')</code> pour les assets</li>
+<li><code>csrf_token('intention')</code> pour CSRF</li>
+<li><code>form_*</code> pour les formulaires (si Forms)</li>
+</ul>
+<p>Exemples Symfony :</p>
+<pre class="hljs"><code><div><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{{ path('app_product_show', {id: product.id}) }}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>&gt;</span>Voir<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{{ asset('images/logo.svg') }}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"Logo"</span>&gt;</span>
+</span></div></code></pre>
+<hr>
+<h2 id="9-h%C3%A9ritage-de-templates--extends--blocks">9 Héritage de templates : extends + blocks</h2>
+<p>C’est le coeur de Twig. Tu fais un layout (base) puis des pages qui héritent.</p>
+<h3 id="basehtmltwig">base.html.twig</h3>
+<pre class="hljs"><code><div><span class="xml"><span class="hljs-meta">&lt;!doctype <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"utf-8"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span></span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">block</span></span> title %}</span><span class="xml">Mon site</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endblock</span></span> %}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">header</span>&gt;</span></span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">block</span></span> header %}</span><span class="xml">Header</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endblock</span></span> %}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span>
+      </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">block</span></span> body %}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endblock</span></span> %}</span><span class="xml">
+    <span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">footer</span>&gt;</span></span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">block</span></span> footer %}</span><span class="xml">Footer</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endblock</span></span> %}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">footer</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
+</span></div></code></pre>
+<h3 id="pagehtmltwig">page.html.twig</h3>
+<pre class="hljs"><code><div><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">extends</span></span> 'base.html.twig' %}</span><span class="xml">
+
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">block</span></span> title %}</span><span class="xml">Accueil</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endblock</span></span> %}</span><span class="xml">
+
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">block</span></span> body %}</span><span class="xml">
+  <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Bienvenue<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span></span><span class="hljs-template-variable">{{ message }}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endblock</span></span> %}</span><span class="xml">
+</span></div></code></pre>
+<h3 id="ajouter-au-contenu-du-parent--parent">Ajouter au contenu du parent : parent()</h3>
+<pre class="hljs"><code><div><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">block</span></span> header %}</span><span class="xml">
+  </span><span class="hljs-template-variable">{{ <span class="hljs-name">parent</span><span class="hljs-params">()</span> }}</span><span class="xml">
+  <span class="hljs-tag">&lt;<span class="hljs-name">nav</span>&gt;</span>...<span class="hljs-tag">&lt;/<span class="hljs-name">nav</span>&gt;</span>
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endblock</span></span> %}</span><span class="xml">
+</span></div></code></pre>
+<hr>
+<h2 id="10-include-embed-blocks-r%C3%A9utilisables">10 include, embed, blocks réutilisables</h2>
+<h3 id="include-simple">include simple</h3>
+<pre class="hljs"><code><div><span class="hljs-template-variable">{{ <span class="hljs-name">include</span><span class="hljs-params">('parts/_flash.html.twig')</span> }}</span><span class="xml">
+</span></div></code></pre>
+<h3 id="include-avec-variables">include avec variables</h3>
+<pre class="hljs"><code><div><span class="hljs-template-variable">{{ <span class="hljs-name">include</span><span class="hljs-params">('parts/_card.html.twig', { title: p.name, price: p.price })</span> }}</span><span class="xml">
+</span></div></code></pre>
+<h3 id="only-isoler-le-scope">only (isoler le scope)</h3>
+<pre class="hljs"><code><div><span class="hljs-template-variable">{{ <span class="hljs-name">include</span><span class="hljs-params">('parts/_card.html.twig', { title: 'X' }, only=true)</span> }}</span><span class="xml">
+</span></div></code></pre>
+<h3 id="embed-include--possibilit%C3%A9-de-red%C3%A9finir-des-blocks">embed (include + possibilité de redéfinir des blocks)</h3>
+<p><code>embed</code> est pratique quand un composant a des blocks internes :</p>
+<pre class="hljs"><code><div><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">embed</span></span> 'ui/_panel.html.twig' %}</span><span class="xml">
+  </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">block</span></span> content %}</span><span class="xml">
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Contenu spécifique<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endblock</span></span> %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endembed</span></span> %}</span><span class="xml">
+</span></div></code></pre>
+<hr>
+<h2 id="11-macros--fonctions-de-template">11 Macros : “fonctions” de template</h2>
+<p>Macros = réutilisation de rendu (boutons, badges, tableaux, etc.).</p>
+<h3 id="macrosuihtmltwig">macros/ui.html.twig</h3>
+<pre class="hljs"><code><div><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">macro</span></span> badge(text) %}</span><span class="xml">
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"badge"</span>&gt;</span></span><span class="hljs-template-variable">{{ text }}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endmacro</span></span> %}</span><span class="xml">
+</span></div></code></pre>
+<h3 id="utilisation">Utilisation</h3>
+<pre class="hljs"><code><div><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">import</span></span> 'macros/ui.html.twig' as ui %}</span><span class="xml">
+
+</span><span class="hljs-template-variable">{{ ui.badge('Nouveau') }}</span><span class="xml">
+</span></div></code></pre>
+<p>Tu peux aussi <code>from ... import ...</code> :</p>
+<pre class="hljs"><code><div><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">from</span></span> 'macros/ui.html.twig' import badge %}</span><span class="xml">
+</span><span class="hljs-template-variable">{{ badge('OK') }}</span><span class="xml">
+</span></div></code></pre>
+<hr>
+<h2 id="12-port%C3%A9e-scope-des-variables">12 Portée (scope) des variables</h2>
+<ul>
+<li>Les variables définies via <code>{% set %}</code> sont dans le scope du template.</li>
+<li>Dans un <code>include</code>, tu peux contrôler ce que tu envoies.</li>
+<li>Dans un <code>for</code>, la variable de loop (<code>p</code>) n’existe que dans la boucle.</li>
+</ul>
+<p>Exemple :</p>
+<pre class="hljs"><code><div><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">set</span></span> x = 1 %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">for</span></span> i in [1,2,3] %}</span><span class="xml">
+  </span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">set</span></span> x = x + i %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endfor</span></span> %}</span><span class="xml">
+</span><span class="hljs-template-variable">{{ x }}</span><span class="xml">
+</span></div></code></pre>
+<p>Selon les versions et configurations, les comportements de scope peuvent surprendre. En pratique, évite les “accumulateurs” dans les vues si tu peux.</p>
+<hr>
+<h2 id="13-gestion-des-espaces">13 Gestion des espaces</h2>
+<p>Twig peut générer des espaces et retours à la ligne. Parfois tu veux les contrôler.</p>
+<h3 id="trim-sur-les-tags">trim sur les tags</h3>
+<pre class="hljs"><code><div><span class="hljs-template-tag">{%- <span class="hljs-name"><span class="hljs-keyword">if</span></span> ok -%}</span><span class="xml">
+  OK
+</span><span class="hljs-template-tag">{%- <span class="hljs-name"><span class="hljs-keyword">endif</span></span> -%}</span><span class="xml">
+</span></div></code></pre>
+<p>Le <code>-</code> enlève les espaces autour.</p>
+<hr>
+<h2 id="14-auto-escape-et-contextes-html-js-url">14 Auto-escape et contextes (HTML, JS, URL)</h2>
+<p>En HTML, l’échappement est la norme. Si tu injectes dans du JS ou une URL, évite les bricolages :</p>
+<ul>
+<li>pour JS, passe par <code>json_encode|raw</code></li>
+<li>pour URL, utilise les fonctions <code>path</code> / <code>url</code> de Symfony</li>
+</ul>
+<hr>
+<h2 id="15-bonnes-pratiques-twig">15 Bonnes pratiques Twig</h2>
+<ul>
+<li>Mets la logique métier dans le PHP / contrôleur, pas dans Twig.</li>
+<li>Twig : conditions d’affichage, boucles, mise en forme, composants.</li>
+<li>Évite <code>raw</code> sauf si tu sais exactement ce que tu fais.</li>
+<li>Utilise <code>extends</code> + <code>blocks</code> comme base, <code>include</code> pour les composants.</li>
+<li>Nomme tes partiels : <code>parts/_card.html.twig</code>, <code>ui/_button.html.twig</code>.</li>
+</ul>
+<hr>
+<h2 id="16-mini-cheat-sheet-r%C3%A9cap">16 Mini “cheat sheet” (récap)</h2>
+<pre class="hljs"><code><div><span class="hljs-comment">{# afficher #}</span><span class="xml">
+</span><span class="hljs-template-variable">{{ var }}</span><span class="xml">
+
+</span><span class="hljs-comment">{# logique #}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">if</span></span> ... %}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endif</span></span> %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">for</span></span> x in xs %}</span><span class="hljs-template-tag">{% <span class="hljs-name">else</span> %}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endfor</span></span> %}</span><span class="xml">
+
+</span><span class="hljs-comment">{# héritage #}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">extends</span></span> 'base.html.twig' %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">block</span></span> body %}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endblock</span></span> %}</span><span class="xml">
+
+</span><span class="hljs-comment">{# inclure #}</span><span class="xml">
+</span><span class="hljs-template-variable">{{ <span class="hljs-name">include</span><span class="hljs-params">('parts/_x.html.twig', {a: 1})</span> }}</span><span class="xml">
+
+</span><span class="hljs-comment">{# filtres #}</span><span class="xml">
+</span><span class="hljs-template-variable">{{ name|<span class="hljs-keyword">upper</span> }}</span><span class="xml">
+</span><span class="hljs-template-variable">{{ createdAt|<span class="hljs-keyword">date</span>('Y-m-d') }}</span><span class="xml">
+</span><span class="hljs-template-variable">{{ text|<span class="hljs-keyword">default</span>('N/A') }}</span><span class="xml">
+
+</span><span class="hljs-comment">{# tests #}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">if</span></span> x is defined %}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endif</span></span> %}</span><span class="xml">
+</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">if</span></span> x is empty %}</span><span class="hljs-template-tag">{% <span class="hljs-name"><span class="hljs-keyword">endif</span></span> %}</span><span class="xml">
+</span></div></code></pre>
+
+</body>
+</html>

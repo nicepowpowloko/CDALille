@@ -1,0 +1,386 @@
+<!doctype html>
+
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Symfony - 09 - Doctrine</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/github-markdown.css" rel="stylesheet" />
+    <script src="assets/js/jquery-3.4.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <link href="assets/css/stackoverflow-dark.min.css" rel="stylesheet" />
+    <link href="assets/css/navbar.css" rel="stylesheet" />
+    <script src="assets/js/highlight.min.js"></script>
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-0"
+      id="jsnav"
+    >
+      <div class="container">
+        <a
+          class="navbar-brand py-0 my-0"
+          href="SF_01_Presentation_Symfony.html"
+          style="font-size: 14px"
+          >Symfony Cours</a
+        >
+        <button
+          aria-controls="jsNavbar"
+          aria-expanded="false"
+          aria-label="Menu"
+          class="navbar-toggler"
+          data-target="#jsNavbar"
+          data-toggle="collapse"
+          type="button"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="jsNavbar">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a
+                aria-expanded="false"
+                aria-haspopup="true"
+                class="nav-link dropdown-toggle py-1"
+                data-toggle="dropdown"
+                href="#"
+                id="chaptersDropdown"
+                role="button"
+              >
+                Chapitres
+              </a>
+              <div
+                aria-labelledby="chaptersDropdown"
+                class="dropdown-menu dropdown-menu-right"
+              >
+                <a class="dropdown-item" href="SF_01_Presentation_Symfony.html"
+                  >01 - Présentation Symfony</a
+                ><a class="dropdown-item" href="SF_02_Demarrage.html"
+                  >02 - Démarrage</a
+                ><a class="dropdown-item" href="SF_03_Namespaces.html"
+                  >03 - Namespaces</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_04_le_contrôleur_symfony.html"
+                  >04 - Le contrôleur et AbstractController</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_05_les_services_en_symfony.html"
+                  >05 - Les services</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_06_le_routing_en_symfony.html"
+                  >06 - Les routes</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_07_la_request_et_la_response_en_symfony.html"
+                  >07 - Request - Response</a
+                ><a class="dropdown-item" href="SF_08_Twig.html">08 - Twig</a
+                ><a class="dropdown-item" href="SF_09_Doctrine.html"
+                  >09 - Doctrine</a
+                ><a class="dropdown-item" href="SF_10_Architecture_Globale.html"
+                  >10 - Architecture globale</a
+                ><a class="dropdown-item" href="SF_11_Les_Formulaires.html"
+                  >11 - Les formulaires</a
+                ><a class="dropdown-item" href="SF_12_La_Securite.html"
+                  >12 - La sécurité</a
+                ><a class="dropdown-item" href="SF_13_CRUD_Avance.html"
+                  >13 - CRUD avancé</a
+                ><a
+                  class="dropdown-item"
+                  href="SF_14_Tests_Unitaires_et_Fonctionnels.html"
+                  >14 - Test Unitaires/Fonctionnels</a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="markdown-body">
+        <h1>DOCTRINE ORM - INTRODUCTION</h1>
+        <h2>Comprendre comment Symfony gère les données</h2>
+        <p><em>(avec Doctrine ORM dans Symfony)</em></p>
+        <hr />
+        <h2>1. Pourquoi Doctrine ?</h2>
+        <p>Dans une application web, les données :</p>
+        <ul>
+          <li>ne viennent pas du contrôleur</li>
+          <li>ne viennent pas des vues</li>
+          <li>proviennent d’une <strong>base de données</strong></li>
+        </ul>
+        <p>Symfony s’appuie sur <strong>Doctrine ORM</strong> pour :</p>
+        <ul>
+          <li>représenter les données sous forme d’objets PHP</li>
+          <li>éviter l’écriture directe de SQL dans l’application</li>
+          <li>structurer l’accès aux données de manière propre</li>
+        </ul>
+        <p>
+          Doctrine fait le lien entre <strong>le monde objet (PHP)</strong> et
+          <strong>le monde relationnel (SQL)</strong>.
+        </p>
+        <hr />
+        <h2>2. Les quatre piliers de Doctrine</h2>
+        <p>
+          Pour comprendre Doctrine, il faut maîtriser
+          <strong>quatre concepts essentiels</strong> :
+        </p>
+        <ol>
+          <li><strong>Entity</strong></li>
+          <li><strong>Repository</strong></li>
+          <li><strong>EntityManager</strong></li>
+          <li><strong>DQL</strong></li>
+        </ol>
+        <hr />
+        <h2>3. L’Entity : représenter une table</h2>
+        <p>Une <strong>Entity</strong> est une classe PHP qui représente :</p>
+        <ul>
+          <li>une table de base de données</li>
+          <li>une ligne = un objet</li>
+        </ul>
+        <h3>3.1 Exemple simple d’Entity</h3>
+        <pre><code class="language-php">namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity]
+class Article
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 255)]
+    private string $title;
+
+    public function getId(): ?int
+    {
+        return $this-&gt;id;
+    }
+
+    public function getTitle(): string
+    {
+        return $this-&gt;title;
+    }
+}
+</code></pre>
+        <p>Une Entity :</p>
+        <ul>
+          <li>ne contient <strong>pas de SQL</strong></li>
+          <li>représente un <strong>concept métier</strong></li>
+          <li>est indépendante de l’affichage</li>
+        </ul>
+        <hr />
+        <h2>4. Le Repository : interroger les données</h2>
+        <p>Chaque Entity possède un <strong>Repository</strong>.</p>
+        <p>Le Repository sert à :</p>
+        <ul>
+          <li>récupérer des données</li>
+          <li>écrire des requêtes</li>
+          <li>centraliser l’accès à la base</li>
+        </ul>
+        <h3>4.1 Exemple de Repository</h3>
+        <pre><code class="language-php">namespace App\Repository;
+
+use App\Entity\Article;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+
+class ArticleRepository extends ServiceEntityRepository
+{
+    public function findPublished(): array
+    {
+        return $this-&gt;findBy(['published' =&gt; true]);
+    }
+}
+</code></pre>
+        <p>Le Repository :</p>
+        <ul>
+          <li>lit les données</li>
+          <li>ne fait pas d’affichage</li>
+          <li>ne contient pas de logique HTTP</li>
+        </ul>
+        <hr />
+        <h2>5. L’EntityManager : le chef d’orchestre</h2>
+        <p>
+          L’<strong>EntityManager</strong> est le composant central de Doctrine.
+        </p>
+        <p>Il est responsable de :</p>
+        <ul>
+          <li>persister les objets</li>
+          <li>synchroniser avec la base</li>
+          <li>gérer les transactions</li>
+        </ul>
+        <h3>5.1 Exemple d’utilisation</h3>
+        <pre><code class="language-php">$entityManager-&gt;persist($article);
+$entityManager-&gt;flush();
+</code></pre>
+        <p>
+          Vous ne travaillez
+          <strong>jamais directement avec la base</strong> Vous travaillez avec
+          des <strong>objets</strong>
+        </p>
+        <hr />
+        <h2>6. Lien entre Doctrine et les services</h2>
+        <p>Doctrine est utilisé <strong>via des services</strong>.</p>
+        <p>Dans Symfony :</p>
+        <ul>
+          <li>les Repositories sont des services</li>
+          <li>l’EntityManager est un service</li>
+          <li>vous les injectez par le constructeur</li>
+        </ul>
+        <h3>6.1 Injection dans un contrôleur</h3>
+        <pre><code class="language-php">class ArticleController extends AbstractController
+{
+    public function __construct(
+        private ArticleRepository $articleRepository
+    ) {}
+
+    public function index(): Response
+    {
+        $articles = $this-&gt;articleRepository-&gt;findAll();
+        // ...
+    }
+}
+</code></pre>
+        <p>Le contrôleur orchestre Doctrine travaille via ses services</p>
+        <hr />
+        <h2>7. Introduction au DQL (Doctrine Query Language)</h2>
+        <h3>7.1 Pourquoi le DQL ?</h3>
+        <p>Doctrine ne vous oblige pas à écrire du SQL.</p>
+        <p>
+          Il propose le <strong>DQL</strong>, un langage orienté
+          <strong>objets</strong>, basé sur les Entities.
+        </p>
+        <p>
+          On ne requête <strong>pas des tables</strong>, mais des
+          <strong>classes</strong>.
+        </p>
+        <hr />
+        <h3>7.2 Exemple simple de DQL</h3>
+        <pre><code class="language-php">$entityManager-&gt;createQuery(
+    'SELECT a FROM App\Entity\Article a'
+)-&gt;getResult();
+</code></pre>
+        <p>Ce que cela signifie :</p>
+        <ul>
+          <li><code>Article</code> est une Entity</li>
+          <li><code>a</code> est un alias</li>
+          <li>Doctrine génère le SQL automatiquement</li>
+        </ul>
+        <hr />
+        <h3>7.3 DQL vs SQL (différence clé)</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>SQL</th>
+              <th>DQL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Tables</td>
+              <td>Entities</td>
+            </tr>
+            <tr>
+              <td>Colonnes</td>
+              <td>Propriétés</td>
+            </tr>
+            <tr>
+              <td>Résultats bruts</td>
+              <td>Objets PHP</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Le DQL raisonne <strong>objet</strong>, pas relationnel.</p>
+        <hr />
+        <h2>8. DQL dans un Repository (bonne pratique)</h2>
+        <p>
+          Le DQL doit être écrit <strong>dans les Repositories</strong>, jamais
+          dans les contrôleurs.
+        </p>
+        <pre><code class="language-php">public function findRecent(): array
+{
+    return $this-&gt;createQueryBuilder('a')
+        -&gt;orderBy('a.id', 'DESC')
+        -&gt;setMaxResults(5)
+        -&gt;getQuery()
+        -&gt;getResult();
+}
+</code></pre>
+        <p>Le QueryBuilder :</p>
+        <ul>
+          <li>produit du DQL</li>
+          <li>reste lisible</li>
+          <li>est fortement recommandé pour débuter</li>
+        </ul>
+        <hr />
+        <h2>9. Ce que vous devez maîtriser à ce stade</h2>
+        <p>Vous devez être capable de :</p>
+        <ul>
+          <li>expliquer ce qu’est une Entity</li>
+          <li>comprendre le rôle d’un Repository</li>
+          <li>savoir à quoi sert l’EntityManager</li>
+          <li>comprendre d’où viennent les données</li>
+          <li>lire une requête DQL simple</li>
+          <li>utiliser Doctrine via l’injection de services</li>
+        </ul>
+        <hr />
+        <h2>10. Ce que vous n’êtes pas encore censé maîtriser</h2>
+        <ul>
+          <li>jointures complexes</li>
+          <li>relations avancées (OneToMany, ManyToMany)</li>
+          <li>transactions complexes</li>
+          <li>optimisation SQL</li>
+        </ul>
+        <p>Ces points viendront plus tard.</p>
+        <hr />
+        <h2>11. Bonnes pratiques essentielles</h2>
+        <ul>
+          <li>jamais de SQL dans les contrôleurs</li>
+          <li>les requêtes dans les Repositories</li>
+          <li>logique métier dans des services</li>
+          <li>Doctrine ne gère pas l’affichage</li>
+        </ul>
+        <hr />
+        <h2>12. À retenir absolument</h2>
+        <blockquote>
+          <p>
+            Doctrine manipule des objets, pas des tables. Les Entities
+            représentent les données. Les Repositories interrogent la base. Le
+            DQL raisonne en objets. Doctrine s’intègre via les services Symfony.
+          </p>
+        </blockquote>
+        <hr />
+        <h2>Conclusion</h2>
+        <p>Doctrine est un pilier fondamental de Symfony.</p>
+        <p>Sans entrer dans la complexité :</p>
+        <ul>
+          <li>
+            vous savez maintenant <strong>d’où viennent les données</strong>
+          </li>
+          <li>comment elles sont représentées</li>
+          <li>comment elles sont récupérées</li>
+          <li>et pourquoi le DQL est essentiel</li>
+        </ul>
+        <p>Ce socle est suffisant pour :</p>
+        <ul>
+          <li>lire un projet Symfony</li>
+          <li>écrire des fonctionnalités simples</li>
+          <li>poursuivre vers des usages plus avancés</li>
+        </ul>
+      </div>
+    </div>
+    <script>
+      hljs.highlightAll();
+    </script>
+    <script>
+      document.title = document.querySelector("h1").textContent;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,122 @@
+@startuml
+hide circle
+skinparam classAttributeIconSize 0
+
+' --- Enumerations (optionnel) ---
+enum Moment {
+  APRES_MIDI
+  NOCTURNE
+}
+
+enum TypeCavalier {
+  JOCKEY
+  DRIVER
+}
+
+enum HandicapType {
+  POIDS
+  DISTANCE
+}
+
+' --- Classes ---
+class Jour {
+  +date : Date
+}
+
+class Hippodrome {
+  +id : int
+  +nom : string
+}
+
+class Reunion {
+  +id : int
+  +moment : Moment
+}
+
+class Course {
+  +id : int
+  +numero : int
+  +nomEpreuve : string
+  +heureDepart : Time
+  +distanceM : int
+  +prixGagnant : decimal
+  +nbPartants : int
+}
+
+class TypeCourse {
+  +id : int
+  +libelle : string
+}
+
+class Cheval {
+  +id : int
+  +nom : string
+  +nomPere : string
+  +nomMere : string
+  +gains : decimal
+}
+
+class Proprietaire {
+  +id : int
+  +nom : string
+  +couleurs : string
+}
+
+class Entraineur {
+  +id : int
+  +nom : string
+}
+
+class Cavalier {
+  +id : int
+  +nom : string
+  +typeCavalier : TypeCavalier
+}
+
+class Engagement {
+  +numeroDansCourse : int
+  +placeCorde : int
+  +handicapType : HandicapType
+  +handicapValeur : decimal
+}
+
+' --- Associations (avec noms) ---
+Reunion "0..*" -- "1" Hippodrome : seDerouleA
+Reunion "0..*" -- "1" Jour : aLieuLe
+
+Reunion "1" -- "1..*" Course : comprend
+
+Course "0..*" -- "1" TypeCourse : estDeType
+Cheval "0..*" -- "1" TypeCourse : aPourType
+
+Proprietaire "1" -- "0..*" Cheval : possede
+Entraineur "1" -- "0..*" Cheval : entraine
+
+Cheval "1" -- "0..*" Engagement : estEngage
+Course "1" -- "5..25" Engagement : comporte
+Cavalier "1" -- "0..*" Engagement : monte
+Jour "1" -- "0..*" Engagement : dateEngagement
+
+' --- Contraintes (notes) ---
+note right of Reunion
+Contrainte metier:
+- max 2 reunions par hippodrome et par jour
+  (moment = APRES_MIDI ou NOCTURNE)
+end note
+
+note right of Engagement
+Contrainte metier:
+- un cheval ne peut pas etre engage plus d une fois le meme jour
+- coherence: Engagement.jour = Course.reunion.jour
+- coherence: Cheval.typeCourse = Course.typeCourse
+end note
+
+note bottom of Cheval
+OCL (optionnel, formel):
+context Cheval
+inv UnSeulEngagementParJour:
+  self.estEngage->isUnique(e | e.comporte.reunion.aLieuLe)
+end note
+
+@enduml
+
