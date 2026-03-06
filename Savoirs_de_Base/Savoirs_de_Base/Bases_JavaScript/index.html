@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Bases de JavaScript — CDA Lille</title><style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--bg:#fafafa;--surface:#ffffff;--border:#e5e7eb;--text:#111827;--muted:#6b7280;--font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--mono:'SF Mono','Fira Code','Consolas',monospace;}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;}
+.wrapper{max-width:720px;margin:0 auto;padding:64px 24px 96px;}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--muted);margin-bottom:48px;font-family:var(--mono);}
+.breadcrumb a{color:var(--muted);text-decoration:none;} .breadcrumb a:hover{color:var(--text);} .breadcrumb .sep{opacity:.4;}
+.header{margin-bottom:40px;}
+.header .label{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.header h1{font-size:1.8rem;font-weight:600;letter-spacing:-.03em;line-height:1.2;margin-bottom:10px;}
+.header p{color:var(--muted);font-size:.92rem;line-height:1.6;}
+.divider{height:1px;background:var(--border);margin:28px 0;}
+.section-title{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding:0 4px;}
+.nav-list{display:flex;flex-direction:column;gap:2px;margin-bottom:32px;}
+.nav-item{display:flex;align-items:center;gap:14px;padding:13px 16px;border-radius:8px;text-decoration:none;color:var(--text);border:1px solid transparent;transition:background .12s,border-color .12s;}
+.nav-item:hover{background:var(--surface);border-color:var(--border);}
+.nav-num{font-family:var(--mono);font-size:.72rem;color:var(--muted);width:36px;flex-shrink:0;}
+.nav-info{flex:1;} .nav-title{font-size:.9rem;font-weight:500;margin-bottom:2px;} .nav-desc{font-size:.76rem;color:var(--muted);}
+.nav-arrow{color:var(--border);font-size:.85rem;transition:transform .15s,color .15s;}
+.nav-item:hover .nav-arrow{color:var(--muted);transform:translateX(3px);}
+.file-icon{width:34px;height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;font-family:var(--mono);flex-shrink:0;}
+.file-icon.html{background:#fef3c7;color:#92400e;} .file-icon.pdf{background:#fee2e2;color:#991b1b;}
+.file-icon.md{background:#ede9fe;color:#5b21b6;} .file-icon.img{background:#dcfce7;color:#166534;}
+.file-icon.sql{background:#eff6ff;color:#1e40af;} .file-icon.zip{background:#f8fafc;color:#475569;}
+.file-icon.txt{background:#f9fafb;color:#6b7280;} .file-icon.sh{background:#f0fdf4;color:#166534;}
+.footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--border);font-size:.78rem;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.footer a{color:var(--muted);text-decoration:none;} .footer a:hover{color:var(--text);}
+</style></head><body><div class="wrapper">
+<nav class="breadcrumb"><a href="../../index.html">CDA Lille</a><span class="sep">/</span><a href="../">Savoirs de Base</a><span class="sep">/</span><span>Bases JavaScript</span></nav>
+<header class="header"><div class="label">Savoirs de Base</div><h1>Bases de JavaScript</h1><p>14 modules interactifs — des fondamentaux aux formulaires en passant par le DOM.</p></header>
+<div class="divider"></div><div class="section-title">Modules</div><nav class="nav-list"><a class="nav-item" href="JS_01_Structure_Programme.html" target="_blank"><div class="file-icon html">HTM</div><div class="nav-info"><div class="nav-title">Structure du programme</div><div class="nav-desc">Module JS 01</div></div><span class="nav-arrow">↗</span></a><a class="nav-item" href="JS_02_Variables.html" target="_blank"><div class="file-icon html">HTM</div><div class="nav-info"><div class="nav-title">Variables</div><div class="nav-desc">Module JS 02</div></div><span class="nav-arrow">↗</span></a><a class="nav-item" href="JS_03_Affichage_Texte.html" target="_blank"><div class="file-icon html">HTM</div><div class="nav-info"><div class="nav-title">Affichage & Texte</div><div class="nav-desc">Module JS 03</div></div><span class="nav-arrow">↗</span></a><a class="nav-item" href="JS_04_Operateurs.html" target="_blank"><div class="file-icon html">HTM</div><div class="nav-info"><div class="nav-title">Opérateurs</div><div class="nav-desc">Module JS 04</div></div><span class="nav-arrow">↗</span></a><a class="nav-item" href="JS_05_Conditions.html" target="_blank"><div class="file-icon html">HTM</div><div class="nav-info"><div class="nav-title">Conditions</div><div class="nav-desc">Module JS 05</div></div><span class="nav-arrow">↗</span></a><a class="nav-item" href="JS_06_Boucles.html" target="_blank"><div class="file-icon html">HTM</div><div class="nav-info"><div class="nav-title">Boucles</div><div class="nav-desc">Module JS 06</div></div><span class="nav-arrow">↗</span></a><a class="nav-item" href="JS_07_Fonctions.html" target="_blank"><div class="file-icon html">HTM</div><div class="nav-info"><div class="nav-title">Fonctions</div><div class="nav-desc">Module JS 07</div></div><span class="nav-arrow">↗</span></a><a class="nav-item" href="JS_08_Tableaux.html" target="_blank"><div class="file-icon html">HTM</div><div class="nav-info"><div class="nav-title">Tableaux</div><div class="nav-desc">Module JS 08</div></div><span class="nav-arrow">↗</span></a><a class="nav-item" href="JS_09_DOM_et_Objet.html" target="_blank"><div class="file-icon html">HTM</div><div class="nav-info"><div class="nav-title">DOM & Objets</div><div class="nav-desc">Module JS 09</div></div><span class="nav-arrow">↗</span></a><a class="nav-item" href="JS_10_Objets_Natifs.html" target="_blank"><div class="file-icon html">HTM</div><div class="nav-info"><div class="nav-title">Objets natifs</div><div class="nav-desc">Module JS 10</div></div><span class="nav-arrow">↗</span></a><a class="nav-item" href="JS_11_Integration_JS.html" target="_blank"><div class="file-icon html">HTM</div><div class="nav-info"><div class="nav-title">Intégration JS</div><div class="nav-desc">Module JS 11</div></div><span class="nav-arrow">↗</span></a><a class="nav-item" href="JS_12_Evenements.html" target="_blank"><div class="file-icon html">HTM</div><div class="nav-info"><div class="nav-title">Événements</div><div class="nav-desc">Module JS 12</div></div><span class="nav-arrow">↗</span></a><a class="nav-item" href="JS_13_Expressions_Regulieres.html" target="_blank"><div class="file-icon html">HTM</div><div class="nav-info"><div class="nav-title">Expressions régulières</div><div class="nav-desc">Module JS 13</div></div><span class="nav-arrow">↗</span></a><a class="nav-item" href="JS_14_Formulaires.html" target="_blank"><div class="file-icon html">HTM</div><div class="nav-info"><div class="nav-title">Formulaires</div><div class="nav-desc">Module JS 14</div></div><span class="nav-arrow">↗</span></a></nav>
+<footer class="footer"><span>Bases de JavaScript</span><a href="../">← Retour aux Savoirs de Base</a></footer>
+</div></body></html>
