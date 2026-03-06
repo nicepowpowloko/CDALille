@@ -1,234 +1,36 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module 1 — CDA Lille</title>
-    <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        :root {
-            --bg:       #fafafa;
-            --surface:  #ffffff;
-            --border:   #e5e7eb;
-            --text:     #111827;
-            --muted:    #6b7280;
-            --subtle:   #f3f4f6;
-            --accent:   #111827;
-            --font:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            --mono:     'SF Mono', 'Fira Code', 'Consolas', monospace;
-        }
-
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-
-        html { font-size: 16px; }
-        body {
-            font-family: var(--font);
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* ── LAYOUT ── */
-        .wrapper {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 64px 24px 96px;
-        }
-
-        /* ── BREADCRUMB ── */
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: .8rem;
-            color: var(--muted);
-            margin-bottom: 48px;
-            font-family: var(--mono);
-        }
-        .breadcrumb a {
-            color: var(--muted);
-            text-decoration: none;
-            transition: color .15s;
-        }
-        .breadcrumb a:hover { color: var(--text); }
-        .breadcrumb .sep { opacity: .4; }
-
-        /* ── HEADER ── */
-        .header { margin-bottom: 48px; }
-        .header .label {
-            font-family: var(--mono);
-            font-size: .72rem;
-            letter-spacing: .12em;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 12px;
-        }
-        .header h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            letter-spacing: -.03em;
-            line-height: 1.2;
-            margin-bottom: 12px;
-        }
-        .header p {
-            color: var(--muted);
-            font-size: .95rem;
-            line-height: 1.6;
-        }
-
-        /* ── DIVIDER ── */
-        .divider {
-            height: 1px;
-            background: var(--border);
-            margin: 32px 0;
-        }
-
-        /* ── SEQUENCE LIST ── */
-        .seq-list { display: flex; flex-direction: column; gap: 2px; }
-
-        .seq-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 16px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            color: var(--text);
-            transition: background .12s;
-            border: 1px solid transparent;
-        }
-        .seq-item:hover {
-            background: var(--surface);
-            border-color: var(--border);
-        }
-
-        .seq-num {
-            font-family: var(--mono);
-            font-size: .72rem;
-            color: var(--muted);
-            width: 28px;
-            flex-shrink: 0;
-        }
-
-        .seq-info { flex: 1; }
-        .seq-title {
-            font-size: .92rem;
-            font-weight: 500;
-            margin-bottom: 3px;
-        }
-        .seq-desc {
-            font-size: .78rem;
-            color: var(--muted);
-        }
-
-        .seq-arrow {
-            color: var(--border);
-            font-size: .9rem;
-            transition: transform .15s, color .15s;
-        }
-        .seq-item:hover .seq-arrow {
-            color: var(--muted);
-            transform: translateX(3px);
-        }
-
-        /* ── FOOTER ── */
-        .footer {
-            margin-top: 64px;
-            padding-top: 24px;
-            border-top: 1px solid var(--border);
-            font-size: .78rem;
-            color: var(--muted);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .footer a { color: var(--muted); text-decoration: none; }
-        .footer a:hover { color: var(--text); }
-    </style>
-</head>
-<body>
-<div class="wrapper">
-
-    <nav class="breadcrumb">
-        <a href="../index.html">CDA Lille</a>
-        <span class="sep">/</span>
-        <span>Savoirs de Base</span>
-    </nav>
-
- 
-
-    <div class="divider"></div>
-
-    <nav class="seq-list">
-        <a class="seq-item" href="./Algo/">
-            <span class="seq-num">S1</span>
-            <div class="seq-info">
-                <div class="seq-title">Algorithmes</div>
-                <div class="seq-desc">—</div>
-            </div>
-        </a>
-           <a class="seq-item" href="./Bases_JavaScript/">
-            <span class="seq-num">S2</span>
-            <div class="seq-info">
-                <div class="seq-title">Bases de JavaScript</div>
-                <div class="seq-desc">—</div>
-            </div>
-            <span class="seq-arrow">→</span>
-        </a>
-           <a class="seq-item" href="./Bases_PHP/">
-            <span class="seq-num">S3</span>
-            <div class="seq-info">
-                <div class="seq-title">Bases de PHP</div>
-                <div class="seq-desc">—</div>
-            </div>
-            <span class="seq-arrow">→</span>
-        </a>
-        <a class="seq-item" href="./Déploiement/">
-            <span class="seq-num">S2</span>
-            <div class="seq-info">
-                <div class="seq-title">Déploiement</div>
-                <div class="seq-desc">—</div>
-            </div>
-            <span class="seq-arrow">→</span>
-        </a>
-        <a class="seq-item" href="./React/">
-            <span class="seq-num">S3</span>
-            <div class="seq-info">
-                <div class="seq-title">React</div>
-                <div class="seq-desc">—</div>
-            </div>
-            <span class="seq-arrow">→</span>
-        </a>
-        <a class="seq-item" href="./Securite/">
-            <span class="seq-num">S4</span>
-            <div class="seq-info">
-                <div class="seq-title">Sécurité</div>
-                <div class="seq-desc">—</div>
-            </div>
-            <span class="seq-arrow">→</span>
-        </a>
-          <a class="seq-item" href="./SQL/">
-            <span class="seq-num">S4</span>
-            <div class="seq-info">
-                <div class="seq-title">SQL</div>
-                <div class="seq-desc">—</div>
-            </div>
-            <span class="seq-arrow">→</span>
-        </a>
-          <a class="seq-item" href="./Symfony/">
-            <span class="seq-num">S4</span>
-            <div class="seq-info">
-                <div class="seq-title">Symfony</div>
-                <div class="seq-desc">—</div>
-            </div>
-            <span class="seq-arrow">→</span>
-        </a>
-         
-    </nav>
-</div>
-</body>
-</html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Savoirs de Base — CDA Lille</title><style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--bg:#fafafa;--surface:#ffffff;--border:#e5e7eb;--text:#111827;--muted:#6b7280;--font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--mono:'SF Mono','Fira Code','Consolas',monospace;}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;}
+.wrapper{max-width:720px;margin:0 auto;padding:64px 24px 96px;}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--muted);margin-bottom:48px;font-family:var(--mono);}
+.breadcrumb a{color:var(--muted);text-decoration:none;} .breadcrumb a:hover{color:var(--text);} .breadcrumb .sep{opacity:.4;}
+.header{margin-bottom:40px;}
+.header .label{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.header h1{font-size:1.8rem;font-weight:600;letter-spacing:-.03em;line-height:1.2;margin-bottom:10px;}
+.header p{color:var(--muted);font-size:.92rem;line-height:1.6;}
+.divider{height:1px;background:var(--border);margin:28px 0;}
+.section-title{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding:0 4px;}
+.nav-list{display:flex;flex-direction:column;gap:2px;margin-bottom:32px;}
+.nav-item{display:flex;align-items:center;gap:14px;padding:13px 16px;border-radius:8px;text-decoration:none;color:var(--text);border:1px solid transparent;transition:background .12s,border-color .12s;}
+.nav-item:hover{background:var(--surface);border-color:var(--border);}
+.nav-num{font-family:var(--mono);font-size:.72rem;color:var(--muted);width:36px;flex-shrink:0;}
+.nav-info{flex:1;} .nav-title{font-size:.9rem;font-weight:500;margin-bottom:2px;} .nav-desc{font-size:.76rem;color:var(--muted);}
+.nav-arrow{color:var(--border);font-size:.85rem;transition:transform .15s,color .15s;}
+.nav-item:hover .nav-arrow{color:var(--muted);transform:translateX(3px);}
+.file-icon{width:34px;height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;font-family:var(--mono);flex-shrink:0;}
+.file-icon.html{background:#fef3c7;color:#92400e;} .file-icon.pdf{background:#fee2e2;color:#991b1b;}
+.file-icon.md{background:#ede9fe;color:#5b21b6;} .file-icon.img{background:#dcfce7;color:#166534;}
+.file-icon.sql{background:#eff6ff;color:#1e40af;} .file-icon.zip{background:#f8fafc;color:#475569;}
+.file-icon.txt{background:#f9fafb;color:#6b7280;} .file-icon.sh{background:#f0fdf4;color:#166534;}
+.footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--border);font-size:.78rem;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.footer a{color:var(--muted);text-decoration:none;} .footer a:hover{color:var(--text);}
+</style></head><body><div class="wrapper">
+<nav class="breadcrumb"><a href="../index.html">CDA Lille</a><span class="sep">/</span><span>Savoirs de Base</span></nav>
+<header class="header"><div class="label">CDA Lille</div><h1>Savoirs de Base</h1><p>Ressources fondamentales — JavaScript, PHP, SQL, Symfony, React, Algorithmes.</p></header>
+<div class="divider"></div><div class="section-title">Ressources</div><nav class="nav-list"><a class="nav-item" href="Algo/"><span class="nav-num">01</span><div class="nav-info"><div class="nav-title">Algorithmes</div><div class="nav-desc">Bases de l'algorithmique — cours et exercices</div></div><span class="nav-arrow">→</span></a><a class="nav-item" href="Bases_JavaScript/"><span class="nav-num">02</span><div class="nav-info"><div class="nav-title">Bases de JavaScript</div><div class="nav-desc">14 modules JS — variables, DOM, événements, formulaires…</div></div><span class="nav-arrow">→</span></a><a class="nav-item" href="Bases_PHP/"><span class="nav-num">03</span><div class="nav-info"><div class="nav-title">Bases de PHP</div><div class="nav-desc">20 modules PHP — PDO, sessions, authentification…</div></div><span class="nav-arrow">→</span></a><a class="nav-item" href="Deploiement/"><span class="nav-num">04</span><div class="nav-info"><div class="nav-title">Déploiement</div><div class="nav-desc">Héberger son serveur, sécurité navigateur</div></div><span class="nav-arrow">→</span></a><a class="nav-item" href="React/"><span class="nav-num">05</span><div class="nav-info"><div class="nav-title">React</div><div class="nav-desc">Quick Start, React dans Symfony, TP Vite</div></div><span class="nav-arrow">→</span></a><a class="nav-item" href="SQL/"><span class="nav-num">06</span><div class="nav-info"><div class="nav-title">SQL</div><div class="nav-desc">Bases SQL, jointures, NorthWind, transactions…</div></div><span class="nav-arrow">→</span></a><a class="nav-item" href="Securite/"><span class="nav-num">07</span><div class="nav-info"><div class="nav-title">Sécurité</div><div class="nav-desc">Injections SQL, sécurité PHP, flux de données</div></div><span class="nav-arrow">→</span></a><a class="nav-item" href="Symfony/"><span class="nav-num">08</span><div class="nav-info"><div class="nav-title">Symfony</div><div class="nav-desc">14 modules Symfony — routing, Doctrine, sécurité…</div></div><span class="nav-arrow">→</span></a></nav>
+<footer class="footer"><span>Savoirs de Base</span><a href="../index.html">← Retour à l'accueil</a></footer>
+</div></body></html>
