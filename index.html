@@ -1,49 +1,201 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CDA_Supports</title>
+    <title>CDA Lille — Supports de cours</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:      #fafafa;
+            --surface: #ffffff;
+            --border:  #e5e7eb;
+            --text:    #111827;
+            --muted:   #6b7280;
+            --font:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --mono:    'SF Mono', 'Fira Code', 'Consolas', monospace;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .wrapper {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 64px 24px 96px;
+        }
+
+        /* ── HEADER ── */
+        .header { margin-bottom: 48px; }
+        .header .label {
+            font-family: var(--mono);
+            font-size: .72rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -.03em;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: var(--muted);
+            font-size: .92rem;
+            line-height: 1.6;
+        }
+
+        /* ── DIVIDER ── */
+        .divider { height: 1px; background: var(--border); margin: 28px 0; }
+
+        /* ── SECTION TITLE ── */
+        .section-title {
+            font-family: var(--mono);
+            font-size: .68rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 10px;
+            padding: 0 4px;
+        }
+
+        /* ── LIST ── */
+        .nav-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: 32px; }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text);
+            border: 1px solid transparent;
+            transition: background .12s, border-color .12s;
+        }
+        .nav-item:hover {
+            background: var(--surface);
+            border-color: var(--border);
+        }
+
+        .nav-num {
+            font-family: var(--mono);
+            font-size: .72rem;
+            color: var(--muted);
+            width: 32px;
+            flex-shrink: 0;
+        }
+
+        .nav-info { flex: 1; }
+        .nav-title { font-size: .92rem; font-weight: 500; margin-bottom: 2px; }
+        .nav-desc  { font-size: .76rem; color: var(--muted); }
+
+        .nav-arrow {
+            color: var(--border);
+            font-size: .85rem;
+            transition: transform .15s, color .15s;
+        }
+        .nav-item:hover .nav-arrow { color: var(--muted); transform: translateX(3px); }
+
+        /* ── FOOTER ── */
+        .footer {
+            margin-top: 48px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            font-size: .78rem;
+            color: var(--muted);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .footer a { color: var(--muted); text-decoration: none; }
+        .footer a:hover { color: var(--text); }
+
+
+    </style>
 </head>
 <body>
+<div class="wrapper">
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f0f0;
-        margin: 20px;
-    }
+    <header class="header">
+        <div class="label">CDA Lille</div>
+        <h1>Supports de cours</h1>
+        <p>Ressources pédagogiques du parcours Concepteur Développeur d'Applications.</p>
+   
+    </header>
 
-    h1 {
-        color: #333;
-    }
+    <div class="divider"></div>
 
-    a {
-        display: block;
-        margin: 10px 0;
-        color: #1e1f1f;
-        text-decoration: none;
-    }
+    <div class="section-title">Modules</div>
+    <nav class="nav-list">
 
-    a:hover {
-        text-decoration: underline;
-    }
-</style>
+        <a class="nav-item" href="./Savoirs_de_Base/">
+            <span class="nav-num">00</span>
+            <div class="nav-info">
+                <div class="nav-title">Savoirs de base</div>
+                <div class="nav-desc">Prérequis et fondamentaux</div>
+            </div>
+            <span class="nav-arrow">→</span>
+        </a>
 
+        <a class="nav-item" href="./Module 1/">
+            <span class="nav-num">01</span>
+            <div class="nav-info">
+                <div class="nav-title">Module 1</div>
+                <div class="nav-desc">Systèmes d'exploitation & Linux</div>
+            </div>
+            <span class="nav-arrow">→</span>
+        </a>
 
+        <a class="nav-item" href="./Module 2/">
+            <span class="nav-num">02</span>
+            <div class="nav-info">
+                <div class="nav-title">Module 2</div>
+                <div class="nav-desc">Réseaux & protocoles</div>
+            </div>
+            <span class="nav-arrow">→</span>
+        </a>
 
-    <h1>CDA_Supports_Cours</h1>
-<a href="./Savoirs_de_Base/">Savoir de base</a>
-<a href="./Module 1/">Module 1</a>
-<a href="./Module 2/">Module 2</a>
-<a href="./Module 3/">Module 3</a>
-<a href="./Module 4/">Module 4</a>
-<a href="./Module 5/">Module 5</a>
+        <a class="nav-item" href="./Module 3/">
+            <span class="nav-num">03</span>
+            <div class="nav-info">
+                <div class="nav-title">Module 3</div>
+                <div class="nav-desc">Développement web — Front-end</div>
+            </div>
+            <span class="nav-arrow">→</span>
+        </a>
 
+        <a class="nav-item" href="./Module 4/">
+            <span class="nav-num">04</span>
+            <div class="nav-info">
+                <div class="nav-title">Module 4</div>
+                <div class="nav-desc">Développement web — Back-end</div>
+            </div>
+            <span class="nav-arrow">→</span>
+        </a>
 
-<a href="https://nicepowpowloko.github.io/CDALille/index.html">Index</a>
+        <a class="nav-item" href="./Module 5/">
+            <span class="nav-num">05</span>
+            <div class="nav-info">
+                <div class="nav-title">Module 5</div>
+                <div class="nav-desc">Base de données & SQL</div>
+            </div>
+            <span class="nav-arrow">→</span>
+        </a>
 
-
-
+    </nav>
+</div>
 </body>
 </html>
