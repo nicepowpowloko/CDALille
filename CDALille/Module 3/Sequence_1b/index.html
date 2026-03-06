@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POO PHP & MVC</title>
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--bg:#fafafa;--surface:#ffffff;--border:#e5e7eb;--text:#111827;--muted:#6b7280;--font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;--mono:'SF Mono','Fira Code','Consolas',monospace;}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;}
+.wrapper{max-width:720px;margin:0 auto;padding:64px 24px 96px;}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:.8rem;color:var(--muted);margin-bottom:48px;font-family:var(--mono);}
+.breadcrumb a{color:var(--muted);text-decoration:none;transition:color .15s;}
+.breadcrumb a:hover{color:var(--text);}
+.breadcrumb .sep{opacity:.4;}
+.header{margin-bottom:40px;}
+.header .label{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.header h1{font-size:1.8rem;font-weight:600;letter-spacing:-.03em;line-height:1.2;margin-bottom:10px;}
+.header p{color:var(--muted);font-size:.92rem;line-height:1.6;}
+.divider{height:1px;background:var(--border);margin:28px 0;}
+.section-title{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding:0 4px;}
+.nav-list{display:flex;flex-direction:column;gap:2px;margin-bottom:32px;}
+.nav-item{display:flex;align-items:center;gap:16px;padding:14px 18px;border-radius:8px;text-decoration:none;color:var(--text);border:1px solid transparent;transition:background .12s,border-color .12s;}
+.nav-item:hover{background:var(--surface);border-color:var(--border);}
+.nav-num{font-family:var(--mono);font-size:.72rem;color:var(--muted);width:36px;flex-shrink:0;}
+.nav-info{flex:1;}
+.nav-title{font-size:.92rem;font-weight:500;margin-bottom:2px;}
+.nav-desc{font-size:.76rem;color:var(--muted);}
+.nav-arrow{color:var(--border);font-size:.85rem;transition:transform .15s,color .15s;}
+.nav-item:hover .nav-arrow{color:var(--muted);transform:translateX(3px);}
+.file-icon{width:34px;height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;font-family:var(--mono);flex-shrink:0;}
+.file-icon.html{background:#fef3c7;color:#92400e;}
+.file-icon.pdf{background:#fee2e2;color:#991b1b;}
+.file-icon.md{background:#ede9fe;color:#5b21b6;}
+.file-icon.img{background:#dcfce7;color:#166534;}
+.file-icon.sh{background:#f0fdf4;color:#166534;}
+.file-icon.sql{background:#eff6ff;color:#1e40af;}
+.file-icon.zip{background:#f8fafc;color:#475569;}
+.file-icon.txt{background:#f9fafb;color:#6b7280;}
+.footer{margin-top:48px;padding-top:24px;border-top:1px solid var(--border);font-size:.78rem;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.footer a{color:var(--muted);text-decoration:none;}
+.footer a:hover{color:var(--text);}
+</style>
+
+</head>
+<body>
+<div class="wrapper">
+<nav class="breadcrumb"><a href="../../index.html">CDA Lille</a><span class="sep">/</span><a href="../">Module 3</a><span class="sep">/</span><span>Séquence 1b</span></nav>
+<header class="header">
+<div class="label">Module 03 · Séquence 01b</div>
+<h1>POO PHP & MVC</h1>
+<p>Programmation orientée objet PHP, PDO, architecture MVC, TP PDO.</p>
+</header>
+<div class="divider"></div>
+<div class="section-title">Cours HTML</div>
+<nav class="nav-list">
+<a class="nav-item" href="Théorie_MVCv2.html" target="_blank">
+<div class="file-icon html">HTM</div>
+<div class="nav-info"><div class="nav-title">Théorie MVCv2</div></div>
+<span class="nav-arrow">↗</span>
+</a>
+</nav>
+<div class="section-title">PDF</div>
+<nav class="nav-list">
+<a class="nav-item" href="Poo_Php.pdf" target="_blank">
+<div class="file-icon pdf">PDF</div>
+<div class="nav-info"><div class="nav-title">Poo Php</div></div>
+<span class="nav-arrow">↗</span>
+</a>
+<a class="nav-item" href="TP_PDO.pdf" target="_blank">
+<div class="file-icon pdf">PDF</div>
+<div class="nav-info"><div class="nav-title">TP PDO</div></div>
+<span class="nav-arrow">↗</span>
+</a>
+<a class="nav-item" href="Théorie_MVCv2.pdf" target="_blank">
+<div class="file-icon pdf">PDF</div>
+<div class="nav-info"><div class="nav-title">Théorie MVCv2</div></div>
+<span class="nav-arrow">↗</span>
+</a>
+<a class="nav-item" href="M3S1b_DP.pdf" target="_blank">
+<div class="file-icon pdf">PDF</div>
+<div class="nav-info"><div class="nav-title">M3S1b DP</div></div>
+<span class="nav-arrow">↗</span>
+</a>
+<a class="nav-item" href="M3S1b_2_DP.pdf" target="_blank">
+<div class="file-icon pdf">PDF</div>
+<div class="nav-info"><div class="nav-title">M3S1b 2 DP</div></div>
+<span class="nav-arrow">↗</span>
+</a>
+</nav>
+<div class="section-title">Supports Markdown</div>
+<nav class="nav-list">
+<a class="nav-item" href="Poo_Php.md" target="_blank">
+<div class="file-icon md">MD</div>
+<div class="nav-info"><div class="nav-title">Poo Php</div></div>
+<span class="nav-arrow">↗</span>
+</a>
+<a class="nav-item" href="TP_PDO.md" target="_blank">
+<div class="file-icon md">MD</div>
+<div class="nav-info"><div class="nav-title">TP PDO</div></div>
+<span class="nav-arrow">↗</span>
+</a>
+<a class="nav-item" href="Théorie_MVCv2.md" target="_blank">
+<div class="file-icon md">MD</div>
+<div class="nav-info"><div class="nav-title">Théorie MVCv2</div></div>
+<span class="nav-arrow">↗</span>
+</a>
+<a class="nav-item" href="Ressource_Laragon.md" target="_blank">
+<div class="file-icon md">MD</div>
+<div class="nav-info"><div class="nav-title">Ressource Laragon</div></div>
+<span class="nav-arrow">↗</span>
+</a>
+<a class="nav-item" href="M3S1b_DP.md" target="_blank">
+<div class="file-icon md">MD</div>
+<div class="nav-info"><div class="nav-title">M3S1b DP</div></div>
+<span class="nav-arrow">↗</span>
+</a>
+<a class="nav-item" href="M3S1b_2_DP.md" target="_blank">
+<div class="file-icon md">MD</div>
+<div class="nav-info"><div class="nav-title">M3S1b 2 DP</div></div>
+<span class="nav-arrow">↗</span>
+</a>
+</nav>
+<div class="section-title">Correction TP PDO</div>
+<nav class="nav-list">
+<a class="nav-item" href="Correction TP PDO.zip" target="_blank">
+<div class="file-icon zip">ZIP</div>
+<div class="nav-info"><div class="nav-title">Correction TP PDO</div></div>
+<span class="nav-arrow">↗</span>
+</a>
+</nav>
+
+<footer class="footer">
+<span>POO PHP & MVC</span>
+<a href="../">← Retour au Module 3</a>
+</footer>
+</div>
+</body>
+</html>
